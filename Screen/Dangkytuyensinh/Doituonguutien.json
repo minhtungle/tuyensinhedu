@@ -1,0 +1,308 @@
+{"results": [
+        {
+            "TenLoai": "LOAII - Loại đối tượng 1",
+            "lstDanhSach": [
+                {
+                    "ID": 13,
+                    "Ma": "DTUT1",
+                    "Ten": "Công dân Việt Nam là người dân tộc thiểu số có hộ khẩu thường trú (trong thời gian học THPT hoặc trung cấp) trên 18 tháng tại Khu vực 1 (KV1) gồm: Các xã khu vực I, II, III thuộc vùng dân tộc và miền núi theo quy định được áp dụng trong thời gian thí sinh",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1029,
+                    "MaLoai": "LOAII",
+                    "TenLoai": "Loại đối tượng 1"
+                }
+            ]
+        },
+        {
+            "TenLoai": "LOAIII - Loại đối tượng 2",
+            "lstDanhSach": [
+                {
+                    "ID": 14,
+                    "Ma": "DTUT2",
+                    "Ten": "Công nhân trực tiếp sản xuất đã làm việc liên tục 5 năm trở lên, trong đó có ít nhất 2 năm là chiến sĩ thi đua được cấp tỉnh trở lên công nhận và cấp bằng khen;",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1030,
+                    "MaLoai": "LOAIII",
+                    "TenLoai": "Loại đối tượng 2"
+                }
+            ]
+        },
+        {
+            "TenLoai": "LOAIIII - Loại đối tượng 3",
+            "lstDanhSach": [
+                {
+                    "ID": 15,
+                    "Ma": "DTUT3",
+                    "Ten": "Thương binh, bệnh binh, người có “Giấy chứng nhận người được hưởng chính sách như thương binh”;",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1031,
+                    "MaLoai": "LOAIIII",
+                    "TenLoai": "Loại đối tượng 3"
+                },
+                {
+                    "ID": 16,
+                    "Ma": "DTUT4",
+                    "Ten": "Quân nhân; sĩ quan, hạ sĩ quan, chiến sĩ nghĩa vụ trong Công an nhân dân tại ngũ được cử đi học có thời gian phục vụ từ 12 tháng trở lên tại Khu vực 1",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1031,
+                    "MaLoai": "LOAIIII",
+                    "TenLoai": "Loại đối tượng 3"
+                },
+                {
+                    "ID": 17,
+                    "Ma": "DTUT5",
+                    "Ten": "Quân nhân; sĩ quan, hạ sĩ quan, chiến sĩ nghĩa vụ trong Công an nhân dân tại ngũ được cử đi học có thời gian phục vụ từ 18 tháng trở lên",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1031,
+                    "MaLoai": "LOAIIII",
+                    "TenLoai": "Loại đối tượng 3"
+                },
+                {
+                    "ID": 18,
+                    "Ma": "DTUT6",
+                    "Ten": "Quân nhân; sĩ quan, hạ sĩ quan, chiến sĩ nghĩa vụ trong Công an nhân dân đã xuất ngũ, được công nhận hoàn thành nghĩa vụ phục vụ tại ngũ theo quy định",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1031,
+                    "MaLoai": "LOAIIII",
+                    "TenLoai": "Loại đối tượng 3"
+                },
+                {
+                    "ID": 19,
+                    "Ma": "DTUT7",
+                    "Ten": "Các đối tượng ưu tiên quy định tại điểm i, k, l, m khoản 1 Điều 2 Pháp lệnh số 26/2005/PL-UBTVQH11 ngày 29 tháng 6 năm 2005 được sửa đổi, bổ sung theo Pháp lệnh số 04/2012/UBTVQH13 ngày 16 tháng 7 năm 2012 của Ủy ban thường vụ Quốc hội về việc ưu đãi ngườ",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1031,
+                    "MaLoai": "LOAIIII",
+                    "TenLoai": "Loại đối tượng 3"
+                }
+            ]
+        },
+        {
+            "TenLoai": "LOAIIV - Loại đối tượng 4",
+            "lstDanhSach": [
+                {
+                    "ID": 20,
+                    "Ma": "DTUT8",
+                    "Ten": "Con liệt sĩ",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1032,
+                    "MaLoai": "LOAIIV",
+                    "TenLoai": "Loại đối tượng 4"
+                },
+                {
+                    "ID": 21,
+                    "Ma": "DTUT9",
+                    "Ten": "Con thương binh bị suy giảm khả năng lao động từ 81% trở lên",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1032,
+                    "MaLoai": "LOAIIV",
+                    "TenLoai": "Loại đối tượng 4"
+                },
+                {
+                    "ID": 22,
+                    "Ma": "DTUT10",
+                    "Ten": "Con bệnh binh bị suy giảm khả năng lao động từ 81% trở lên",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1032,
+                    "MaLoai": "LOAIIV",
+                    "TenLoai": "Loại đối tượng 4"
+                },
+                {
+                    "ID": 23,
+                    "Ma": "DTUT11",
+                    "Ten": "Con của người hoạt động kháng chiến bị nhiễm chất độc hoá học có tỷ lệ suy giảm khả năng lao động 81% trở lên",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1032,
+                    "MaLoai": "LOAIIV",
+                    "TenLoai": "Loại đối tượng 4"
+                },
+                {
+                    "ID": 24,
+                    "Ma": "DTUT12",
+                    "Ten": "Con của người được cấp “Giấy chứng nhận người hưởng chính sách như thương binh” mà người được cấp “Giấy chứng nhận người hưởng chính sách như thương binh” bị suy giảm khả năng lao động 81% trở lên",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1032,
+                    "MaLoai": "LOAIIV",
+                    "TenLoai": "Loại đối tượng 4"
+                },
+                {
+                    "ID": 25,
+                    "Ma": "DTUT13",
+                    "Ten": "Con của Anh hùng lực lượng vũ trang, con của Anh hùng lao động",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1032,
+                    "MaLoai": "LOAIIV",
+                    "TenLoai": "Loại đối tượng 4"
+                },
+                {
+                    "ID": 26,
+                    "Ma": "DTUT14",
+                    "Ten": "Con đẻ của người hoạt động kháng chiến bị dị dạng, dị tật do hậu quả của chất độc hóa học đang hưởng trợ cấp hằng tháng",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1032,
+                    "MaLoai": "LOAIIV",
+                    "TenLoai": "Loại đối tượng 4"
+                },
+                {
+                    "ID": 27,
+                    "Ma": "DTUT15",
+                    "Ten": "Con của người có công với cách mạng quy định tại điểm a, b, d khoản 1 Điều 2 Pháp lệnh số 26/2005/PL-UBTVQH11 ngày 29 tháng 6 năm 2005 được sửa đổi, bổ sung theo Pháp lệnh số 04/2012/UBTVQH13 ngày 16 tháng 7 năm 2012 về việc ưu đãi người có công với cách",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1032,
+                    "MaLoai": "LOAIIV",
+                    "TenLoai": "Loại đối tượng 4"
+                }
+            ]
+        },
+        {
+            "TenLoai": "LOAIV - Loại đối tượng 5",
+            "lstDanhSach": [
+                {
+                    "ID": 28,
+                    "Ma": "DTUT16",
+                    "Ten": "Thanh niên xung phong tập trung được cử đi học",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1033,
+                    "MaLoai": "LOAIV",
+                    "TenLoai": "Loại đối tượng 5"
+                },
+                {
+                    "ID": 29,
+                    "Ma": "DTUT17",
+                    "Ten": "Quân nhân; sĩ quan, hạ sĩ quan, chiến sĩ nghĩa vụ trong Công an nhân dân tại ngũ được cử đi học có thời gian phục vụ dưới 12 tháng ở Khu vực 1 và dưới 18 tháng ở khu vực khác",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1033,
+                    "MaLoai": "LOAIV",
+                    "TenLoai": "Loại đối tượng 5"
+                },
+                {
+                    "ID": 30,
+                    "Ma": "DTUT18",
+                    "Ten": "Chỉ huy trưởng, Chỉ huy phó ban chỉ huy quân sự xã, phường, thị trấn; Thôn đội trưởng, Trung đội trưởng Dân quân tự vệ nòng cốt, Dân quân tự vệ đã hoàn thành nghĩa vụ tham gia Dân quân tự vệ nòng cốt từ 12 tháng trở lên, dự thi vào ngành Quân sự cơ sở. Th",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1033,
+                    "MaLoai": "LOAIV",
+                    "TenLoai": "Loại đối tượng 5"
+                }
+            ]
+        },
+        {
+            "TenLoai": "LOAIVI - Loại đối tượng 6",
+            "lstDanhSach": [
+                {
+                    "ID": 31,
+                    "Ma": "DTUT19",
+                    "Ten": "Công dân Việt Nam là người dân tộc thiểu số có hộ khẩu thường trú ở ngoài khu vực đã quy định thuộc đối tượng 01",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1034,
+                    "MaLoai": "LOAIVI",
+                    "TenLoai": "Loại đối tượng 6"
+                },
+                {
+                    "ID": 32,
+                    "Ma": "DTUT20",
+                    "Ten": "Con thương binh, con bệnh binh, con của người được hưởng chính sách như thương binh bị suy giảm khả năng lao động dưới 81%",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1034,
+                    "MaLoai": "LOAIVI",
+                    "TenLoai": "Loại đối tượng 6"
+                },
+                {
+                    "ID": 33,
+                    "Ma": "DTUT21",
+                    "Ten": "Con của người hoạt động kháng chiến bị nhiễm chất độc hóa học có tỷ lệ suy giảm khả năng lao động dưới 81%",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1034,
+                    "MaLoai": "LOAIVI",
+                    "TenLoai": "Loại đối tượng 6"
+                },
+                {
+                    "ID": 34,
+                    "Ma": "DTUT22",
+                    "Ten": "Con của người hoạt động cách mạng, hoạt động kháng chiến bị địch bắt tù, đày",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1034,
+                    "MaLoai": "LOAIVI",
+                    "TenLoai": "Loại đối tượng 6"
+                },
+                {
+                    "ID": 35,
+                    "Ma": "DTUT23",
+                    "Ten": "Con của người hoạt động kháng chiến giải phóng dân tộc, bảo vệ Tổ quốc và làm nghĩa vụ quốc tế có giấy chứng nhận được hưởng chế độ ưu tiên theo quy định tại Nghị định số 31/2013/NĐ-CP ngày 09 tháng 4 năm 2013 của Chính phủ quy định chi tiết, hướng dẫn th",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1034,
+                    "MaLoai": "LOAIVI",
+                    "TenLoai": "Loại đối tượng 6"
+                },
+                {
+                    "ID": 36,
+                    "Ma": "DTUT24",
+                    "Ten": "Con của người có công giúp đỡ cách mạng",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1034,
+                    "MaLoai": "LOAIVI",
+                    "TenLoai": "Loại đối tượng 6"
+                }
+            ]
+        },
+        {
+            "TenLoai": "LOAIVII - Loại đối tượng 7",
+            "lstDanhSach": [
+                {
+                    "ID": 37,
+                    "Ma": "DTUT25",
+                    "Ten": "Người khuyết tật nặng có giấy xác nhận khuyết tật của cơ quan có thẩm quyền cấp theo quy định tại Thông tư liên tịch số 37/2012/TTLT-BLĐTBXH-BYT-BTC-BGDĐT ngày 28 tháng 12 năm 2012 của Bộ Lao động - Thương binh và Xã hội, Bộ Y tế, Bộ Tài chính và Bộ GDĐT",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1035,
+                    "MaLoai": "LOAIVII",
+                    "TenLoai": "Loại đối tượng 7"
+                },
+                {
+                    "ID": 38,
+                    "Ma": "DTUT26",
+                    "Ten": "Người lao động ưu tú thuộc tất cả các thành phần kinh tế được từ cấp tỉnh, Bộ trở lên công nhận danh hiệu thợ giỏi, nghệ nhân, được cấp bằng hoặc huy hiệu Lao động sáng tạo của Tổng Liên đoàn Lao động Việt Nam hoặc Trung ương Đoàn TNCS Hồ Chí Minh",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1035,
+                    "MaLoai": "LOAIVII",
+                    "TenLoai": "Loại đối tượng 7"
+                },
+                {
+                    "ID": 39,
+                    "Ma": "DTUT27",
+                    "Ten": "Giáo viên đã giảng dạy đủ 3 năm trở lên thi vào các ngành sư phạm",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1035,
+                    "MaLoai": "LOAIVII",
+                    "TenLoai": "Loại đối tượng 7"
+                },
+                {
+                    "ID": 40,
+                    "Ma": "DTUT28",
+                    "Ten": "Trung cấp dược, y sĩ, điều dưỡng viên, kỹ thuật viên đã công tác đủ 3 năm trở lên thi vào nhóm ngành sức khỏe",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1035,
+                    "MaLoai": "LOAIVII",
+                    "TenLoai": "Loại đối tượng 7"
+                },
+                {
+                    "ID": 41,
+                    "Ma": "DTUT29",
+                    "Ten": "Những đối tượng ưu tiên khác đã được quy định trong các văn bản pháp luật hiện hành sẽ do Bộ trưởng Bộ GDĐT xem xét, quyết định",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1035,
+                    "MaLoai": "LOAIVII",
+                    "TenLoai": "Loại đối tượng 7"
+                },
+                {
+                    "ID": 42,
+                    "Ma": "DTUT30",
+                    "Ten": "Người có nhiều diện ưu tiên theo đối tượng chỉ được hưởng một diện ưu tiên cao nhất",
+                    "DiemCong": 1.0,
+                    "IDLoaiUuTien": 1035,
+                    "MaLoai": "LOAIVII",
+                    "TenLoai": "Loại đối tượng 7"
+                }
+            ]
+        }
+    ]
+}
