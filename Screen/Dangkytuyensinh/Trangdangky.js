@@ -107,6 +107,7 @@ export default function Trangdangky({ route }) {
 
     DienThoaiLienHe: "",
     MailLienHe: "",
+    Xacnhanthongtin: false,
   });
   //#region DropPicker: Dữ liệu - Thay đổi value khi chọn
   //* Dữ liệu trong dropDown
@@ -1318,7 +1319,8 @@ export default function Trangdangky({ route }) {
       data.DienThoaiLienHe &&
       data.MailLienHe) != "" ||
       null) &&
-      data.NguyenVong.length !== 0
+      data.NguyenVong.length !== 0 &&
+      data.Xacnhanthongtin
       ? true
       : false;
   };
@@ -2102,7 +2104,7 @@ export default function Trangdangky({ route }) {
                         paddingLeft: 5,
                       }}
                     >
-                      0 mục đã chọn
+                      {data.DoiTuongUuTien.length} mục đã chọn
                     </Text>
                     <IconButton
                       icon="file"
@@ -2599,10 +2601,73 @@ export default function Trangdangky({ route }) {
                     {data.MailLienHe}
                   </TextInput>
                 </View>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "bold",
+                    margin: "2%",
+                    fontStyle: "italic",
+                  }}
+                >
+                  Sau khi phụ huynh học sinh đăng ký tuyển sinh đầu cấp thành
+                  công ngoài việc nhận giấy báo nhập học qua email đăng ký, phụ
+                  huynh học sinh có thể in/tải giấy báo nhập học tại trang web
+                  tuyensinhedu.huongvietedm.vn ở chức năng TRA CỨU KẾT QUẢ TUYỂN
+                  SINH.
+                </Text>
               </View>
             </View>
           </View>
-          {/*Đăng ký*/}
+          {/* -------------Cam kết khai báo đúng thông tin------------- */}
+          <View
+            style={[
+              styles.block,
+              { width: "94%", borderRadius: 10, marginBottom: 30 },
+            ]}
+          >
+            <View style={styles.box}>
+              {/* Đối tượng ưu tiên */}
+              <View style={styles.field}>
+                {/* Checkbox */}
+                <View
+                  style={{
+                    borderRadius: 10,
+                    margin: 5,
+                    backgroundColor: "#FFFFFF",
+                    width: "100%",
+                    borderColor: "#f1f1f1",
+                    alignItems: "stretch",
+                    flexDirection: "row",
+                    alignSelf: "center",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 5,
+                    },
+                    shadowOpacity: 0.34,
+                    shadowRadius: 6.27,
+
+                    elevation: 10,
+                  }}
+                >
+                  <CheckBox
+                    value={data.Xacnhanthongtin}
+                    tintColors={{ true: "#ff4646", false: "#008577" }}
+                    // onValueChange={setData(false)}
+                    onValueChange={() =>
+                      setData((prevState) => ({
+                        ...prevState,
+                        Xacnhanthongtin: !prevState.Xacnhanthongtin,
+                      }))
+                    }
+                  />
+                  <Text style={{ fontSize: 14, alignSelf: "center" }}>
+                    Tôi xin cam kết khai báo đúng thông tin
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
           {TrangThai() ? (
             <View style={{ marginBottom: "10%" }}>
               <Button

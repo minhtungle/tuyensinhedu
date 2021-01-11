@@ -6,17 +6,20 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  ImageBackground,
+  Keyboard,
 } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import { Button } from "galio-framework";
 import Inputs from "./Input";
+import AnimatedEllipsis from "react-native-animated-ellipsis";
+import { Colors } from "react-native-paper";
 
 import { useNavigation } from "@react-navigation/native";
 
 export default function ComboBox() {
   //* State :
   const navigation = useNavigation();
+  const [data, setData] = useState();
   const [checkboxValue, setCheckboxValue] = useState([
     {
       label: "Mã hồ sơ tuyển sinh",
@@ -32,7 +35,8 @@ export default function ComboBox() {
       checked: false,
     },
   ]);
-  const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState();
   //* Lấy API
   const getApi = async (type, value1, value2) => {
     let mahoso = "",
@@ -54,10 +58,21 @@ export default function ComboBox() {
         break;
     }
     const URL = `http://tuyensinh.huongvietedm.vn/api/TSAPIService/tracuuketqua?type=${type}&mahoso=${mahoso}&mahocsinh=${mahocsinh}&matkhau=${matkhau}&sbd=${sbd}`;
-    const results = await fetch(URL).then((x) => x.json());
-    let a = results.Result.data;
 
-    setData(a);
+    await fetch(URL)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        let result = responseJson.Result.data;
+        setData(result);
+        setStatus(true);
+      })
+      .catch(() => {
+        setStatus(false),
+          setLoading(false),
+          Alert.alert(
+            "Không tồn tại kết quả tra cứu ! Vui lòng kiểm tra lại thông tin đã nhập "
+          );
+      });
   };
   //TODO Kiểm tra lại điều kiện chỗ checkboxValue[1] tại sao chỉ check null của ô 1
   //* Kiểm tra value tại ô đó có rỗng không
@@ -138,6 +153,21 @@ export default function ComboBox() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
+      {loading && (
+        <View style={{ position: "absolute", top: 5 }}>
+          <AnimatedEllipsis
+            numberOfDots={3}
+            minOpacity={0.4}
+            animationDelay={200}
+            style={{
+              color: "#61b15a",
+              fontSize: 100,
+              letterSpacing: -15,
+            }}
+          />
+        </View>
+      )}
+
       <View style={styles.block}>
         <View style={styles.checkBoxContainer}>
           {/* Checkbox */}
@@ -146,7 +176,7 @@ export default function ComboBox() {
               <CheckBox
                 style={styles.checkbox}
                 value={checkbox.checked}
-                tintColors={{ true: "#ff4646", false: "#008577" }}
+                tintColors={{ true: "#61b15a", false: "#008577" }}
                 onValueChange={(value) => checkboxHandler(value, i)}
               />
               <Text style={styles.label}>{"" + checkbox.label + ""}</Text>
@@ -167,15 +197,18 @@ export default function ComboBox() {
             color="#61b15a"
             onPress={() => {
               let submit = onSubmit();
+              Keyboard.dismiss();
               submit.check
                 ? submit.status
-                  ? data != null || undefined
-                    ? navigation.navigate("Ketqua", {
-                        data: data,
-                      })
-                    : Alert.alert(
-                        "Không tồn tại kết quả tra cứu ! Vui lòng kiểm tra lại thông tin đã nhập "
-                      )
+                  ? (setLoading(true),
+                    setTimeout(() => {
+                      status
+                        ? (setLoading(false),
+                          navigation.navigate("Ketqua", {
+                            data: data,
+                          }))
+                        : null;
+                    }, 5000))
                   : Alert.alert(
                       "Mời bạn nhập đầy đủ thông tin trước khi tra cứu"
                     )
@@ -254,8 +287,8 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
     alignSelf: "center",
     borderRadius: 25,
-    textShadowColor: "black",
-    backgroundColor: "#008577",
+    textShadowColor: "#bbbbbb",
+
     shadowColor: "rgba(0, 0, 0, 0.1)",
     shadowOpacity: 0.8,
     elevation: 6,

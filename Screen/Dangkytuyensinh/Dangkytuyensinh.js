@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image, ImageBackground } from "react-native";
 import { Button } from "galio-framework";
 import { useNavigation } from "@react-navigation/native";
+import AnimatedEllipsis from "react-native-animated-ellipsis";
 
 export default function Dangkytuyensinh() {
   const navigation = useNavigation();
+  const [status, setStatus] = useState(0);
   const image = [
     require("./img/c0.jpg"),
     require("./img/c1.png"),
@@ -28,28 +30,34 @@ export default function Dangkytuyensinh() {
           arrData.push(obj);
         });
         setData(arrData);
+        setStatus(1);
       })
       .catch((error) => {
+        setStatus(-1);
         setData([]);
       });
   }, []);
-  //TODO: Bổ sung View null
-  return (
-    <View style={styles.container}>
-      <View style={styles.block}>
-        {data.length == 0 ? (
-          <View style={styles.box}>
-            <Button
-              round
-              title="Đăng ký"
-              style={styles.button}
-              onPress={() => {
-                navigation.navigate("Images");
-              }}
-            />
-          </View>
-        ) : (
-          data.map((item, index) => (
+  const Load_View = () => {
+    return (
+      <View style={styles.container}>
+        <AnimatedEllipsis
+          numberOfDots={3}
+          minOpacity={0.4}
+          animationDelay={200}
+          style={{
+            color: "#61b15a",
+            fontSize: 100,
+            letterSpacing: -15,
+          }}
+        />
+      </View>
+    );
+  };
+  const Success_View = () => {
+    return (
+      <View style={styles.container}>
+        <View style={styles.block}>
+          {data.map((item, index) => (
             <View style={styles.box} key={index}>
               <View style={styles.image}>
                 <Image
@@ -88,10 +96,40 @@ export default function Dangkytuyensinh() {
                 </Text>
               </Button>
             </View>
-          ))
-        )}
+          ))}
+        </View>
       </View>
-    </View>
+    );
+  };
+  const Error_View = () => {
+    return (
+      <View style={{ flex: 1, flexDirection: "column" }}>
+        <ImageBackground
+          source={require("./img/error.png")}
+          style={{ flex: 1, resizeMode: "cover", justifyContent: "center" }}
+          blurRadius={2}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontSize: 42,
+              fontWeight: "bold",
+              textAlign: "center",
+              backgroundColor: "#000000a0",
+            }}
+          >
+            Không có kỳ tuyển sinh nào trong khoảng thời gian này
+          </Text>
+        </ImageBackground>
+      </View>
+    );
+  };
+  return status === 0 ? (
+    <Load_View />
+  ) : status === 1 ? (
+    <Success_View />
+  ) : (
+    <Error_View />
   );
 }
 const styles = StyleSheet.create({
