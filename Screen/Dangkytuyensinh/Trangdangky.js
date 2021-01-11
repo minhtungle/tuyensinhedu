@@ -9,6 +9,7 @@ import { BlurView } from "expo-blur";
 
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Image,
   KeyboardAvoidingView,
   Modal,
@@ -426,13 +427,6 @@ export default function Trangdangky({ route }) {
   //#endregion
 
   //#region Nguyện Vọng: Thêm - Xóa - Sửa Value - List - Call API
-  //* Data nguyện vọng
-  // const [aa, setDaaata] = useState([
-  //   {
-  //     id: "Mã trường",
-  //     name: "Tên",
-  //   },
-  // ]);
   //* Thêm nguyện vọng
   const ThemNV = () => {
     setData((prevState) => ({
@@ -1279,7 +1273,7 @@ export default function Trangdangky({ route }) {
 
       IDKyThi: IDKyThi,
     };
-    console.log(DataPush);
+    // console.log(DataPush);
     try {
       await fetch(
         "http://tuyensinh.huongvietedm.vn/api/TSAPIService/dangkytuyensinh",
@@ -1294,7 +1288,12 @@ export default function Trangdangky({ route }) {
         }
       )
         .then((response) => response.json())
-        .then((responseJson) => console.log(responseJson.Result));
+        .then((responseJson) => {
+          console.log(responseJson.Result);
+          responseJson.Result.status
+            ? Alert.alert(responseJson.Result.message)
+            : Alert.alert(responseJson.Result.message);
+        });
     } catch (e) {
       console.log(e);
     }
@@ -1593,14 +1592,27 @@ export default function Trangdangky({ route }) {
                   <Text>
                     Mã học sinh <Text style={{ color: "red" }}>*</Text>
                   </Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ MaHocSinh: value })
-                    }
-                  >
-                    {data.MaHocSinh}
-                  </TextInput>
+                  <View style={{ flexDirection: "row" }}>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ MaHocSinh: value })
+                      }
+                    >
+                      {data.MaHocSinh}
+                    </TextInput>
+                    <IconButton
+                      style={{
+                        backgroundColor:
+                          data.MaHocSinh == null || ""
+                            ? Colors.red500
+                            : "#61b15a",
+                      }}
+                      icon={data.MaHocSinh == null || "" ? "close" : "check"}
+                      color="#FFFF"
+                      size={10}
+                    />
+                  </View>
                 </View>
                 {/* Mật khẩu */}
                 <View style={[styles.field, { marginBottom: "5%" }]}>
@@ -2674,7 +2686,8 @@ export default function Trangdangky({ route }) {
                 round
                 title="Đăng ký"
                 style={styles.button}
-                onPress={() => setModal_KiemTraVisible(true)}
+                // onPress={() => setModal_KiemTraVisible(true)}
+                onPress={() => DangKy()}
               >
                 <Text style={{ color: "white" }}>Đăng ký</Text>
               </Button>
@@ -2730,6 +2743,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0.5,
     borderBottomWidth: 0.5,
     paddingLeft: 5,
+    flexGrow: 1,
   },
   //? Dropdown
   dropDownStyle: {
