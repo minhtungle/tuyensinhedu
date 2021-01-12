@@ -114,8 +114,6 @@ export default function Thongtintuyensinh() {
         });
         setPicker((prevState) => ({
           ...prevState,
-          IDTinhNS: arrData,
-          IDTinhTT: arrData,
           IDTinh: arrData,
         }));
       })

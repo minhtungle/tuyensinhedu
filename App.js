@@ -47,7 +47,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Trang chủ">
+      <Stack.Navigator initialRouteName="Đăng nhập">
         {/* Đăng nhập */}
         <Stack.Screen
           name="Đăng nhập"

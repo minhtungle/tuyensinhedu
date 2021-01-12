@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,9 @@ import {
   BackHandler,
 } from "react-native";
 
+import { Picker } from "@react-native-picker/picker";
+import { Colors, IconButton } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 import Svg, { Image, Circle, ClipPath } from "react-native-svg";
 import Animated, { Easing } from "react-native-reanimated";
 import { TapGestureHandler, State } from "react-native-gesture-handler";
@@ -60,169 +63,263 @@ function runTiming(clock, value, dest) {
     state.position,
   ]);
 }
-class MusicApp extends Component {
-  constructor() {
-    super();
-
-    this.buttonOpacity = new Value(1);
-
-    this.onStateChange = event([
+const MusicApp = () => {
+  //#region State
+  const [data, setData] = useState({
+    IDTinh: "",
+    code: "",
+  });
+  //* Dữ liệu DropDown tỉnh thành phố
+  const [picker, setPicker] = useState({
+    IDTinh: [
       {
-        nativeEvent: ({ state }) =>
-          block([
-            cond(
-              eq(state, State.END),
-              set(this.buttonOpacity, runTiming(new Clock(), 1, 0))
-            ),
-          ]),
+        id: "",
+        name: "Chọn Tỉnh/Thành phố",
       },
-    ]);
+    ],
+  });
+  //* Chọn giá trị cho Picker
+  const changeValuePicker = (arg) => {
+    setData((prevState) => ({
+      ...prevState,
+      ...arg,
+    }));
+  };
+  //#endregion
 
-    this.onCloseState = event([
-      {
-        nativeEvent: ({ state }) =>
-          block([
-            cond(
-              eq(state, State.END),
-              set(this.buttonOpacity, runTiming(new Clock(), 0, 1))
-            ),
-          ]),
-      },
-    ]);
-    this.buttonY = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [100, 0],
-      extrapolate: Extrapolate.CLAMP,
-    });
+  //#region API - Call: Tỉnh thành phố
+  //* Tỉnh:
+  useEffect(() => {
+    fetch(
+      "http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=1&level=1"
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        const arrData = [
+          {
+            id: "",
+            name: "Chọn Tỉnh/Thành phố",
+          },
+        ];
+        responseJson.Result.results.map((item, index) => {
+          const obj = {
+            id: item.ID,
+            name: item.TenDiaChi,
+          };
+          arrData.push(obj);
+        });
+        setPicker((prevState) => ({
+          ...prevState,
+          IDTinh: arrData,
+        }));
+      })
+      .catch((error) => {
+        const arrDataFail = [
+          {
+            id: "",
+            name: "Chọn Tỉnh/Thành phố",
+          },
+        ];
+        setPicker((prevState) => ({
+          ...prevState,
+          IDTinh: arrDataFail,
+        }));
+      });
+  }, [0]);
 
-    this.bgY = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [-height / 3 - 50, 0],
-      extrapolate: Extrapolate.CLAMP,
-    });
+  //#endregion
 
-    this.textInputZindex = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [1, -1],
-      extrapolate: Extrapolate.CLAMP,
-    });
+  const navigation = useNavigation();
+  const buttonOpacity = new Value(1);
 
-    this.textInputY = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [1, 100],
-      extrapolate: Extrapolate.CLAMP,
-    });
+  const onStateChange = event([
+    {
+      nativeEvent: ({ state }) =>
+        block([
+          cond(
+            eq(state, State.END),
+            set(buttonOpacity, runTiming(new Clock(), 1, 0))
+          ),
+        ]),
+    },
+  ]);
 
-    this.textInputOpacity = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [1, 0],
-      extrapolate: Extrapolate.CLAMP,
-    });
+  const onCloseState = event([
+    {
+      nativeEvent: ({ state }) =>
+        block([
+          cond(
+            eq(state, State.END),
+            set(buttonOpacity, runTiming(new Clock(), 0, 1))
+          ),
+        ]),
+    },
+  ]);
+  const buttonY = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [100, 0],
+    extrapolate: Extrapolate.CLAMP,
+  });
 
-    this.rotateCross = interpolate(this.buttonOpacity, {
-      inputRange: [0, 1],
-      outputRange: [180, 360],
-      extrapolate: Extrapolate.CLAMP,
-    });
-  }
-  render() {
-    return (
-      <View
+  const bgY = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [-height / 3 - 50, 0],
+    extrapolate: Extrapolate.CLAMP,
+  });
+
+  const textInputZindex = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [1, -1],
+    extrapolate: Extrapolate.CLAMP,
+  });
+
+  const textInputY = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [1, 100],
+    extrapolate: Extrapolate.CLAMP,
+  });
+
+  const textInputOpacity = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [1, 0],
+    extrapolate: Extrapolate.CLAMP,
+  });
+
+  const rotateCross = interpolate(buttonOpacity, {
+    inputRange: [0, 1],
+    outputRange: [180, 360],
+    extrapolate: Extrapolate.CLAMP,
+  });
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "white",
+        justifyContent: "flex-end",
+      }}
+    >
+      <Animated.View
         style={{
-          flex: 1,
-          backgroundColor: "white",
-          justifyContent: "flex-end",
+          ...StyleSheet.absoluteFill,
+          transform: [{ translateY: bgY }],
         }}
       >
-        <Animated.View
-          style={{
-            ...StyleSheet.absoluteFill,
-            transform: [{ translateY: this.bgY }],
-          }}
+        <Svg height={height + 50} width={width}>
+          <ClipPath id="clip">
+            <Circle r={height + 50} cx={width / 2} />
+          </ClipPath>
+          <Image
+            href={require("./assets/bg.jpg")}
+            width={width}
+            height={height + 50}
+            preserveAspectRatio="xMidYMid slice"
+            clipPath="url(#clip)"
+          />
+        </Svg>
+      </Animated.View>
+      <View style={{ height: height / 3, justifyContent: "center" }}>
+        <TapGestureHandler onHandlerStateChange={onStateChange}>
+          <Animated.View
+            style={{
+              ...styles.button,
+              opacity: buttonOpacity,
+              transform: [{ translateY: buttonY }],
+            }}
+          >
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>SIGN IN</Text>
+          </Animated.View>
+        </TapGestureHandler>
+        <TapGestureHandler
+          onHandlerStateChange={() => navigation.navigate("Trang chủ")}
         >
-          <Svg height={height + 50} width={width}>
-            <ClipPath id="clip">
-              <Circle r={height + 50} cx={width / 2} />
-            </ClipPath>
-            <Image
-              href={require("./assets/bg.jpg")}
-              width={width}
-              height={height + 50}
-              preserveAspectRatio="xMidYMid slice"
-              clipPath="url(#clip)"
-            />
-          </Svg>
-        </Animated.View>
-        <View style={{ height: height / 3, justifyContent: "center" }}>
-          <TapGestureHandler onHandlerStateChange={this.onStateChange}>
-            <Animated.View
-              style={{
-                ...styles.button,
-                opacity: this.buttonOpacity,
-                transform: [{ translateY: this.buttonY }],
-              }}
-            >
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>SIGN IN</Text>
-            </Animated.View>
-          </TapGestureHandler>
           <Animated.View
             style={{
               ...styles.button,
               backgroundColor: "#2E71DC",
-              opacity: this.buttonOpacity,
-              transform: [{ translateY: this.buttonY }],
+              opacity: buttonOpacity,
+              transform: [{ translateY: buttonY }],
             }}
           >
             <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
               SIGN IN WITH FACEBOOK
             </Text>
           </Animated.View>
-          <Animated.View
-            style={{
-              zIndex: this.textInputZindex,
-              opacity: this.textInputOpacity,
-              transform: [{ translateY: this.textInputY }],
-              height: height / 3,
-              ...StyleSheet.absoluteFill,
-              top: null,
-              justifyContent: "center",
-            }}
-          >
-            <TapGestureHandler onHandlerStateChange={this.onCloseState}>
-              <Animated.View style={styles.closeButton}>
-                <Animated.Text
-                  style={{
-                    fontSize: 15,
-                    transform: [
-                      {
-                        rotate: concat(this.rotateCross, "deg"),
-                      },
-                    ],
-                  }}
-                >
-                  X
-                </Animated.Text>
-              </Animated.View>
-            </TapGestureHandler>
-            <TextInput
-              placeholder="Email"
-              style={styles.textInput}
-              placeholderTextColor="black"
-            />
-            <TextInput
-              placeholder="Pass"
-              style={styles.textInput}
-              placeholderTextColor="black"
-            />
-            <Animated.View style={styles.button}>
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>SignIn</Text>
+        </TapGestureHandler>
+        <Animated.View
+          style={{
+            zIndex: textInputZindex,
+            opacity: textInputOpacity,
+            transform: [{ translateY: textInputY }],
+            height: height / 3,
+            ...StyleSheet.absoluteFill,
+            top: null,
+            justifyContent: "center",
+          }}
+        >
+          <TapGestureHandler onHandlerStateChange={onCloseState}>
+            <Animated.View style={styles.closeButton}>
+              <Animated.Text
+                style={{
+                  fontSize: 15,
+                  transform: [
+                    {
+                      rotate: concat(rotateCross, "deg"),
+                    },
+                  ],
+                }}
+              >
+                X
+              </Animated.Text>
             </Animated.View>
+          </TapGestureHandler>
+          {/*// Tỉnh thành phố */}
+          <View style={[styles.field, { zIndex: 11003 }]}>
+            {data.IDTinh == "" || null ? null : (
+              <View style={styles.label}>
+                <IconButton
+                  style={{ backgroundColor: "#61b15a" }}
+                  icon="check"
+                  color="#FFFF"
+                  size={10}
+                />
+              </View>
+            )}
+            <Picker
+              selectedValue={data.IDTinh}
+              style={styles.picker}
+              onValueChange={(itemValue, itemIndex) =>
+                changeValuePicker({ IDTinh: itemValue })
+              }
+              dropdownIconColor={
+                data.IDTinh == "" || null ? Colors.red500 : "#61b15a"
+              }
+            >
+              {picker.IDTinh.map((item, index) => {
+                return (
+                  <Picker.Item
+                    key={index.toString()}
+                    label={item.name}
+                    value={item.id}
+                  />
+                );
+              })}
+            </Picker>
+          </View>
+          <TextInput
+            placeholder="Pass"
+            style={styles.textInput}
+            placeholderTextColor="black"
+          />
+          <Animated.View style={styles.button}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>SignIn</Text>
           </Animated.View>
-        </View>
+        </Animated.View>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
+
 export default MusicApp;
 
 const styles = StyleSheet.create({
@@ -266,5 +363,34 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginVertical: 5,
     borderColor: "rgba(0,0,0,0.2)",
+  },
+  field: {
+    borderColor: "white",
+    borderWidth: 1,
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
+    padding: 5,
+    marginBottom: "2%",
+    flexDirection: "row",
+
+    borderRadius: 16,
+    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10,
+  },
+  label: {
+    alignSelf: "center",
+    // marginRight: 10,
+  },
+  picker: {
+    height: 50,
+    flexGrow: 1,
   },
 });
