@@ -1316,9 +1316,9 @@ export default function Trangdangky({ route }) {
       data.IDHuyen &&
       data.IDXa &&
       data.DienThoaiLienHe &&
-      data.MailLienHe) != "" ||
+      data.MailLienHe &&
+      data.NguyenVong[0].MaTruong) != "" ||
       null) &&
-      data.NguyenVong.length !== 0 &&
       data.Xacnhanthongtin
       ? true
       : false;
