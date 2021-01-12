@@ -4,8 +4,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 
 import Wallet from "./Wallet/Trangchu";
-import Quydinhtuyensinh from "./Screen/Quydinhtuyensinh/Quydinhtuyensinh";
+
+//* Đăng nhập
+import Dangnhap from "./Screen/Dangnhap/Dangnhap";
+
+//* Thông tin tuyển sinh
 import Thongtintuyensinh from "./Screen/Thongtintuyensinh/Thongtintuyensinh";
+
 //* Đăng ký tuyển sinh
 import Dangkytuyensinh from "./Screen/Dangkytuyensinh/Dangkytuyensinh";
 import Trangdangky from "./Screen/Dangkytuyensinh/Trangdangky";
@@ -15,7 +20,13 @@ import Images from "./Screen/Dangkytuyensinh/Images";
 import Tracuuketquatuyensinh from "./Screen/Tracuuketquatuyensinh/Tracuuketquatuyensinh";
 import Ketqua from "./Screen/Tracuuketquatuyensinh/Ketqua";
 
+//* Quy định tuyển sinh
+import Quydinhtuyensinh from "./Screen/Quydinhtuyensinh/Quydinhtuyensinh";
+
+//* Hướng dẫn đăng ký trực tuyến
 import Huongdandangkytructuyen from "./Screen/Huongdandangkytructuyen/Huongdandangkytructuyen";
+
+//* Góp ý
 import Gopy from "./Screen/Gopy/Gopy";
 
 // Trang chủ
@@ -37,6 +48,15 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Trang chủ">
+        {/* Đăng nhập */}
+        <Stack.Screen
+          name="Đăng nhập"
+          component={Dangnhap}
+          options={{
+            headerShown: false,
+          }}
+        />
+        {/* Trang chủ */}
         <Stack.Screen
           name="Trang chủ"
           component={Trangchu}
