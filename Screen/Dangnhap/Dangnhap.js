@@ -1,50 +1,45 @@
-import AppLoading from "expo-app-loading";
-import { Asset } from "expo-asset";
 import React from "react";
-import { StyleSheet } from "react-native";
-import MusicApp from "./index";
+import { Button, StyleSheet, View } from "react-native";
+import LottieView from "lottie-react-native";
 
-function cacheImages(images) {
-  return images.map((image) => {
-    if (typeof image === "string") {
-      return Image.prefetch(image);
-    } else {
-      return Asset.fromModule(image).downloadAsync();
-    }
-  });
-}
 export default class Dangnhap extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isReady: false,
-    };
+  componentDidMount() {
+    // this.animation.play();
+    // Or set a specific startFrame and endFrame with:
+    // this.animation.play(30, 120);
   }
 
-  async _loadAssetsAsync() {
-    const imageAssets = cacheImages([require("./assets/bg.jpg")]);
-
-    await Promise.all([...imageAssets]);
-  }
+  resetAnimation = () => {
+    this.animation.reset();
+    this.animation.play();
+  };
 
   render() {
-    if (!this.state.isReady) {
-      return (
-        <AppLoading
-          startAsync={this._loadAssetsAsync}
-          onFinish={() => this.setState({ isReady: true })}
-          onError={console.warn}
+    return (
+      <View style={styles.animationContainer}>
+        <LottieView
+          style={{
+            width: 400,
+            height: 400,
+            backgroundColor: "#eee",
+          }}
+          source={require("./assets/loading_begin_.json")}
+          autoPlay
+          loop
         />
-      );
-    }
-    return <MusicApp />;
+      </View>
+    );
   }
 }
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  animationContainer: {
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    flex: 1,
+  },
+  buttonContainer: {
+    paddingTop: 20,
   },
 });

@@ -8,22 +8,12 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
-import AwesomeButton from "react-native-really-awesome-button";
 
 export function Images() {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <View style={styles.container}>
-      <AwesomeButton
-        progress
-        onPress={(next) => {
-          setModalVisible(true);
-          next();
-        }}
-      >
-        Text
-      </AwesomeButton>
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View
           style={{
