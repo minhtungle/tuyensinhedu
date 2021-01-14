@@ -47,7 +47,7 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Trang chủ">
+      <Stack.Navigator initialRouteName="Đăng nhập">
         {/* Đăng nhập */}
         <Stack.Screen
           name="Đăng nhập"
@@ -60,18 +60,21 @@ export default function App() {
         <Stack.Screen
           name="Trang chủ"
           component={Trangchu}
+          // options={{
+          //   title: "Trang chủ",
+          //   headerStyle: {
+          //     //  "#0a043c","#1f1d4a", "#eb2188", "#f855a8"
+          //     backgroundColor: "#1f1d4a",
+          //     borderBottomWidth: 0.25,
+          //     borderBottomColor: "#e8e8e8",
+          //   },
+          //   headerTitleStyle: {
+          //     alignSelf: "center",
+          //     color: "#fff",
+          //   },
+          // }}
           options={{
-            title: "Trang chủ",
-            headerStyle: {
-              //  "#0a043c","#1f1d4a", "#eb2188", "#f855a8"
-              backgroundColor: "#1f1d4a",
-              borderBottomWidth: 0.25,
-              borderBottomColor: "#e8e8e8",
-            },
-            headerTitleStyle: {
-              alignSelf: "center",
-              color: "#fff",
-            },
+            headerShown: false,
           }}
         />
         {/* Quy định tuyển sinh */}
