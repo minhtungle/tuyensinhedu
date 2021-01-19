@@ -1,7 +1,11 @@
 import React from "react";
 import { View, ImageBackground } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  HeaderTitle,
+  CardStyleInterpolators,
+} from "@react-navigation/stack";
 
 import Wallet from "./Wallet/Trangchu";
 
@@ -47,7 +51,12 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Đăng nhập">
+      <Stack.Navigator
+        initialRouteName="Đăng nhập"
+        screenOptions={{
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      >
         {/* Đăng nhập */}
         <Stack.Screen
           name="Đăng nhập"

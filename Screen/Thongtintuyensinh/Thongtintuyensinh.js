@@ -504,7 +504,7 @@ export default function Thongtintuyensinh() {
                   margin: 20,
                   backgroundColor: "white",
                   borderRadius: 20,
-                  padding: 35,
+                  padding: 10,
                   alignItems: "center",
                   shadowColor: "#000",
                   shadowOffset: {
@@ -517,7 +517,12 @@ export default function Thongtintuyensinh() {
                 }}
               >
                 {data.ketqua.length !== 0 ? (
-                  <View>
+                  <View
+                    style={{
+                      justifyContent: "center",
+                      paddingHorizontal: 10,
+                    }}
+                  >
                     {data.ketqua.map((item, index) => {
                       return (
                         <ExternalLinkBtn
@@ -531,7 +536,6 @@ export default function Thongtintuyensinh() {
                 ) : (
                   <View
                     style={{
-                      flex: 1,
                       justifyContent: "center",
                       paddingHorizontal: 10,
                     }}
@@ -540,7 +544,6 @@ export default function Thongtintuyensinh() {
                       <View
                         style={{
                           alignItems: "center",
-                          backgroundColor: "#DDDDDD",
                           padding: 10,
                         }}
                       >

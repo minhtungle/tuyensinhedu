@@ -512,7 +512,7 @@ export default function Trangdangky({ route }) {
                 }
               >
                 {picker.NguyenVong.map((itemChild, indexChild) => {
-                  return (
+                  return !KiemtraNV(itemChild) ? (
                     <Picker.Item
                       key={indexChild.toString()}
                       label={itemChild.MaTruong + ": " + itemChild.TenTruong}
@@ -522,7 +522,7 @@ export default function Trangdangky({ route }) {
                         TenTruong: itemChild.TenTruong,
                       }}
                     />
-                  );
+                  ) : null;
                 })}
               </Picker>
             </View>
@@ -1592,27 +1592,14 @@ export default function Trangdangky({ route }) {
                   <Text>
                     Mã học sinh <Text style={{ color: "red" }}>*</Text>
                   </Text>
-                  <View style={{ flexDirection: "row" }}>
-                    <TextInput
-                      style={styles.textInput}
-                      onChangeText={(value) =>
-                        changeValuePicker({ MaHocSinh: value })
-                      }
-                    >
-                      {data.MaHocSinh}
-                    </TextInput>
-                    <IconButton
-                      style={{
-                        backgroundColor:
-                          data.MaHocSinh == null || ""
-                            ? Colors.red500
-                            : "#61b15a",
-                      }}
-                      icon={data.MaHocSinh == null || "" ? "close" : "check"}
-                      color="#FFFF"
-                      size={10}
-                    />
-                  </View>
+                  <TextInput
+                    style={styles.textInput}
+                    onChangeText={(value) =>
+                      changeValuePicker({ MaHocSinh: value })
+                    }
+                  >
+                    {data.MaHocSinh}
+                  </TextInput>
                 </View>
                 {/* Mật khẩu */}
                 <View style={[styles.field, { marginBottom: "5%" }]}>
@@ -2631,15 +2618,10 @@ export default function Trangdangky({ route }) {
             </View>
           </View>
           {/* -------------Cam kết khai báo đúng thông tin------------- */}
-          <View
-            style={[
-              styles.block,
-              { width: "94%", borderRadius: 10, marginBottom: 30 },
-            ]}
-          >
+          <View style={[styles.block, { width: "94%", borderRadius: 10 }]}>
             <View style={styles.box}>
               {/* Đối tượng ưu tiên */}
-              <View style={styles.field}>
+              <View style={[styles.field, { borderWidth: 0 }]}>
                 {/* Checkbox */}
                 <View
                   style={{
@@ -2680,22 +2662,72 @@ export default function Trangdangky({ route }) {
               </View>
             </View>
           </View>
-          {TrangThai() ? (
-            <View style={{ marginBottom: "10%" }}>
-              <Button
-                round
-                title="Đăng ký"
-                style={styles.button}
-                // onPress={() => setModal_KiemTraVisible(true)}
-                onPress={() => DangKy()}
-              >
-                <Text style={{ color: "white" }}>Đăng ký</Text>
-              </Button>
-              <ModalKiemTraThongTin />
-            </View>
-          ) : null}
+          <View
+            style={{
+              height: 10,
+              maxHeight: 50,
+              marginBottom: 40,
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
+            {TrangThai() ? (
+              <View>
+                <Button
+                  round
+                  title="Đăng ký"
+                  style={styles.button}
+                  // onPress={() => setModal_KiemTraVisible(true)}
+                  onPress={() => DangKy()}
+                >
+                  <Text style={{ color: "white" }}>Đăng ký</Text>
+                </Button>
+                <ModalKiemTraThongTin />
+              </View>
+            ) : null}
+          </View>
         </View>
       </ScrollView>
+      {!TrangThai() && (
+        <View
+          style={{
+            position: "absolute",
+            left: 20,
+            right: 20,
+            bottom: 10,
+            zIndex: 1,
+            borderRadius: 15,
+            paddingVertical: 5,
+            paddingHorizontal: 15,
+
+            backgroundColor: "#eff8ff",
+
+            borderColor: "white",
+
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 5,
+            },
+            shadowOpacity: 0.34,
+            shadowRadius: 6.27,
+
+            elevation: 10,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 12.5,
+              fontWeight: "bold",
+              color: "red",
+              textAlign: "center",
+            }}
+          >
+            Lưu ý: Chỉ có thể đăng ký khi các thông tin bắt buộc {"\n"}(có dấu
+            *) được điền đầy đủ
+          </Text>
+        </View>
+      )}
     </KeyboardAvoidingView>
   );
 }
@@ -2757,7 +2789,8 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   button: {
-    maxWidth: "50%",
+    width: 150,
+    height: 50,
     borderRadius: 25,
     textShadowColor: "#bbbbbb",
 
