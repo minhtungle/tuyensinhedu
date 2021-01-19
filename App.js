@@ -1,5 +1,6 @@
 import React from "react";
-import { View, ImageBackground } from "react-native";
+import { View, ImageBackground, Text } from "react-native";
+import { Button } from "galio-framework";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createStackNavigator,
@@ -43,6 +44,35 @@ function Trangchu({ navigation }) {
       >
         <Wallet />
       </ImageBackground>
+      <View
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 1,
+
+          paddingVertical: 5,
+          paddingHorizontal: 15,
+        }}
+      >
+        <View style={{ flexDirection: "row" }}>
+          <Text
+            style={{
+              fontSize: 12.5,
+              fontWeight: "bold",
+
+              textAlign: "center",
+              flexGrow: 1,
+            }}
+          >
+            Thành phố
+          </Text>
+          <Button round size="small" style={{}}>
+            Đăng xuất
+          </Button>
+        </View>
+      </View>
     </View>
   );
 }
