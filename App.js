@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ImageBackground, Text } from "react-native";
+import { View, ImageBackground, Text, TouchableOpacity } from "react-native";
 import { Button } from "galio-framework";
 import { NavigationContainer } from "@react-navigation/native";
 import {
@@ -7,9 +7,10 @@ import {
   HeaderTitle,
   CardStyleInterpolators,
 } from "@react-navigation/stack";
-
+import { Colors, IconButton } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+//* Trang chủ
 import Wallet from "./Wallet/Trangchu";
-
 //* Đăng nhập
 import Dangnhap from "./Screen/Dangnhap/Dangnhap";
 
@@ -35,44 +36,80 @@ import Huongdandangkytructuyen from "./Screen/Huongdandangkytructuyen/Huongdanda
 import Gopy from "./Screen/Gopy/Gopy";
 
 // Trang chủ
-function Trangchu({ navigation }) {
+function Trangchu({ route }) {
+  const navigation = useNavigation();
+  const { Tinh } = route.params;
   return (
     <View>
-      <ImageBackground
-        source={require("./assets/background.png")}
-        style={{ width: "100%", height: "100%" }}
-      >
-        <Wallet />
-      </ImageBackground>
       <View
         style={{
           position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 1,
 
-          paddingVertical: 5,
-          paddingHorizontal: 15,
+          right: 0,
+          top: 0,
+          zIndex: 1,
+          opacity: 0.9,
+          paddingTop: 10,
+          paddingRight: 10,
+          justifyContent: "center",
         }}
       >
-        <View style={{ flexDirection: "row" }}>
+        <View
+          style={{
+            flexDirection: "row",
+
+            borderRadius: 25,
+            backgroundColor: "#FFF",
+            alignSelf: "flex-end",
+            justifyContent: "center",
+          }}
+        >
+          <IconButton
+            icon="factory"
+            color={Colors.red500}
+            size={16}
+            style={{}}
+            onPress={() => {}}
+          />
           <Text
             style={{
               fontSize: 12.5,
               fontWeight: "bold",
-
+              justifyContent: "center",
+              alignSelf: "center",
               textAlign: "center",
               flexGrow: 1,
             }}
           >
-            Thành phố
+            {Tinh}
           </Text>
-          <Button round size="small" style={{}}>
-            Đăng xuất
-          </Button>
+          <IconButton
+            icon="close"
+            color={Colors.red500}
+            size={18}
+            style={{
+              backgroundColor: "#FFF",
+              shadowColor: "#c7cfb7",
+              shadowOffset: {
+                width: 0,
+                height: 5,
+              },
+              shadowOpacity: 0.5,
+              shadowRadius: 8,
+
+              elevation: 10,
+            }}
+            onPress={() => navigation.goBack()}
+          />
         </View>
       </View>
+      <ImageBackground
+        source={require("./assets/greenBG.jpg")}
+        style={{ width: "100%", height: "100%" }}
+        blurRadius={2}
+      >
+        <Wallet />
+      </ImageBackground>
     </View>
   );
 }

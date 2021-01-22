@@ -42,7 +42,7 @@ const Banner = (props) => {
 export default function Dangnhap() {
   const navigation = useNavigation();
   const [data, setData] = useState({
-    IDTinh: "",
+    Tinh: "",
   });
   const [picker, setPicker] = useState({
     IDTinh: [
@@ -144,7 +144,7 @@ export default function Dangnhap() {
             selectedValue={data.IDTinh}
             style={styles.picker}
             onValueChange={(itemValue, itemIndex) =>
-              changeValuePicker({ IDTinh: itemValue })
+              changeValuePicker({ Tinh: itemValue })
             }
             dropdownIconColor={
               data.IDTinh == "" || null ? Colors.red500 : "#61b15a"
@@ -155,7 +155,7 @@ export default function Dangnhap() {
                 <Picker.Item
                   key={index.toString()}
                   label={item.name}
-                  value={item.id}
+                  value={item.name}
                 />
               );
             })}
@@ -164,7 +164,7 @@ export default function Dangnhap() {
         <Button
           title="Đăng nhập"
           style={styles.button}
-          onPress={() => navigation.navigate("Trang chủ")}
+          onPress={() => navigation.navigate("Trang chủ", { Tinh: data.Tinh })}
         ></Button>
       </ImageBackground>
     </View>

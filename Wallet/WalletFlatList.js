@@ -52,6 +52,7 @@ const Wallet = () => {
   );
   return (
     <AnimatedFlatList
+      style={{ marginTop: 40 }}
       scrollEventThrottle={16}
       bounces={false}
       data={cards}
