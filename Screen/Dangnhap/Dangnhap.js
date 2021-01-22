@@ -5,13 +5,13 @@ import {
   ImageBackground,
   StyleSheet,
   Animated,
-  Button,
   StatusBar,
   Dimensions,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Colors, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import { Button } from "galio-framework";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
@@ -59,6 +59,7 @@ export default function Dangnhap() {
       ...arg,
     }));
   };
+  //#region API - Call
   //* Tỉnh:
   useEffect(() => {
     fetch(
@@ -97,6 +98,7 @@ export default function Dangnhap() {
         }));
       });
   }, [0]);
+  //#endregion
 
   return (
     <View style={styles.container}>
@@ -110,13 +112,14 @@ export default function Dangnhap() {
             top: height / 5,
             alignSelf: "center",
             fontWeight: "bold",
+            color: "#FFF",
           }}
         >
           Chào mừng đến với hệ thống tra cứu tuyển sinh đầu cấp tỉnh Vĩnh Phúc
         </Text>
       </Banner>
       <ImageBackground
-        source={require("./assets/1.png")}
+        source={require("../../assets/BGedu1.jpg")}
         style={{
           width: "100%",
           height: "100%",
@@ -141,7 +144,7 @@ export default function Dangnhap() {
             </View>
           )}
           <Picker
-            selectedValue={data.IDTinh}
+            selectedValue={data.Tinh}
             style={styles.picker}
             onValueChange={(itemValue, itemIndex) =>
               changeValuePicker({ Tinh: itemValue })
@@ -161,11 +164,17 @@ export default function Dangnhap() {
             })}
           </Picker>
         </View>
-        <Button
-          title="Đăng nhập"
-          style={styles.button}
-          onPress={() => navigation.navigate("Trang chủ", { Tinh: data.Tinh })}
-        ></Button>
+        {data.Tinh != "Chọn Tỉnh/Thành phố" ? (
+          <Button
+            round
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate("Trang chủ", { Tinh: data.Tinh })
+            }
+          >
+            Đăng nhập
+          </Button>
+        ) : null}
       </ImageBackground>
     </View>
   );
@@ -206,8 +215,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   button: {
-    alignSelf: "center",
+    height: 50,
+    width: 150,
     borderRadius: 25,
+    alignSelf: "center",
     textShadowColor: "black",
     backgroundColor: "#61b15a",
     shadowColor: "rgba(0, 0, 0, 0.1)",

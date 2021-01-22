@@ -1,39 +1,26 @@
-import React from "react";
-import { View, ImageBackground, Text, TouchableOpacity } from "react-native";
-import { Button } from "galio-framework";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import {
-  createStackNavigator,
-  HeaderTitle,
   CardStyleInterpolators,
+  createStackNavigator,
 } from "@react-navigation/stack";
+import React from "react";
+import { ImageBackground, Text, View } from "react-native";
 import { Colors, IconButton } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+//* Screen
+import {
+  Dangnhap,
+  Dangkytuyensinh,
+  Trangdangky,
+  Images,
+  Thongtintuyensinh,
+  Quydinhtuyensinh,
+  Tracuuketquatuyensinh,
+  Ketqua,
+  Huongdandangkytructuyen,
+  Gopy,
+} from "./Screen/index";
 //* Trang chủ
 import Wallet from "./Wallet/Trangchu";
-//* Đăng nhập
-import Dangnhap from "./Screen/Dangnhap/Dangnhap";
-
-//* Thông tin tuyển sinh
-import Thongtintuyensinh from "./Screen/Thongtintuyensinh/Thongtintuyensinh";
-
-//* Đăng ký tuyển sinh
-import Dangkytuyensinh from "./Screen/Dangkytuyensinh/Dangkytuyensinh";
-import Trangdangky from "./Screen/Dangkytuyensinh/Trangdangky";
-import Images from "./Screen/Dangkytuyensinh/Images";
-
-//* Tra cứu tuyển sinh
-import Tracuuketquatuyensinh from "./Screen/Tracuuketquatuyensinh/Tracuuketquatuyensinh";
-import Ketqua from "./Screen/Tracuuketquatuyensinh/Ketqua";
-
-//* Quy định tuyển sinh
-import Quydinhtuyensinh from "./Screen/Quydinhtuyensinh/Quydinhtuyensinh";
-
-//* Hướng dẫn đăng ký trực tuyến
-import Huongdandangkytructuyen from "./Screen/Huongdandangkytructuyen/Huongdandangkytructuyen";
-
-//* Góp ý
-import Gopy from "./Screen/Gopy/Gopy";
 
 // Trang chủ
 function Trangchu({ route }) {
