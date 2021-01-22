@@ -67,37 +67,37 @@ export default ({ type }) => {
       page = "Quy định tuyển sinh";
       title = "Quy định \ntuyển sinh";
       textSub = "Các bài viết liên quan đến luật";
-      source = require("../assets/blue.jpg");
+      source = require("../assets/550x271_Blue.jpg");
       break;
     case Cards.Card2:
       page = "Thông tin tuyển sinh";
       title = "Thông tin \ntuyển sinh";
       textSub = "Thông tin, phân tuyến, chỉ tiêu kế hoạch từng trường";
-      source = require("../assets/yellow.jpg");
+      source = require("../assets/550x271_Yellow.jpg");
       break;
     case Cards.Card3:
       page = "Đăng ký tuyển sinh";
       title = "Đăng ký \ntuyển sinh";
       textSub = "Tuyển sinh đầu cấp cho học sinh";
-      source = require("../assets/pink.jpg");
+      source = require("../assets/550x271_Orange.jpg");
       break;
     case Cards.Card4:
       page = "Tra cứu kết quả tuyển sinh";
       title = "Tra cứu kết quả tuyển sinh";
       textSub = "Tra cứu kết quả tuyển sinh";
-      source = require("../assets/purple.jpg");
+      source = require("../assets/550x271_Pink.jpg");
       break;
     case Cards.Card5:
       page = "Hướng dẫn đăng ký trực tuyến";
       title = "Hướng dẫn đăng ký trực tuyến";
       textSub = "Hướng dẫn đăng ký trực tuyến";
-      source = require("../assets/orange.jpg");
+      source = require("../assets/550x271_Skyblue.jpg");
       break;
     case Cards.Card6:
       page = "Góp ý";
       title = "Góp ý";
       textSub = "Tổng hợp các ý kiến phản ánh của công dân";
-      source = require("../assets/white.jpg");
+      source = require("../assets/550x271_Brown.jpg");
       break;
     default:
       throw Error("Không nhận diện được ảnh");

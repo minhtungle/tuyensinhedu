@@ -2700,7 +2700,7 @@ export default function Trangdangky({ route }) {
             paddingVertical: 5,
             paddingHorizontal: 15,
 
-            backgroundColor: "#eff8ff",
+            backgroundColor: "#fff5c0",
 
             borderColor: "white",
 
@@ -2719,12 +2719,22 @@ export default function Trangdangky({ route }) {
             style={{
               fontSize: 12.5,
               fontWeight: "bold",
-              color: "red",
+              color: "#ff4646",
               textAlign: "center",
             }}
           >
-            Lưu ý: Chỉ có thể đăng ký khi các thông tin bắt buộc {"\n"}(có dấu
-            *) được điền đầy đủ
+            Lưu ý: Chỉ có thể đăng ký khi các thông tin bắt buộc {"\n"}
+            <Text
+              style={{
+                fontSize: 13.5,
+                fontWeight: "bold",
+                color: "red",
+                textAlign: "center",
+              }}
+            >
+              (có dấu *)
+            </Text>{" "}
+            được điền đầy đủ
           </Text>
         </View>
       )}
