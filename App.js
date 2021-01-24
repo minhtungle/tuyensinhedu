@@ -91,7 +91,7 @@ function Trangchu({ route }) {
         </View>
       </View>
       <ImageBackground
-        source={require("./assets/BGedu1.jpg")}
+        source={require("./assets/background.png")}
         style={{ width: "100%", height: "100%" }}
         blurRadius={1.5}
       >

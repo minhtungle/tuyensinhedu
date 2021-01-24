@@ -22,7 +22,7 @@ const Banner = (props) => {
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 5000,
+      duration: 3000,
       useNativeDriver: true,
     }).start();
   }, [fadeAnim]);
@@ -42,7 +42,7 @@ const Banner = (props) => {
 export default function Dangnhap() {
   const navigation = useNavigation();
   const [data, setData] = useState({
-    Tinh: "",
+    Tinh: "Chọn Tỉnh/Thành phố",
   });
   const [picker, setPicker] = useState({
     IDTinh: [
@@ -52,6 +52,7 @@ export default function Dangnhap() {
       },
     ],
   });
+  console.log(data.Tinh);
   //* Chọn giá trị cho Picker
   const changeValuePicker = (arg) => {
     setData((prevState) => ({
@@ -102,7 +103,28 @@ export default function Dangnhap() {
 
   return (
     <View style={styles.container}>
-      <Banner>
+      {data.Tinh !== "Chọn Tỉnh/Thành phố" ? (
+        <Banner>
+          <Text
+            style={{
+              fontSize: 28,
+              textAlign: "center",
+              margin: 10,
+              position: "absolute",
+              top: height / 5,
+              alignSelf: "center",
+              fontWeight: "bold",
+              color: "#FFF",
+              textShadowColor: "rgba(0, 0, 0, 1)",
+              textShadowOffset: { width: -1, height: 1 },
+              textShadowRadius: 10,
+            }}
+          >
+            Chào mừng đến với hệ thống đăng ký và tra cứu tuyển sinh đầu cấp của{" "}
+            {data.Tinh}
+          </Text>
+        </Banner>
+      ) : (
         <Text
           style={{
             fontSize: 28,
@@ -113,13 +135,17 @@ export default function Dangnhap() {
             alignSelf: "center",
             fontWeight: "bold",
             color: "#FFF",
+            textShadowColor: "rgba(0, 0, 0, 1)",
+            textShadowOffset: { width: -1, height: 1 },
+            textShadowRadius: 10,
           }}
         >
-          Chào mừng đến với hệ thống tra cứu tuyển sinh đầu cấp tỉnh Vĩnh Phúc
+          Vui lòng chọn tỉnh/thành phố bạn muốn tra cứu
         </Text>
-      </Banner>
+      )}
+
       <ImageBackground
-        source={require("../../assets/BGedu1.jpg")}
+        source={require("../../assets/background.png")}
         style={{
           width: "100%",
           height: "100%",
@@ -133,7 +159,7 @@ export default function Dangnhap() {
         <StatusBar hidden />
 
         <View style={[styles.field, { marginHorizontal: 10 }]}>
-          {data.IDTinh == "" || null ? null : (
+          {data.Tinh == "Chọn Tỉnh/Thành phố" ? null : (
             <View style={styles.label}>
               <IconButton
                 style={{ backgroundColor: "#61b15a" }}
@@ -164,7 +190,7 @@ export default function Dangnhap() {
             })}
           </Picker>
         </View>
-        {data.Tinh != "Chọn Tỉnh/Thành phố" ? (
+        {data.Tinh !== "Chọn Tỉnh/Thành phố" && (
           <Button
             round
             style={styles.button}
@@ -174,7 +200,7 @@ export default function Dangnhap() {
           >
             Đăng nhập
           </Button>
-        ) : null}
+        )}
       </ImageBackground>
     </View>
   );

@@ -1,17 +1,30 @@
 //* Đăng nhập
-export { default } from "./Dangnhap/Dangnhap";
+import Dangnhap from "./Dangnhap/Dangnhap";
 //* Đăng ký tuyển sinh
-export { default } from "./Dangkytuyensinh/Dangkytuyensinh";
-export { default } from "./Dangkytuyensinh/Trangdangky";
-export { default } from "./Dangkytuyensinh/Images";
+import Dangkytuyensinh from "./Dangkytuyensinh/Dangkytuyensinh";
+import Trangdangky from "./Dangkytuyensinh/Trangdangky";
+import Images from "./Dangkytuyensinh/Images";
 //* Thông tin tuyển sinh
-export { default } from "./Thongtintuyensinh/Thongtintuyensinh";
+import Thongtintuyensinh from "./Thongtintuyensinh/Thongtintuyensinh";
 //* Tra cứu kết quả tuyển sinh
-export { default } from "./Tracuuketquatuyensinh/Tracuuketquatuyensinh";
-export { default } from "./Tracuuketquatuyensinh/Ketqua";
+import Tracuuketquatuyensinh from "./Tracuuketquatuyensinh/Tracuuketquatuyensinh";
+import Ketqua from "./Tracuuketquatuyensinh/Ketqua";
 //* Quy định tuyển sinh
-export { default } from "./Quydinhtuyensinh/Quydinhtuyensinh";
+import Quydinhtuyensinh from "./Quydinhtuyensinh/Quydinhtuyensinh";
 //* Hướng dẫn đăng ký
-export { default } from "./Huongdandangkytructuyen/Huongdandangkytructuyen";
+import Huongdandangkytructuyen from "./Huongdandangkytructuyen/Huongdandangkytructuyen";
 //* Góp ý
-export { default } from "./Gopy/Gopy";
+import Gopy from "./Gopy/Gopy";
+
+export {
+  Dangnhap,
+  Dangkytuyensinh,
+  Trangdangky,
+  Images,
+  Thongtintuyensinh,
+  Quydinhtuyensinh,
+  Tracuuketquatuyensinh,
+  Ketqua,
+  Huongdandangkytructuyen,
+  Gopy,
+};

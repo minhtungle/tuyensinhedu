@@ -5,11 +5,11 @@ import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import RadioButtonRN from "radio-buttons-react-native";
 import { Button } from "galio-framework";
+import { Alert } from "../../assets/components/index";
 import { BlurView } from "expo-blur";
 
 import React, { useEffect, useState } from "react";
 import {
-  Alert,
   Image,
   KeyboardAvoidingView,
   Modal,
@@ -1290,12 +1290,14 @@ export default function Trangdangky({ route }) {
         .then((response) => response.json())
         .then((responseJson) => {
           console.log(responseJson.Result);
-          responseJson.Result.status
-            ? Alert.alert(responseJson.Result.message)
-            : Alert.alert(responseJson.Result.message);
+          responseJson.Result.status ? (
+            <Alert title={responseJson.Result.message} type="success" />
+          ) : (
+            <Alert title={responseJson.Result.message} type="warning" />
+          );
         });
     } catch (e) {
-      console.log(e);
+      return <Alert title={responseJson.Result.message} type="error" />;
     }
   };
   //#endregion
@@ -2665,7 +2667,7 @@ export default function Trangdangky({ route }) {
           <View
             style={{
               height: 10,
-              maxHeight: 50,
+              maxHeight: 80,
               marginBottom: 40,
               width: "100%",
               alignItems: "center",
@@ -2676,8 +2678,7 @@ export default function Trangdangky({ route }) {
                 <Button
                   round
                   title="Đăng ký"
-                  style={styles.button}
-                  // onPress={() => setModal_KiemTraVisible(true)}
+                  style={[styles.button, { marginBottom: 40 }]}
                   onPress={() => DangKy()}
                 >
                   <Text style={{ color: "white" }}>Đăng ký</Text>

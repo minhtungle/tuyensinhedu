@@ -1,91 +1,120 @@
-import React, { Component, useState } from "react";
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Alert,
-  Modal,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import { Button } from "galio-framework";
+import React, { useState } from "react";
+import { Modal, StyleSheet, Text, View } from "react-native";
+import { IconButton } from "react-native-paper";
+import { Alert } from "../../assets/components/index";
 
-export function Images() {
+export function Images(props) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [alert, setAlert] = useState(false);
+
+  const Type = {
+    success: {
+      color: "#9CDC78",
+      image: "emoticon-excited",
+    },
+    error: {
+      color: "#FF8E9E",
+      image: "emoticon-confused",
+    },
+    waring: {
+      color: "#F8C03E",
+      image: "emoticon-tongue-outline",
+    },
+    info: {
+      color: "#84AFF7",
+      image: "emoticon-wink-outline",
+    },
+  };
 
   return (
     <View style={styles.container}>
-      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+      <Button onPress={() => setAlert(true)}>Alert</Button>
+      <Button onPress={() => setModalVisible(true)}>Modal</Button>
+      <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View
           style={{
-            width: "95%",
-            backgroundColor: "#eff8ff",
-            borderRadius: 20,
-            padding: 10,
+            flex: 1,
+            justifyContent: "center",
             alignItems: "center",
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-            elevation: 5,
+            marginTop: 22,
           }}
         >
           <View
             style={{
-              flexDirection: "row",
-              width: "90%",
-              justifyContent: "space-around",
+              height: 300,
+              width: 300,
+              backgroundColor: "#9CDC78",
+              margin: 20,
+              borderRadius: 20,
+              alignItems: "center",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
             }}
           >
-            <TouchableOpacity
+            <IconButton
+              icon="close"
+              color="white"
+              size={22}
               style={{
-                backgroundColor: "#F194FF",
-                borderRadius: 20,
-                padding: 10,
-                elevation: 2,
-                backgroundColor: "#2196F3",
-                width: "40%",
+                backgroundColor: "#9CDC78",
+                alignSelf: "flex-end",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 5,
+                },
+                shadowOpacity: 0.5,
+                shadowRadius: 8,
+
+                elevation: 10,
               }}
               onPress={() => {
                 setModalVisible(!modalVisible);
               }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                }}
-              >
-                Quay lại
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+            />
+            {/* Body Alert*/}
+            <View
               style={{
-                backgroundColor: "#F194FF",
-                borderRadius: 20,
-                padding: 10,
-                elevation: 2,
-                backgroundColor: "#2196F3",
-                width: "40%",
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                flex: 1,
+                flexDirection: "column",
               }}
-              onPress={() => {}}
             >
-              <Text
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                }}
-              >
-                Đồng ý
-              </Text>
-            </TouchableOpacity>
+              <View>
+                <IconButton
+                  icon="emoticon-wink-outline"
+                  color="white"
+                  size={100}
+                />
+                <View
+                  style={{
+                    position: "absolute",
+                    bottom: 15,
+                    alignSelf: "center",
+                    width: 45,
+                    height: 10,
+                    borderRadius: 50,
+                    backgroundColor: "black",
+                    opacity: 0.1,
+                    transform: [{ scaleX: 2 }],
+                  }}
+                />
+              </View>
+              <Text style={styles.title}>THÀNH CÔNG !</Text>
+            </View>
           </View>
         </View>
       </Modal>
+      <Alert title="Hello" visible={alert} type="error"></Alert>
     </View>
   );
 }
@@ -96,9 +125,15 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 1,
-    borderBottomColor: "red",
-    zIndex: 1,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#FFF",
+    flexGrow: 1,
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 4,
   },
 });
 
