@@ -73,7 +73,7 @@ export function Alert(props) {
               shadowOpacity: 0.5,
               shadowRadius: 8,
 
-              elevation: 10,
+              elevation: 1.5,
             }}
             onPress={() => {
               setModalVisible(!modalVisible);

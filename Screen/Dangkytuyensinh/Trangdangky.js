@@ -465,155 +465,176 @@ export default function Trangdangky({ route }) {
     }));
   };
   const KiemtraNV = (itemChild) => {
-    return data.NguyenVong.some((item) => item === itemChild);
+    return data.NguyenVong.some((item) => item.IDTruong === itemChild.IDTruong);
   };
   //* List nguyện vọng
-  const ListNV = () =>
+  const ListNV_Macdinh = () =>
     data.NguyenVong.map((itemParent, indexParent) => {
-      return indexParent === 0 ? (
-        //* Nguyện vọng mặc định
-        <View
-          style={{
-            backgroundColor: "#d4e2d4",
-            padding: 5,
-            marginBottom: 15,
-            flexDirection: "row",
-          }}
-          key={indexParent.toString()}
-        >
-          {/*------------- Left ----------------*/}
+      return (
+        indexParent === 0 && (
+          //* Nguyện vọng mặc định
           <View
             style={{
-              flexDirection: "column",
-              flexGrow: 1,
-              borderWidth: 1,
+              backgroundColor: "#d4e2d4",
+              padding: 5,
+              marginBottom: 15,
+              flexDirection: "row",
             }}
+            key={indexParent.toString()}
           >
-            {/*--------- Top ---------*/}
-            <View>
-              <Text
-                style={{
-                  padding: 8,
-                  textAlignVertical: "center",
-                  textAlign: "center",
-                }}
-                numberOfLines={1}
-              >
-                Nguyện vọng {indexParent + 1}
-              </Text>
+            {/*------------- Left ----------------*/}
+            <View
+              style={{
+                flexDirection: "column",
+                flexGrow: 1,
+                borderWidth: 1,
+              }}
+            >
+              {/*--------- Top ---------*/}
+              <View>
+                <Text
+                  style={{
+                    padding: 8,
+                    textAlignVertical: "center",
+                    textAlign: "center",
+                  }}
+                  numberOfLines={1}
+                >
+                  Nguyện vọng {indexParent + 1}
+                </Text>
+              </View>
+              {/*--------- Bottom -------*/}
+              <View style={{ borderTopWidth: 1 }}>
+                <Picker
+                  selectedValue={data.NguyenVong[indexParent]}
+                  style={{ height: 40, width: "100%" }}
+                  onValueChange={(itemValue, itemIndex) =>
+                    ChangeMaTruong(indexParent, itemParent, itemValue)
+                  }
+                >
+                  {picker.NguyenVong.map((itemChild, indexChild) => {
+                    return (
+                      !KiemtraNV(itemChild) && (
+                        <Picker.Item
+                          key={indexChild.toString()}
+                          label={
+                            itemChild.MaTruong + ": " + itemChild.TenTruong
+                          }
+                          value={{
+                            IDTruong: itemChild.IDTruong,
+                            MaTruong: itemChild.MaTruong,
+                            TenTruong: itemChild.TenTruong,
+                          }}
+                        />
+                      )
+                    );
+                  })}
+                </Picker>
+              </View>
             </View>
-            {/*--------- Bottom -------*/}
-            <View style={{ borderTopWidth: 1 }}>
-              <Picker
-                selectedValue={data.NguyenVong[indexParent]}
-                style={{ height: 40, width: "100%" }}
-                onValueChange={(itemValue, itemIndex) =>
-                  ChangeMaTruong(indexParent, itemParent, itemValue)
-                }
-              >
-                {picker.NguyenVong.map((itemChild, indexChild) => {
-                  return !KiemtraNV(itemChild) ? (
-                    <Picker.Item
-                      key={indexChild.toString()}
-                      label={itemChild.MaTruong + ": " + itemChild.TenTruong}
-                      value={{
-                        IDTruong: itemChild.IDTruong,
-                        MaTruong: itemChild.MaTruong,
-                        TenTruong: itemChild.TenTruong,
-                      }}
-                    />
-                  ) : null;
-                })}
-              </Picker>
+            {/*------------- Right ----------------*/}
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {/* Chỉ cho phép hiển thị button Thêm NV khi số lượng nguyện vọng đang có 
+              nhỏ hơn số lượng NV trong danh sách (do danh sách NV bao giờ cũng thừa 1 
+              NV rỗng mặc định nên phải trừ đi 1)*/}
+              {data.NguyenVong.length < picker.NguyenVong.length - 1 && (
+                <IconButton
+                  icon="plus"
+                  color={Colors.red500}
+                  size={25}
+                  onPress={() => ThemNV()}
+                />
+              )}
             </View>
           </View>
-          {/*------------- Right ----------------*/}
+        )
+      );
+    });
+  const ListNV_Them = () =>
+    data.NguyenVong.map((itemParent, indexParent) => {
+      return (
+        indexParent !== 0 && (
+          //*Nguyện vọng thêm
           <View
             style={{
-              alignItems: "center",
-              justifyContent: "center",
+              backgroundColor: "#fcf8e8",
+              padding: 5,
+              marginBottom: "2%",
+              flexDirection: "row",
             }}
+            key={indexParent.toString()}
           >
-            <IconButton
-              icon="plus"
-              color={Colors.red500}
-              size={25}
-              onPress={() => ThemNV()}
-            />
-          </View>
-        </View>
-      ) : (
-        //*Nguyện vọng thêm
-        <View
-          style={{
-            backgroundColor: "#fcf8e8",
-            padding: 5,
-            marginBottom: "2%",
-            flexDirection: "row",
-          }}
-          key={indexParent.toString()}
-        >
-          {/*------------- Left ----------------*/}
-          <View
-            style={{
-              flexDirection: "column",
-              flexGrow: 1,
-              borderWidth: 1,
-            }}
-          >
-            {/*--------- Top ---------*/}
-            <View>
-              <Text
-                style={{
-                  padding: 8,
-                  textAlignVertical: "center",
-                  textAlign: "center",
-                }}
-                numberOfLines={1}
-              >
-                Nguyện vọng {indexParent + 1}
-              </Text>
+            {/*------------- Left ----------------*/}
+            <View
+              style={{
+                flexDirection: "column",
+                flexGrow: 1,
+                borderWidth: 1,
+              }}
+            >
+              {/*--------- Top ---------*/}
+              <View>
+                <Text
+                  style={{
+                    padding: 8,
+                    textAlignVertical: "center",
+                    textAlign: "center",
+                  }}
+                  numberOfLines={1}
+                >
+                  Nguyện vọng {indexParent + 1}
+                </Text>
+              </View>
+              {/*--------- Bottom -------*/}
+              <View style={{ borderTopWidth: 1 }}>
+                <Picker
+                  selectedValue={data.NguyenVong[indexParent]}
+                  style={{ height: 40, width: "100%" }}
+                  onValueChange={(itemValue, itemIndex) =>
+                    ChangeMaTruong(indexParent, itemParent, itemValue)
+                  }
+                >
+                  {picker.NguyenVong.map((itemChild, indexChild) => {
+                    return (
+                      !KiemtraNV(itemChild) && (
+                        <Picker.Item
+                          key={indexChild.toString()}
+                          label={
+                            itemChild.MaTruong + ": " + itemChild.TenTruong
+                          }
+                          value={{
+                            IDTruong: itemChild.IDTruong,
+                            MaTruong: itemChild.MaTruong,
+                            TenTruong: itemChild.TenTruong,
+                          }}
+                        />
+                      )
+                    );
+                  })}
+                </Picker>
+              </View>
             </View>
-            {/*--------- Bottom -------*/}
-            <View style={{ borderTopWidth: 1 }}>
-              <Picker
-                selectedValue={data.NguyenVong[indexParent]}
-                style={{ height: 40, width: "100%" }}
-                onValueChange={(itemValue, itemIndex) =>
-                  ChangeMaTruong(indexParent, itemParent, itemValue)
-                }
-              >
-                {picker.NguyenVong.map((itemChild, indexChild) => {
-                  return (
-                    <Picker.Item
-                      key={indexChild.toString()}
-                      label={itemChild.MaTruong + ": " + itemChild.TenTruong}
-                      value={{
-                        IDTruong: itemChild.IDTruong,
-                        MaTruong: itemChild.MaTruong,
-                        TenTruong: itemChild.TenTruong,
-                      }}
-                    />
-                  );
-                })}
-              </Picker>
+            {/*------------- Right ----------------*/}
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <IconButton
+                icon="minus"
+                color={Colors.red500}
+                size={25}
+                onPress={() => XoaNV(indexParent)}
+              />
             </View>
           </View>
-          {/*------------- Right ----------------*/}
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <IconButton
-              icon="minus"
-              color={Colors.red500}
-              size={25}
-              onPress={() => XoaNV(indexParent)}
-            />
-          </View>
-        </View>
+        )
       );
     });
   //#endregion
@@ -1227,6 +1248,10 @@ export default function Trangdangky({ route }) {
   //#region API - Push: Đăng ký
   //* Đăng ký
   const DangKy = async () => {
+    const lstNguyenVongs = data.NguyenVong.map((itemParent, indexParent) => ({
+      ...itemParent,
+      ID: indexParent + 1,
+    }));
     const DataPush = {
       MaHocSinh: data.MaHocSinh || "bbbb", //string
       MatKhau: data.MatKhau || "matkhau", //string
@@ -1252,7 +1277,7 @@ export default function Trangdangky({ route }) {
 
       CoGiaiThuongQuocGia: data.CoGiaiThuongQuocGia,
 
-      lstNguyenVong: data.NguyenVong,
+      lstNguyenVong: lstNguyenVongs,
       lstDoiTuongUuTien: data.DoiTuongUuTien,
       lstFileDinhKem: [],
 
@@ -1297,7 +1322,7 @@ export default function Trangdangky({ route }) {
           );
         });
     } catch (e) {
-      return <Alert title={responseJson.Result.message} type="error" />;
+      console.log(e);
     }
   };
   //#endregion
@@ -1547,7 +1572,11 @@ export default function Trangdangky({ route }) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ width: "100%", height: "100%", backgroundColor: "#eff8ff" }}
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: "#eff8ff",
+      }}
     >
       <ScrollView keyboardDismissMode="on-drag">
         <View style={styles.container}>
@@ -2042,8 +2071,9 @@ export default function Trangdangky({ route }) {
               </View>
               {/* Đăng ký nguyện vọng */}
               <View style={styles.box}>
+                <ListNV_Macdinh />
                 <ScrollView nestedScrollEnabled style={{ maxHeight: 400 }}>
-                  <ListNV />
+                  <ListNV_Them />
                 </ScrollView>
               </View>
             </View>
@@ -2151,17 +2181,21 @@ export default function Trangdangky({ route }) {
                       >
                         <ScrollView
                           nestedScrollEnabled
-                          style={{ maxHeight: 500, padding: 20 }}
+                          style={{
+                            maxHeight: 500,
+                            padding: 20,
+                            paddingBottom: 0,
+                          }}
                         >
                           <DSDoiTuongUuTien />
                         </ScrollView>
-                        <TouchableOpacity
+
+                        <Button
+                          title="Chấp nhận"
+                          size="small"
                           style={{
                             marginTop: 10,
-                            backgroundColor: "#F194FF",
-                            borderRadius: 20,
-                            padding: 10,
-                            elevation: 2,
+                            borderRadius: 25,
                             backgroundColor: "#2196F3",
                           }}
                           onPress={() => {
@@ -2169,16 +2203,8 @@ export default function Trangdangky({ route }) {
                             Them();
                           }}
                         >
-                          <Text
-                            style={{
-                              color: "white",
-                              fontWeight: "bold",
-                              textAlign: "center",
-                            }}
-                          >
-                            Chấp nhận
-                          </Text>
-                        </TouchableOpacity>
+                          Chấp nhận
+                        </Button>
                       </View>
                     </BlurView>
                   </Modal>
@@ -2236,10 +2262,10 @@ export default function Trangdangky({ route }) {
                       icon="camera"
                       color={Colors.red500}
                       size={25}
-                      // onPress={() => console.log(data)}
-                      onPress={() => {
-                        navigation.navigate("Images");
-                      }}
+                      onPress={() => console.log(data)}
+                      // onPress={() => {
+                      //   navigation.navigate("Images");
+                      // }}
                     />
                     {/*--------Camera--------*/}
                     <View
@@ -2666,9 +2692,8 @@ export default function Trangdangky({ route }) {
           </View>
           <View
             style={{
-              height: 10,
-              maxHeight: 80,
-              marginBottom: 40,
+              height: 50,
+              marginBottom: 20,
               width: "100%",
               alignItems: "center",
             }}
@@ -2678,7 +2703,7 @@ export default function Trangdangky({ route }) {
                 <Button
                   round
                   title="Đăng ký"
-                  style={[styles.button, { marginBottom: 40 }]}
+                  style={styles.button}
                   onPress={() => DangKy()}
                 >
                   <Text style={{ color: "white" }}>Đăng ký</Text>
@@ -2720,7 +2745,8 @@ export default function Trangdangky({ route }) {
             style={{
               fontSize: 12.5,
               fontWeight: "bold",
-              color: "#ff4646",
+              // color: "#ff4646",
+              color: "red",
               textAlign: "center",
             }}
           >

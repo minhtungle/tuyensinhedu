@@ -7,7 +7,37 @@ import { Alert } from "../../assets/components/index";
 export function Images(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [alert, setAlert] = useState(false);
-
+  const json = [
+    {
+      id: 1,
+      name: "1",
+    },
+    {
+      id: 2,
+      name: "2",
+    },
+    {
+      id: 3,
+      name: "3",
+    },
+    {
+      id: 4,
+      name: "4",
+    },
+    {
+      id: 5,
+      name: "5",
+    },
+  ];
+  const json1 = [
+    {
+      id: 1,
+      name: "1",
+    },
+  ];
+  const KiemtraNV = (itemChild) => {
+    return json1.some((item) => item.id == itemChild.id);
+  };
   const Type = {
     success: {
       color: "#9CDC78",
@@ -115,6 +145,16 @@ export function Images(props) {
         </View>
       </Modal>
       <Alert title="Hello" visible={alert} type="error"></Alert>
+      {json.map((item, index) => {
+        return (
+          !KiemtraNV(item) && (
+            <Text key={index}>
+              ID: {item.id}
+              {"\n"}Name: {item.name}
+            </Text>
+          )
+        );
+      })}
     </View>
   );
 }

@@ -76,7 +76,7 @@ function Trangchu({ route }) {
             size={18}
             style={{
               backgroundColor: "#FFF",
-              shadowColor: "#c7cfb7",
+              shadowColor: "black",
               shadowOffset: {
                 width: 0,
                 height: 5,
@@ -84,7 +84,7 @@ function Trangchu({ route }) {
               shadowOpacity: 0.5,
               shadowRadius: 8,
 
-              elevation: 10,
+              elevation: 1.5,
             }}
             onPress={() => navigation.goBack()}
           />
