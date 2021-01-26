@@ -144,7 +144,7 @@ export function Images(props) {
           </View>
         </View>
       </Modal>
-      <Alert title="Hello" visible={alert} type="error"></Alert>
+      <Alert title="Hello" type="error"></Alert>
       {json.map((item, index) => {
         return (
           !KiemtraNV(item) && (

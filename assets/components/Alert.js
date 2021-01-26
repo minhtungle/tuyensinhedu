@@ -14,7 +14,7 @@ const Type = (param) => {
         color: "#84AFF7",
         image: "emoticon-wink-outline",
       };
-    case "waring":
+    case "warning":
       return {
         color: "#F8C03E",
         image: "emoticon-tongue-outline",
@@ -83,7 +83,7 @@ export function Alert(props) {
           <View
             style={{
               width: "100%",
-              justifyContent: "center",
+              justifyContent: "flex-start",
               alignItems: "center",
               flex: 1,
               flexDirection: "column",
@@ -106,6 +106,7 @@ export function Alert(props) {
               />
             </View>
             <Text style={styles.title}>{props.title}</Text>
+            <Text style={styles.message}>{props.message}</Text>
           </View>
         </View>
       </View>
@@ -115,7 +116,16 @@ export function Alert(props) {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 30,
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#FFF",
+    flexGrow: 1,
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 4,
+  },
+  message: {
+    fontSize: 15,
     fontWeight: "bold",
     color: "#FFF",
     flexGrow: 1,

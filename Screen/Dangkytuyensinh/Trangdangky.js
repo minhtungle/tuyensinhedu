@@ -110,6 +110,13 @@ export default function Trangdangky({ route }) {
     MailLienHe: "",
     Xacnhanthongtin: false,
   });
+  //#region Alert
+  //* 0: ẩn, 1: thành công, 2: info, -1: thất bại, -2: cảnh báo
+  const [alert, setAlert] = useState(0);
+  //* Thông báo
+  const [message, setMessage] = useState("");
+  //#endregion
+
   //#region DropPicker: Dữ liệu - Thay đổi value khi chọn
   //* Dữ liệu trong dropDown
   const [picker, setPicker] = useState({
@@ -478,36 +485,67 @@ export default function Trangdangky({ route }) {
               backgroundColor: "#d4e2d4",
               padding: 5,
               marginBottom: 15,
-              flexDirection: "row",
+              flexDirection: "column",
+              borderWidth: 1,
             }}
             key={indexParent.toString()}
           >
-            {/*------------- Left ----------------*/}
-            <View
-              style={{
-                flexDirection: "column",
-                flexGrow: 1,
-                borderWidth: 1,
-              }}
-            >
-              {/*--------- Top ---------*/}
-              <View>
+            {/*------------- Top ----------------*/}
+            <View>
+              <Text
+                style={{
+                  padding: 12,
+                  textAlignVertical: "center",
+                  textAlign: "left",
+                  fontWeight: "bold",
+                }}
+              >
                 <Text
                   style={{
-                    padding: 8,
+                    color: "red",
+                  }}
+                >
+                  Mã trường:
+                </Text>{" "}
+                {data.NguyenVong[indexParent].MaTruong} {"\n"}
+                <Text
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  Tên trường:
+                </Text>{" "}
+                {data.NguyenVong[indexParent].TenTruong}
+              </Text>
+            </View>
+            {/*--------- Bottom -------*/}
+            <View
+              style={{
+                flexDirection: "row",
+              }}
+            >
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    padding: 10,
                     textAlignVertical: "center",
                     textAlign: "center",
                   }}
                   numberOfLines={1}
                 >
-                  Nguyện vọng {indexParent + 1}
+                  {indexParent + 1}.
                 </Text>
               </View>
-              {/*--------- Bottom -------*/}
-              <View style={{ borderTopWidth: 1 }}>
+              {/*------------- Left ----------------*/}
+              <View style={{ flexGrow: 1, borderWidth: 1 }}>
                 <Picker
                   selectedValue={data.NguyenVong[indexParent]}
-                  style={{ height: 40, width: "100%" }}
+                  style={{ height: 40, flexGrow: 1 }}
                   onValueChange={(itemValue, itemIndex) =>
                     ChangeMaTruong(indexParent, itemParent, itemValue)
                   }
@@ -531,25 +569,27 @@ export default function Trangdangky({ route }) {
                   })}
                 </Picker>
               </View>
-            </View>
-            {/*------------- Right ----------------*/}
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+              {/*------------- Right ----------------*/}
+
               {/* Chỉ cho phép hiển thị button Thêm NV khi số lượng nguyện vọng đang có 
               nhỏ hơn số lượng NV trong danh sách (do danh sách NV bao giờ cũng thừa 1 
               NV rỗng mặc định nên phải trừ đi 1)*/}
-              {data.NguyenVong.length < picker.NguyenVong.length - 1 && (
-                <IconButton
-                  icon="plus"
-                  color={Colors.red500}
-                  size={25}
-                  onPress={() => ThemNV()}
-                />
-              )}
+
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {data.NguyenVong.length < picker.NguyenVong.length - 1 && (
+                  <IconButton
+                    icon="plus"
+                    color={Colors.red500}
+                    size={25}
+                    onPress={() => ThemNV()}
+                  />
+                )}
+              </View>
             </View>
           </View>
         )
@@ -564,37 +604,68 @@ export default function Trangdangky({ route }) {
             style={{
               backgroundColor: "#fcf8e8",
               padding: 5,
-              marginBottom: "2%",
-              flexDirection: "row",
+              marginBottom: 15,
+              flexDirection: "column",
+              borderWidth: 1,
             }}
             key={indexParent.toString()}
           >
-            {/*------------- Left ----------------*/}
-            <View
-              style={{
-                flexDirection: "column",
-                flexGrow: 1,
-                borderWidth: 1,
-              }}
-            >
-              {/*--------- Top ---------*/}
-              <View>
+            {/*------------- Top ----------------*/}
+            <View>
+              <Text
+                style={{
+                  padding: 12,
+                  textAlignVertical: "center",
+                  textAlign: "left",
+                  fontWeight: "bold",
+                }}
+              >
                 <Text
                   style={{
-                    padding: 8,
+                    color: "red",
+                  }}
+                >
+                  Mã trường:
+                </Text>{" "}
+                {data.NguyenVong[indexParent].MaTruong} {"\n"}
+                <Text
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  Tên trường:
+                </Text>{" "}
+                {data.NguyenVong[indexParent].TenTruong}
+              </Text>
+            </View>
+            {/*--------- Bottom -------*/}
+            <View
+              style={{
+                flexDirection: "row",
+              }}
+            >
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    padding: 10,
                     textAlignVertical: "center",
                     textAlign: "center",
                   }}
                   numberOfLines={1}
                 >
-                  Nguyện vọng {indexParent + 1}
+                  {indexParent + 1}.
                 </Text>
               </View>
-              {/*--------- Bottom -------*/}
-              <View style={{ borderTopWidth: 1 }}>
+              {/*------------- Left ----------------*/}
+              <View style={{ flexGrow: 1, borderWidth: 1 }}>
                 <Picker
                   selectedValue={data.NguyenVong[indexParent]}
-                  style={{ height: 40, width: "100%" }}
+                  style={{ height: 40, flexGrow: 1 }}
                   onValueChange={(itemValue, itemIndex) =>
                     ChangeMaTruong(indexParent, itemParent, itemValue)
                   }
@@ -618,20 +689,20 @@ export default function Trangdangky({ route }) {
                   })}
                 </Picker>
               </View>
-            </View>
-            {/*------------- Right ----------------*/}
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <IconButton
-                icon="minus"
-                color={Colors.red500}
-                size={25}
-                onPress={() => XoaNV(indexParent)}
-              />
+              {/*------------- Right ----------------*/}
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <IconButton
+                  icon="minus"
+                  color={Colors.red500}
+                  size={25}
+                  onPress={() => XoaNV(indexParent)}
+                />
+              </View>
             </View>
           </View>
         )
@@ -1315,14 +1386,13 @@ export default function Trangdangky({ route }) {
         .then((response) => response.json())
         .then((responseJson) => {
           console.log(responseJson.Result);
-          responseJson.Result.status ? (
-            <Alert title={responseJson.Result.message} type="success" />
-          ) : (
-            <Alert title={responseJson.Result.message} type="warning" />
-          );
+          responseJson.Result.status
+            ? (setAlert(1), setMessage(responseJson.Result.message))
+            : (setAlert(-2), setMessage(responseJson.Result.message));
         });
     } catch (e) {
-      console.log(e);
+      //
+      setAlert(-1), setMessage(responseJson.Result.message);
     }
   };
   //#endregion
@@ -2698,7 +2768,7 @@ export default function Trangdangky({ route }) {
               alignItems: "center",
             }}
           >
-            {TrangThai() ? (
+            {!TrangThai() ? (
               <View>
                 <Button
                   round
@@ -2712,9 +2782,16 @@ export default function Trangdangky({ route }) {
               </View>
             ) : null}
           </View>
+          {alert == 0 ? null : alert == 1 ? (
+            <Alert title="Chúc mừng" message={message} type="success"></Alert>
+          ) : alert == -2 ? (
+            <Alert title="Hmmmm" message={message} type="warning"></Alert>
+          ) : (
+            <Alert title="Opps" message={message} type="error"></Alert>
+          )}
         </View>
       </ScrollView>
-      {!TrangThai() && (
+      {TrangThai() && (
         <View
           style={{
             position: "absolute",
