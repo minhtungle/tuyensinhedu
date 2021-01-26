@@ -2,11 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
+  Image,
   ImageBackground,
   StyleSheet,
   Animated,
   StatusBar,
   Dimensions,
+  Easing,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Colors, IconButton } from "react-native-paper";
@@ -44,6 +46,8 @@ export default function Dangnhap() {
   const [data, setData] = useState({
     Tinh: "Chọn Tỉnh/Thành phố",
   });
+
+  //#region Picker
   const [picker, setPicker] = useState({
     IDTinh: [
       {
@@ -52,7 +56,6 @@ export default function Dangnhap() {
       },
     ],
   });
-  console.log(data.Tinh);
   //* Chọn giá trị cho Picker
   const changeValuePicker = (arg) => {
     setData((prevState) => ({
@@ -60,6 +63,8 @@ export default function Dangnhap() {
       ...arg,
     }));
   };
+  //#endregion
+
   //#region API - Call
   //* Tỉnh:
   useEffect(() => {
@@ -101,9 +106,9 @@ export default function Dangnhap() {
   }, [0]);
   //#endregion
 
-  return (
-    <View style={styles.container}>
-      {data.Tinh !== "Chọn Tỉnh/Thành phố" ? (
+  //#region text - Banner
+  {
+    /* {data.Tinh !== "Chọn Tỉnh/Thành phố" ? (
         <Banner>
           <Text
             style={{
@@ -111,7 +116,7 @@ export default function Dangnhap() {
               textAlign: "center",
               margin: 10,
               position: "absolute",
-              top: height / 5,
+              top: 10,
               alignSelf: "center",
               fontWeight: "bold",
               color: "#FFF",
@@ -131,7 +136,7 @@ export default function Dangnhap() {
             textAlign: "center",
             margin: 10,
             position: "absolute",
-            top: height / 5,
+            top: 10,
             alignSelf: "center",
             fontWeight: "bold",
             color: "#FFF",
@@ -142,65 +147,98 @@ export default function Dangnhap() {
         >
           Vui lòng chọn tỉnh/thành phố bạn muốn tra cứu
         </Text>
-      )}
+      )} */
+  }
 
+  //#endregion
+  return (
+    <View style={styles.container}>
       <ImageBackground
         source={require("../../assets/background.png")}
         style={{
           width: "100%",
           height: "100%",
-
           alignItems: "center",
-          justifyContent: "center",
           zIndex: -1,
         }}
         blurRadius={1.5}
       >
         <StatusBar hidden />
+        <View
+          style={{
+            width: "100%",
+            height: height / 3,
+            alignItems: "center",
+            justifyContent: "center",
 
-        <View style={[styles.field, { marginHorizontal: 10 }]}>
-          {data.Tinh == "Chọn Tỉnh/Thành phố" ? null : (
-            <View style={styles.label}>
-              <IconButton
-                style={{ backgroundColor: "#61b15a" }}
-                icon="check"
-                color="#FFFF"
-                size={10}
-              />
-            </View>
-          )}
-          <Picker
-            selectedValue={data.Tinh}
-            style={styles.picker}
-            onValueChange={(itemValue, itemIndex) =>
-              changeValuePicker({ Tinh: itemValue })
-            }
-            dropdownIconColor={
-              data.IDTinh == "" || null ? Colors.red500 : "#61b15a"
-            }
-          >
-            {picker.IDTinh.map((item, index) => {
-              return (
-                <Picker.Item
-                  key={index.toString()}
-                  label={item.name}
-                  value={item.name}
-                />
-              );
-            })}
-          </Picker>
+            borderWidth: 1,
+            borderColor: "white",
+          }}
+        >
+          <Image
+            source={require("../../assets/logo.png")}
+            style={{
+              borderRadius: 100,
+              width: 200,
+              height: 200,
+            }}
+          />
         </View>
-        {data.Tinh !== "Chọn Tỉnh/Thành phố" && (
-          <Button
-            round
-            style={styles.button}
-            onPress={() =>
-              navigation.navigate("Trang chủ", { Tinh: data.Tinh })
-            }
-          >
-            Đăng nhập
-          </Button>
-        )}
+        <View
+          style={{
+            width: "100%",
+            height: height / 3,
+            alignItems: "center",
+            justifyContent: "center",
+
+            borderWidth: 1,
+            borderColor: "white",
+          }}
+        >
+          <View style={[styles.field, { marginHorizontal: 10 }]}>
+            {data.Tinh == "Chọn Tỉnh/Thành phố" ? null : (
+              <View style={styles.label}>
+                <IconButton
+                  style={{ backgroundColor: "#61b15a" }}
+                  icon="check"
+                  color="#FFFF"
+                  size={10}
+                />
+              </View>
+            )}
+            <Picker
+              selectedValue={data.Tinh}
+              style={styles.picker}
+              onValueChange={(itemValue, itemIndex) =>
+                changeValuePicker({ Tinh: itemValue })
+              }
+              dropdownIconColor={
+                data.IDTinh == "" || null ? Colors.red500 : "#61b15a"
+              }
+            >
+              {picker.IDTinh.map((item, index) => {
+                return (
+                  <Picker.Item
+                    key={index.toString()}
+                    label={item.name}
+                    value={item.name}
+                  />
+                );
+              })}
+            </Picker>
+          </View>
+          {data.Tinh !== "Chọn Tỉnh/Thành phố" && (
+            <Button
+              round
+              style={styles.button}
+              onPress={() =>
+                navigation.navigate("Trang chủ", { Tinh: data.Tinh })
+              }
+            >
+              Đăng nhập
+            </Button>
+          )}
+        </View>
       </ImageBackground>
     </View>
   );

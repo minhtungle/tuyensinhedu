@@ -2768,7 +2768,7 @@ export default function Trangdangky({ route }) {
               alignItems: "center",
             }}
           >
-            {!TrangThai() ? (
+            {TrangThai() ? (
               <View>
                 <Button
                   round
@@ -2791,7 +2791,7 @@ export default function Trangdangky({ route }) {
           )}
         </View>
       </ScrollView>
-      {TrangThai() && (
+      {!TrangThai() && (
         <View
           style={{
             position: "absolute",
