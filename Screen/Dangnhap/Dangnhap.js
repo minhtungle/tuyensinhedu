@@ -170,9 +170,6 @@ export default function Dangnhap() {
             height: height / 3,
             alignItems: "center",
             justifyContent: "center",
-
-            borderWidth: 1,
-            borderColor: "white",
           }}
         >
           <Image
@@ -190,9 +187,6 @@ export default function Dangnhap() {
             height: height / 3,
             alignItems: "center",
             justifyContent: "center",
-
-            borderWidth: 1,
-            borderColor: "white",
           }}
         >
           <View style={[styles.field, { marginHorizontal: 10 }]}>
