@@ -1,15 +1,6 @@
-import CheckBox from "@react-native-community/checkbox";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { Picker } from "@react-native-picker/picker";
-import { useNavigation } from "@react-navigation/native";
-import * as ImagePicker from "expo-image-picker";
-import RadioButtonRN from "radio-buttons-react-native";
-import { Button } from "galio-framework";
-import { Alert } from "../../assets/components/index";
-import { BlurView } from "expo-blur";
-
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Image,
   KeyboardAvoidingView,
   Modal,
@@ -21,8 +12,21 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { BlurView } from "expo-blur";
+import CheckBox from "@react-native-community/checkbox";
+import { Picker } from "@react-native-picker/picker";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import * as ImagePicker from "expo-image-picker";
+import RadioButtonRN from "radio-buttons-react-native";
+import { Button } from "galio-framework";
 import { Colors, IconButton } from "react-native-paper";
 
+import FlashMessage from "react-native-flash-message";
+import { showMessage, hideMessage } from "react-native-flash-message";
+
+//* Hàm xử lý picker ngày tháng
 function useInput() {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
@@ -49,6 +53,7 @@ function useInput() {
     onChange,
   };
 }
+//* hàm chuyển đổi ngày tháng
 const date = require("s-date");
 export default function Trangdangky({ route }) {
   const { DoiTuongTuyenSinh, IDKyThi } = route.params;
@@ -110,6 +115,7 @@ export default function Trangdangky({ route }) {
     MailLienHe: "",
     Xacnhanthongtin: false,
   });
+
   //#region Alert
   //* 0: ẩn, 1: thành công, 2: info, -1: thất bại, -2: cảnh báo
   const [alert, setAlert] = useState(0);
@@ -571,8 +577,8 @@ export default function Trangdangky({ route }) {
               </View>
               {/*------------- Right ----------------*/}
 
-              {/* Chỉ cho phép hiển thị button Thêm NV khi số lượng nguyện vọng đang có 
-              nhỏ hơn số lượng NV trong danh sách (do danh sách NV bao giờ cũng thừa 1 
+              {/* Chỉ cho phép hiển thị button Thêm NV khi số lượng nguyện vọng đang có
+              nhỏ hơn số lượng NV trong danh sách (do danh sách NV bao giờ cũng thừa 1
               NV rỗng mặc định nên phải trừ đi 1)*/}
 
               <View
@@ -1387,12 +1393,27 @@ export default function Trangdangky({ route }) {
         .then((responseJson) => {
           console.log(responseJson.Result);
           responseJson.Result.status
-            ? (setAlert(1), setMessage(responseJson.Result.message))
-            : (setAlert(-2), setMessage(responseJson.Result.message));
+            ? showMessage({
+                message: "Đăng ký thành công",
+                description: `${responseJson.Result}`,
+                duration: 3000,
+                type: "success",
+              })
+            : showMessage({
+                message: "Đăng ký thất bại",
+                description: `${responseJson.Result}`,
+                duration: 3000,
+                type: "warning",
+              });
         });
     } catch (e) {
       //
-      setAlert(-1), setMessage(responseJson.Result.message);
+      showMessage({
+        message: "Đăng ký thất bại",
+        description: `${responseJson.Result}`,
+        duration: 3000,
+        type: "error",
+      });
     }
   };
   //#endregion
@@ -2782,15 +2803,29 @@ export default function Trangdangky({ route }) {
               </View>
             ) : null}
           </View>
-          {alert == 0 ? null : alert == 1 ? (
-            <Alert title="Chúc mừng" message={message} type="success"></Alert>
-          ) : alert == -2 ? (
-            <Alert title="Hmmmm" message={message} type="warning"></Alert>
-          ) : (
-            <Alert title="Opps" message={message} type="error"></Alert>
-          )}
         </View>
       </ScrollView>
+      <FlashMessage
+        autoHide={false}
+        position="top"
+        statusBarHeight={0}
+        style={{
+          borderWidth: 1,
+        }}
+        titleStyle={{
+          marginTop: -10,
+          padding: 10,
+          fontSize: 20,
+          textAlign: "center",
+          alignSelf: "center",
+          borderWidth: 1,
+        }}
+        textStyle={{
+          fontSize: 16,
+          textAlign: "center",
+          borderWidth: 1,
+        }}
+      />
       {!TrangThai() && (
         <View
           style={{
