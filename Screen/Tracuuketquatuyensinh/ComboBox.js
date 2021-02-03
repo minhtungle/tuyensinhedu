@@ -8,13 +8,13 @@ import {
   Platform,
   Keyboard,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import CheckBox from "@react-native-community/checkbox";
 import { Button } from "galio-framework";
 import Inputs from "./Input";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
 import { Colors } from "react-native-paper";
-
-import { useNavigation } from "@react-navigation/native";
 
 export default function ComboBox() {
   //* State :
@@ -57,14 +57,20 @@ export default function ComboBox() {
       default:
         break;
     }
-    const URL = `http://tuyensinh.huongvietedm.vn/api/TSAPIService/tracuuketqua?type=${type}&mahoso=${mahoso}&mahocsinh=${mahocsinh}&matkhau=${matkhau}&sbd=${sbd}`;
-
-    await fetch(URL)
+    // console.log(type, mahoso, mahocsinh, matkhau, sbd);
+    //! Không nên để await ở trước fetch trong điều kiện này bởi vì nó sẽ bắt phải ấn tra cứu 1 lần nữa để gọi vào hàm fetch
+    fetch(
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/tracuuketqua?type=${type}&mahoso=${mahoso}&mahocsinh=${mahocsinh}&matkhau=${matkhau}&sbd=${sbd}`
+    )
       .then((response) => response.json())
       .then((responseJson) => {
         let result = responseJson.Result.data;
-        setData(result);
-        setStatus(true);
+        result === null || undefined || ""
+          ? (Alert.alert(
+              "Không tồn tại kết quả tra cứu ! Vui lòng kiểm tra lại thông tin đã nhập "
+            ),
+            setLoading(false))
+          : (setData(result), setStatus(true), console.log(data));
       })
       .catch(() => {
         setStatus(false),
