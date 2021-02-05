@@ -9,22 +9,23 @@ import {
   Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import AnimatedEllipsis from "react-native-animated-ellipsis";
 import CheckBox from "@react-native-community/checkbox";
 import { Button } from "galio-framework";
 import Inputs from "./Input";
-import { Colors } from "react-native-paper";
 
 export default function ComboBox() {
   //* State :
   const navigation = useNavigation();
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const [checkboxValue, setCheckboxValue] = useState([
     {
       label: "Mã hồ sơ tuyển sinh",
       value1: "",
       type: "1",
-      checked: true,
+      checked: false,
     },
     { label: "Mã học sinh", value1: "", value2: "", type: "2", checked: false },
     {
@@ -38,6 +39,7 @@ export default function ComboBox() {
   //#region API
   //* Lấy API
   const getApi = async (type, value1, value2) => {
+    setLoading(true);
     let mahoso = "",
       mahocsinh = "",
       matkhau = "",
@@ -75,6 +77,7 @@ export default function ComboBox() {
         );
         setData(null);
       });
+    setLoading(false);
   };
   //#endregion
 
@@ -150,9 +153,18 @@ export default function ComboBox() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      {data !== null && (
+      {loading && (
         <View style={{ position: "absolute", top: 5 }}>
-          <Text>{JSON.stringify(data)}</Text>
+          <AnimatedEllipsis
+            numberOfDots={3}
+            minOpacity={0.4}
+            animationDelay={200}
+            style={{
+              color: "#61b15a",
+              fontSize: 100,
+              letterSpacing: -15,
+            }}
+          />
         </View>
       )}
       <View style={styles.block}>
@@ -183,11 +195,22 @@ export default function ComboBox() {
               round
               style={styles.button}
               color="#61b15a"
-              onPress={Tracuu}
+              onPress={() => {
+                Keyboard.dismiss();
+                Tracuu();
+              }}
             >
               Tra cứu
             </Button>
           )}
+          <Button
+            round
+            style={styles.button}
+            color="#61b15a"
+            onPress={() => console.log(data)}
+          >
+            Data
+          </Button>
         </View>
       </View>
     </KeyboardAvoidingView>
