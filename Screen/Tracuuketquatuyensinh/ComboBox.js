@@ -13,13 +13,12 @@ import { useNavigation } from "@react-navigation/native";
 import CheckBox from "@react-native-community/checkbox";
 import { Button } from "galio-framework";
 import Inputs from "./Input";
-import AnimatedEllipsis from "react-native-animated-ellipsis";
 import { Colors } from "react-native-paper";
 
 export default function ComboBox() {
   //* State :
   const navigation = useNavigation();
-  const [data, setData] = useState();
+  const [data, setData] = useState(null);
   const [checkboxValue, setCheckboxValue] = useState([
     {
       label: "Mã hồ sơ tuyển sinh",
@@ -35,8 +34,8 @@ export default function ComboBox() {
       checked: false,
     },
   ]);
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState();
+
+  //#region API
   //* Lấy API
   const getApi = async (type, value1, value2) => {
     let mahoso = "",
@@ -57,9 +56,7 @@ export default function ComboBox() {
       default:
         break;
     }
-    // console.log(type, mahoso, mahocsinh, matkhau, sbd);
-    //! Không nên để await ở trước fetch trong điều kiện này bởi vì nó sẽ bắt phải ấn tra cứu 1 lần nữa để gọi vào hàm fetch
-    fetch(
+    await fetch(
       `http://tuyensinh.huongvietedm.vn/api/TSAPIService/tracuuketqua?type=${type}&mahoso=${mahoso}&mahocsinh=${mahocsinh}&matkhau=${matkhau}&sbd=${sbd}`
     )
       .then((response) => response.json())
@@ -69,53 +66,19 @@ export default function ComboBox() {
           ? (Alert.alert(
               "Không tồn tại kết quả tra cứu ! Vui lòng kiểm tra lại thông tin đã nhập "
             ),
-            setLoading(false))
-          : (setData(result), setStatus(true), console.log(data));
+            setData(null))
+          : setData(result);
       })
       .catch(() => {
-        setStatus(false),
-          setLoading(false),
-          Alert.alert(
-            "Không tồn tại kết quả tra cứu ! Vui lòng kiểm tra lại thông tin đã nhập "
-          );
+        Alert.alert(
+          "Không tồn tại kết quả tra cứu ! Vui lòng kiểm tra lại thông tin đã nhập "
+        );
+        setData(null);
       });
   };
-  //TODO Kiểm tra lại điều kiện chỗ checkboxValue[1] tại sao chỉ check null của ô 1
-  //* Kiểm tra value tại ô đó có rỗng không
-  const EmptyOrNot = (i) => {
-    return i == 0 || 2
-      ? checkboxValue[i].value1 == ""
-        ? true
-        : false
-      : checkboxValue[i].value1 == "" || checkboxValue[i].value2 == ""
-      ? true
-      : false;
-  };
+  //#endregion
 
-  //* Sự kiện cho nút Tra cứu
-  const onSubmit = () => {
-    let type = "",
-      value1 = "",
-      value2 = "";
-
-    let check = false; // Khi có box được check
-    let status = false; // Khi thông tin nhập đầy đủ
-
-    for (var i = 0; i < checkboxValue.length; i++) {
-      if (checkboxValue[i].checked) {
-        check = true;
-        EmptyOrNot(i)
-          ? (status = false)
-          : ((type = checkboxValue[i].type),
-            (value1 = checkboxValue[i].value1),
-            (value2 = checkboxValue[i].value2),
-            getApi(type, value1, value2),
-            (status = true));
-      }
-    }
-    // return check ? (status ? true : false) : false;
-    return { check, status };
-  };
+  //#region Xử lý điều kiện ô nhập
   //* Cập nhật value
   const updateValue = (value, valueIndex) => {
     const newValue = checkboxValue.map((checkbox, i) => {
@@ -154,26 +117,44 @@ export default function ComboBox() {
     });
     setCheckboxValue(newValue);
   };
+  //TODO Kiểm tra lại điều kiện chỗ checkboxValue[1] tại sao chỉ check null của ô 1
+  //* Kiểm tra value tại ô đó có rỗng không
+  const EmptyOrNot = (i) => {
+    return i == 0 || 2
+      ? checkboxValue[i].value1 == ""
+        ? true
+        : false
+      : checkboxValue[i].value1 == "" || checkboxValue[i].value2 == ""
+      ? true
+      : false;
+  };
+  //#endregion
+  //* Tra cứu
+  const Tracuu = () => {
+    for (var i = 0; i < checkboxValue.length; i++) {
+      if (checkboxValue[i].checked) {
+        if (EmptyOrNot(i)) {
+          return Alert.alert("Mời bạn nhập đầy đủ thông tin trước khi tra cứu");
+        }
+        return getApi(
+          checkboxValue[i].type,
+          checkboxValue[i].value1,
+          checkboxValue[i].value2
+        );
+      }
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      {loading && (
+      {data !== null && (
         <View style={{ position: "absolute", top: 5 }}>
-          <AnimatedEllipsis
-            numberOfDots={3}
-            minOpacity={0.4}
-            animationDelay={200}
-            style={{
-              color: "#61b15a",
-              fontSize: 100,
-              letterSpacing: -15,
-            }}
-          />
+          <Text>{JSON.stringify(data)}</Text>
         </View>
       )}
-
       <View style={styles.block}>
         <View style={styles.checkBoxContainer}>
           {/* Checkbox */}
@@ -197,33 +178,16 @@ export default function ComboBox() {
         <View
           style={[styles.inputContainer, { borderSize: 0, borderColor: "" }]}
         >
-          <Button
-            round
-            style={styles.button}
-            color="#61b15a"
-            onPress={() => {
-              let submit = onSubmit();
-              Keyboard.dismiss();
-              submit.check
-                ? submit.status
-                  ? (setLoading(true),
-                    setTimeout(() => {
-                      status
-                        ? (setLoading(false),
-                          navigation.navigate("Ketqua", {
-                            data: data,
-                          }))
-                        : null;
-                    }, 5000))
-                  : Alert.alert(
-                      "Mời bạn nhập đầy đủ thông tin trước khi tra cứu"
-                    )
-                : Alert.alert("Mời bạn chọn loại tra cứu trước");
-            }}
-            // onPress={() => navigation.navigate("Images")}
-          >
-            Tra cứu
-          </Button>
+          {checkboxValue.some((item) => item.checked) && (
+            <Button
+              round
+              style={styles.button}
+              color="#61b15a"
+              onPress={Tracuu}
+            >
+              Tra cứu
+            </Button>
+          )}
         </View>
       </View>
     </KeyboardAvoidingView>
