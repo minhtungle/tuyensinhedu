@@ -51,13 +51,7 @@ function Trangchu({ route }) {
             justifyContent: "center",
           }}
         >
-          <IconButton
-            icon="factory"
-            color={Colors.red500}
-            size={16}
-            style={{}}
-            onPress={() => {}}
-          />
+          <IconButton icon="factory" color={Colors.red500} size={16} />
           <Text
             style={{
               fontSize: 12.5,

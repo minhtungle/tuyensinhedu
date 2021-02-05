@@ -7,19 +7,23 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  Dimensions,
+  Animated,
+  Easing,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
 import CheckBox from "@react-native-community/checkbox";
 import { Button } from "galio-framework";
 import Inputs from "./Input";
+import Ketqua from "./Ketqua";
+
+const screen_height = Dimensions.get("window").height;
+const screen_width = Dimensions.get("window").width;
 
 export default function ComboBox() {
   //* State :
-  const navigation = useNavigation();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-
   const [checkboxValue, setCheckboxValue] = useState([
     {
       label: "Mã hồ sơ tuyển sinh",
@@ -36,6 +40,23 @@ export default function ComboBox() {
     },
   ]);
 
+  const position = useState(new Animated.Value(0))[0];
+  const Appear = () => {
+    Animated.timing(position, {
+      toValue: -screen_height,
+      duration: 1000,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
+  };
+  const Disapear = () => {
+    Animated.timing(position, {
+      toValue: 0,
+      duration: 1000,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
+  };
   //#region API
   //* Lấy API
   const getApi = async (type, value1, value2) => {
@@ -132,6 +153,7 @@ export default function ComboBox() {
       : false;
   };
   //#endregion
+
   //* Tra cứu
   const Tracuu = () => {
     for (var i = 0; i < checkboxValue.length; i++) {
@@ -167,62 +189,114 @@ export default function ComboBox() {
           />
         </View>
       )}
-      <View style={styles.block}>
-        <View style={styles.checkBoxContainer}>
-          {/* Checkbox */}
-          {checkboxValue.map((checkbox, i) => (
-            <View key={i} style={styles.perCheckContainer}>
-              <CheckBox
-                style={styles.checkbox}
-                value={checkbox.checked}
-                tintColors={{ true: "#61b15a", false: "#008577" }}
-                onValueChange={(value) => checkboxHandler(value, i)}
-              />
-              <Text style={styles.label}>{"" + checkbox.label + ""}</Text>
+      <Animated.View
+        style={[
+          styles.main,
+          {
+            transform: [
+              {
+                translateY: position,
+              },
+            ],
+          },
+        ]}
+      >
+        <View style={styles.top}>
+          <View style={styles.block}>
+            <View style={styles.checkBoxContainer}>
+              {/* Checkbox */}
+              {checkboxValue.map((checkbox, i) => (
+                <View key={i} style={styles.perCheckContainer}>
+                  <CheckBox
+                    style={styles.checkbox}
+                    value={checkbox.checked}
+                    tintColors={{ true: "#61b15a", false: "#008577" }}
+                    onValueChange={(value) => checkboxHandler(value, i)}
+                  />
+                  <Text style={styles.label}>{"" + checkbox.label + ""}</Text>
+                </View>
+              ))}
             </View>
-          ))}
-        </View>
-        {/* Input */}
-        <View style={styles.inputContainer}>
-          <Inputs checkboxValue={checkboxValue} updateValue={updateValue} />
-        </View>
-        {/* Button */}
-        <View
-          style={[styles.inputContainer, { borderSize: 0, borderColor: "" }]}
-        >
-          {checkboxValue.some((item) => item.checked) && (
-            <Button
-              round
-              style={styles.button}
-              color="#61b15a"
-              onPress={() => {
-                Keyboard.dismiss();
-                Tracuu();
-              }}
+            {/* Input */}
+            <View style={styles.inputContainer}>
+              <Inputs checkboxValue={checkboxValue} updateValue={updateValue} />
+            </View>
+            {/* Button */}
+            <View
+              style={[
+                styles.inputContainer,
+                { borderSize: 0, borderColor: "" },
+              ]}
             >
-              Tra cứu
-            </Button>
-          )}
+              {checkboxValue.some((item) => item.checked) && (
+                <Button
+                  round
+                  style={styles.button}
+                  color="#61b15a"
+                  onPress={() => {
+                    Keyboard.dismiss();
+                    Tracuu();
+                  }}
+                >
+                  Tra cứu
+                </Button>
+              )}
+              <Button
+                round
+                style={styles.button}
+                color="#61b15a"
+                onPress={() => console.log(data)}
+              >
+                Data
+              </Button>
+              <Button
+                round
+                style={styles.button}
+                color="#61b15a"
+                onPress={Appear}
+              >
+                Move
+              </Button>
+            </View>
+          </View>
+        </View>
+        <View style={styles.bottom}>
+          {data !== null && <Ketqua data={data} disapear={Disapear()} />}
           <Button
             round
             style={styles.button}
             color="#61b15a"
-            onPress={() => console.log(data)}
+            onPress={Disapear}
           >
-            Data
+            Disapear
           </Button>
         </View>
-      </View>
+      </Animated.View>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
+    flex: 1,
+  },
+  main: {
+    width: screen_width * 2,
+    height: screen_height * 2,
+  },
+  top: {
+    width: screen_width,
+    height: screen_height,
+
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#eff8ff",
+  },
+  bottom: {
+    width: screen_width,
+    height: screen_height,
+    // alignItems: "center",
+    // justifyContent: "center",
     backgroundColor: "#eff8ff",
   },
   block: {

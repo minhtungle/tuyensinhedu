@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { Text, StyleSheet, View, ScrollView } from "react-native";
+import { Button } from "galio-framework";
 
-export default function Ketqua({ route }) {
-  const { data } = route.params;
+export default function Ketqua(props) {
+  const { data, Disapear } = props;
   return (
     <ScrollView style={styles.container}>
       <View style={styles.title1}>
