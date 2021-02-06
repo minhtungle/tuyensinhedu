@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, SafeAreaView } from "react-native";
 import DataWithSearchBar from "./DataWithSearchBar";
 
 function Quydinhtuyensinh() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.block}>
         <DataWithSearchBar />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

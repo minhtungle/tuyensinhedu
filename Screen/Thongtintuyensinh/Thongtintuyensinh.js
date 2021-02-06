@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  SafeAreaView,
 } from "react-native";
 import { Colors, IconButton } from "react-native-paper";
 
@@ -308,7 +309,7 @@ export default function Thongtintuyensinh() {
     );
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.block}>
         {/*// Tỉnh thành phố */}
         <View style={[styles.field, { zIndex: 11003 }]}>
@@ -567,7 +568,7 @@ export default function Thongtintuyensinh() {
           </Modal>
         </View>
       ) : null}
-    </View>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
+  SafeAreaView,
   Text,
   Image,
   ImageBackground,
@@ -152,7 +153,7 @@ export default function Dangnhap() {
 
   //#endregion
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ImageBackground
         source={require("../../assets/background.png")}
         style={{
@@ -234,7 +235,7 @@ export default function Dangnhap() {
           )}
         </View>
       </ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Modal,
   Platform,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -1661,648 +1662,1100 @@ export default function Trangdangky({ route }) {
   };
   //#endregion
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    <SafeAreaView
       style={{
         width: "100%",
         height: "100%",
         backgroundColor: "#eff8ff",
       }}
     >
-      <ScrollView keyboardDismissMode="on-drag">
-        <View style={styles.container}>
-          {/* -------------Thông tin học sinh------------- */}
-          <View style={styles.block}>
-            <View
-              style={{
-                backgroundColor: "white",
-                paddingTop: 5,
-                borderColor: "white",
-                borderRadius: 15,
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{
+          width: "100%",
+          height: "100%",
+          backgroundColor: "#eff8ff",
+        }}
+      >
+        <ScrollView keyboardDismissMode="on-drag">
+          <View style={styles.container}>
+            {/* -------------Thông tin học sinh------------- */}
+            <View style={styles.block}>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  paddingTop: 5,
+                  borderColor: "white",
+                  borderRadius: 15,
 
-                margin: 20,
-                padding: "5%",
+                  margin: 20,
+                  padding: "5%",
 
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 5,
-                },
-                shadowOpacity: 0.34,
-                shadowRadius: 6.27,
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 5,
+                  },
+                  shadowOpacity: 0.34,
+                  shadowRadius: 6.27,
 
-                elevation: 10,
-              }}
-            >
-              <View style={styles.title}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    color: "#145374",
-                    width: "100%",
-                    textAlign: "center",
-                  }}
-                  numberOfLines={1}
-                >
-                  Thông tin học sinh
-                </Text>
-              </View>
-              <View style={styles.box}>
-                {/* Mã học sinh */}
-                <View style={styles.field}>
-                  <Text>
-                    Mã học sinh <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ MaHocSinh: value })
-                    }
-                  >
-                    {data.MaHocSinh}
-                  </TextInput>
-                </View>
-                {/* Mật khẩu */}
-                <View style={[styles.field, { marginBottom: "5%" }]}>
-                  <Text>
-                    Mật khẩu <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <View
+                  elevation: 10,
+                }}
+              >
+                <View style={styles.title}>
+                  <Text
                     style={{
-                      flexDirection: "row",
-                      borderLeftWidth: 0.5,
-                      borderBottomWidth: 0.5,
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: "#145374",
+                      width: "100%",
+                      textAlign: "center",
                     }}
+                    numberOfLines={1}
                   >
+                    Thông tin học sinh
+                  </Text>
+                </View>
+                <View style={styles.box}>
+                  {/* Mã học sinh */}
+                  <View style={styles.field}>
+                    <Text>
+                      Mã học sinh <Text style={{ color: "red" }}>*</Text>
+                    </Text>
                     <TextInput
-                      style={{
-                        flexGrow: 1,
-                        alignSelf: "center",
-
-                        fontSize: 18,
-
-                        paddingLeft: 5,
-                      }}
-                      secureTextEntry={secureTextEntry}
+                      style={styles.textInput}
                       onChangeText={(value) =>
-                        changeValuePicker({ MatKhau: value })
+                        changeValuePicker({ MaHocSinh: value })
                       }
                     >
-                      {data.MatKhau}
+                      {data.MaHocSinh}
                     </TextInput>
-                    <IconButton
-                      icon="eye"
-                      color={Colors.red500}
-                      size={18}
-                      onPress={() => setSecureTextEntry(!secureTextEntry)}
-                    />
                   </View>
-                </View>
-                {/* Họ và tên */}
-                <View style={styles.field}>
-                  <Text>
-                    Họ và tên <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ HoTen: value })
-                    }
-                  >
-                    {data.HoTen}
-                  </TextInput>
-                </View>
-                {/* Ngày sinh */}
-                <View style={styles.field}>
-                  <Text>
-                    Ngày sinh <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      borderLeftWidth: 0.5,
-                      borderBottomWidth: 0.5,
-                    }}
-                  >
-                    <Text
+                  {/* Mật khẩu */}
+                  <View style={[styles.field, { marginBottom: "5%" }]}>
+                    <Text>
+                      Mật khẩu <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <View
                       style={{
-                        flexGrow: 1,
-                        alignSelf: "center",
-                        fontSize: 18,
-                        paddingLeft: 5,
+                        flexDirection: "row",
+                        borderLeftWidth: 0.5,
+                        borderBottomWidth: 0.5,
                       }}
                     >
-                      {date("{dd}/{mm}/{yyyy}", inputCon.date)}
-                    </Text>
-                    <IconButton
-                      icon="calendar"
-                      color={Colors.red500}
-                      size={18}
-                      onPress={inputCon.showDatepicker}
-                    />
-                    {inputCon.show && (
-                      <DateTimePicker
-                        testID="Con"
-                        value={inputCon.date}
-                        mode={inputCon.mode}
-                        is24Hour={true}
-                        display="default"
-                        onChange={inputCon.onChange}
-                      />
-                    )}
-                  </View>
-                </View>
-                {/* Dân tộc */}
-                <View style={styles.field}>
-                  <Text>
-                    Dân tộc <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <Picker
-                    selectedValue={data.DanToc}
-                    style={{ height: 50, width: "100%" }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      changeValuePicker({ DanToc: itemValue })
-                    }
-                  >
-                    {picker.DanToc.map((item, index) => {
-                      return (
-                        <Picker.Item
-                          key={index.toString()}
-                          label={item.name}
-                          value={item.name}
-                        />
-                      );
-                    })}
-                  </Picker>
-                </View>
-                {/* Giới tính */}
-                <View style={styles.field}>
-                  <Text>Giới tính</Text>
-                  <RadioButtonRN
-                    data={[
-                      {
-                        label: "Nữ",
-                        status: false,
-                      },
-                      {
-                        label: "Nam",
-                        status: true,
-                      },
-                    ]}
-                    circleSize={10}
-                    activeColor="#61b15a"
-                    style={styles.radioButton}
-                    selectedBtn={(e) =>
-                      changeValuePicker({ GioiTinh: e.status })
-                    }
-                  />
-                </View>
-                {/*//? NƠI SINH ---------------------------------*/}
-                <Text
-                  style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
-                >
-                  NƠI SINH :
-                </Text>
-                {/*// Tỉnh thành phố */}
-                <View style={styles.field}>
-                  <Text>
-                    Chọn tỉnh/thành phố <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <Picker
-                    selectedValue={data.IDTinhNS}
-                    style={{ height: 50, width: "100%" }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      changeValuePicker({ IDTinhNS: itemValue })
-                    }
-                  >
-                    {picker.IDTinhNS.map((item, index) => {
-                      return (
-                        <Picker.Item
-                          key={index.toString()}
-                          label={item.name}
-                          value={item.id}
-                        />
-                      );
-                    })}
-                  </Picker>
-                </View>
-                {/*// Quận huyện */}
-                <View style={styles.field}>
-                  <Text>
-                    Chọn quận/huyện <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <Picker
-                    selectedValue={data.IDHuyenNS}
-                    style={{ height: 50, width: "100%" }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      changeValuePicker({ IDHuyenNS: itemValue })
-                    }
-                  >
-                    {picker.IDHuyenNS.map((item, index) => {
-                      return (
-                        <Picker.Item
-                          key={index.toString()}
-                          label={item.name}
-                          value={item.id}
-                        />
-                      );
-                    })}
-                  </Picker>
-                </View>
-                {/*// Phường xã */}
-                <View style={styles.field}>
-                  <Text>
-                    Chọn phường/xã <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <Picker
-                    selectedValue={data.IDXaNS}
-                    style={{ height: 50, width: "100%" }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      changeValuePicker({ IDXaNS: itemValue })
-                    }
-                  >
-                    {picker.IDXaNS.map((item, index) => {
-                      return (
-                        <Picker.Item
-                          key={index.toString()}
-                          label={item.name}
-                          value={item.id}
-                        />
-                      );
-                    })}
-                  </Picker>
-                </View>
-                {/*// Số nhà đường */}
-                <View style={styles.field}>
-                  <Text>Số nhà, đường</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ DiaChiNS: value })
-                    }
-                  >
-                    {data.DiaChiNS}
-                  </TextInput>
-                </View>
-
-                {/*//? HỘ KHẨU THƯỜNG TRÚ ---------------------------------*/}
-                <Text
-                  style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
-                >
-                  HỘ KHẨU THƯỜNG TRÚ :
-                </Text>
-                {/*// Tỉnh thành phố */}
-                <View style={styles.field}>
-                  <Text>
-                    Chọn tỉnh/thành phố <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <Picker
-                    selectedValue={data.IDTinhTT}
-                    style={{ height: 50, width: "100%" }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      changeValuePicker({ IDTinhTT: itemValue })
-                    }
-                  >
-                    {picker.IDTinhTT.map((item, index) => {
-                      return (
-                        <Picker.Item
-                          key={index.toString()}
-                          label={item.name}
-                          value={item.id}
-                        />
-                      );
-                    })}
-                  </Picker>
-                </View>
-                {/*// Quận huyện */}
-                <View style={styles.field}>
-                  <Text>
-                    Chọn quận/huyện <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <Picker
-                    selectedValue={data.IDHuyenTT}
-                    style={{ height: 50, width: "100%" }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      changeValuePicker({ IDHuyenTT: itemValue })
-                    }
-                  >
-                    {picker.IDHuyenTT.map((item, index) => {
-                      return (
-                        <Picker.Item
-                          key={index.toString()}
-                          label={item.name}
-                          value={item.id}
-                        />
-                      );
-                    })}
-                  </Picker>
-                </View>
-                {/*// Phường xã */}
-                <View style={styles.field}>
-                  <Text>
-                    Chọn phường/xã <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <Picker
-                    selectedValue={data.IDXaTT}
-                    style={{ height: 50, width: "100%" }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      changeValuePicker({ IDXaTT: itemValue })
-                    }
-                  >
-                    {picker.IDXaTT.map((item, index) => {
-                      return (
-                        <Picker.Item
-                          key={index.toString()}
-                          label={item.name}
-                          value={item.id}
-                        />
-                      );
-                    })}
-                  </Picker>
-                </View>
-                {/*// Số nhà đường */}
-                <View style={styles.field}>
-                  <Text>Số nhà, đường</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ DiaChiTT: value })
-                    }
-                  >
-                    {data.DiaChiTT}
-                  </TextInput>
-                </View>
-
-                {/*//? NƠI Ở HIỆN TẠI ---------------------------------*/}
-                <Text
-                  style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
-                >
-                  NƠI Ở HIỆN TẠI :
-                </Text>
-                {/*// Tỉnh thành phố */}
-                <View style={styles.field}>
-                  <Text>
-                    Chọn tỉnh/thành phố <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <Picker
-                    selectedValue={data.IDTinh}
-                    style={{ height: 50, width: "100%" }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      changeValuePicker({ IDTinh: itemValue })
-                    }
-                  >
-                    {picker.IDTinh.map((item, index) => {
-                      return (
-                        <Picker.Item
-                          key={index.toString()}
-                          label={item.name}
-                          value={item.id}
-                        />
-                      );
-                    })}
-                  </Picker>
-                </View>
-                {/*// Quận huyện */}
-                <View style={styles.field}>
-                  <Text>
-                    Chọn quận/huyện <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <Picker
-                    selectedValue={data.IDHuyen}
-                    style={{ height: 50, width: "100%" }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      changeValuePicker({ IDHuyen: itemValue })
-                    }
-                  >
-                    {picker.IDHuyen.map((item, index) => {
-                      return (
-                        <Picker.Item
-                          key={index.toString()}
-                          label={item.name}
-                          value={item.id}
-                        />
-                      );
-                    })}
-                  </Picker>
-                </View>
-                {/*// Phường xã */}
-                <View style={styles.field}>
-                  <Text>
-                    Chọn phường/xã <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <Picker
-                    selectedValue={data.IDXa}
-                    style={{ height: 50, width: "100%" }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      changeValuePicker({ IDXa: itemValue })
-                    }
-                  >
-                    {picker.IDXa.map((item, index) => {
-                      return (
-                        <Picker.Item
-                          key={index.toString()}
-                          label={item.name}
-                          value={item.id}
-                        />
-                      );
-                    })}
-                  </Picker>
-                </View>
-                {/*// Số nhà đường */}
-                <View style={styles.field}>
-                  <Text>Số nhà, đường</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ DiaChi: value })
-                    }
-                  >
-                    {data.DiaChi}
-                  </TextInput>
-                </View>
-              </View>
-            </View>
-          </View>
-          {/* -------------Đăng ký nguyện vọng------------- */}
-          <View style={styles.block}>
-            <View
-              style={{
-                backgroundColor: "white",
-                paddingTop: 5,
-                borderColor: "white",
-                borderRadius: 15,
-
-                margin: 20,
-                padding: "5%",
-
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 5,
-                },
-                shadowOpacity: 0.34,
-                shadowRadius: 6.27,
-
-                elevation: 10,
-              }}
-            >
-              <View style={styles.title}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    color: "#145374",
-                    flexGrow: 1,
-                    textAlign: "center",
-                  }}
-                >
-                  Đăng ký nguyện vọng
-                </Text>
-              </View>
-              {/* Đăng ký nguyện vọng */}
-              <View style={styles.box}>
-                <ListNV_Macdinh />
-                <ScrollView nestedScrollEnabled style={{ maxHeight: 400 }}>
-                  <ListNV_Them />
-                </ScrollView>
-              </View>
-            </View>
-          </View>
-          {/* -------------Chế độ ưu tiên------------- */}
-          <View style={styles.block}>
-            <View
-              style={{
-                backgroundColor: "white",
-                paddingTop: 5,
-                borderColor: "white",
-                borderRadius: 15,
-
-                margin: 20,
-                padding: "5%",
-
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 5,
-                },
-                shadowOpacity: 0.34,
-                shadowRadius: 6.27,
-
-                elevation: 10,
-              }}
-            >
-              <View style={styles.title}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    color: "#145374",
-                    width: "100%",
-                    textAlign: "center",
-                  }}
-                >
-                  Chế độ ưu tiên
-                </Text>
-              </View>
-              <View style={styles.box}>
-                {/* Đối tượng ưu tiên */}
-                <View style={styles.field}>
-                  <Text>Đối tượng ưu tiên</Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      borderLeftWidth: 0.5,
-                      borderBottomWidth: 0.5,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        flexGrow: 1,
-                        alignSelf: "center",
-
-                        fontSize: 18,
-
-                        paddingLeft: 5,
-                      }}
-                    >
-                      {data.DoiTuongUuTien.length} mục đã chọn
-                    </Text>
-                    <IconButton
-                      icon="file"
-                      color={Colors.red500}
-                      size={20}
-                      onPress={() => setModalVisible(true)}
-                    />
-                  </View>
-
-                  <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                  >
-                    <BlurView
-                      style={[
-                        StyleSheet.absoluteFill,
-                        {
-                          flex: 1,
-                          justifyContent: "center",
-                          alignItems: "center",
-                          marginTop: 50,
-                        },
-                      ]}
-                      intensity={200}
-                    >
-                      <View
+                      <TextInput
                         style={{
-                          width: "95%",
-                          backgroundColor: "#eff8ff",
-                          borderRadius: 20,
-                          padding: 10,
-                          alignItems: "center",
-                          shadowColor: "#000",
-                          shadowOffset: {
-                            width: 0,
-                            height: 2,
-                          },
-                          shadowOpacity: 0.25,
-                          shadowRadius: 3.84,
-                          elevation: 5,
+                          flexGrow: 1,
+                          alignSelf: "center",
+
+                          fontSize: 18,
+
+                          paddingLeft: 5,
+                        }}
+                        secureTextEntry={secureTextEntry}
+                        onChangeText={(value) =>
+                          changeValuePicker({ MatKhau: value })
+                        }
+                      >
+                        {data.MatKhau}
+                      </TextInput>
+                      <IconButton
+                        icon="eye"
+                        color={Colors.red500}
+                        size={18}
+                        onPress={() => setSecureTextEntry(!secureTextEntry)}
+                      />
+                    </View>
+                  </View>
+                  {/* Họ và tên */}
+                  <View style={styles.field}>
+                    <Text>
+                      Họ và tên <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ HoTen: value })
+                      }
+                    >
+                      {data.HoTen}
+                    </TextInput>
+                  </View>
+                  {/* Ngày sinh */}
+                  <View style={styles.field}>
+                    <Text>
+                      Ngày sinh <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        borderLeftWidth: 0.5,
+                        borderBottomWidth: 0.5,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          flexGrow: 1,
+                          alignSelf: "center",
+                          fontSize: 18,
+                          paddingLeft: 5,
                         }}
                       >
-                        <ScrollView
-                          nestedScrollEnabled
-                          style={{
-                            maxHeight: 500,
-                            padding: 20,
-                            paddingBottom: 0,
-                          }}
-                        >
-                          <DSDoiTuongUuTien />
-                        </ScrollView>
+                        {date("{dd}/{mm}/{yyyy}", inputCon.date)}
+                      </Text>
+                      <IconButton
+                        icon="calendar"
+                        color={Colors.red500}
+                        size={18}
+                        onPress={inputCon.showDatepicker}
+                      />
+                      {inputCon.show && (
+                        <DateTimePicker
+                          testID="Con"
+                          value={inputCon.date}
+                          mode={inputCon.mode}
+                          is24Hour={true}
+                          display="default"
+                          onChange={inputCon.onChange}
+                        />
+                      )}
+                    </View>
+                  </View>
+                  {/* Dân tộc */}
+                  <View style={styles.field}>
+                    <Text>
+                      Dân tộc <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.DanToc}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ DanToc: itemValue })
+                      }
+                    >
+                      {picker.DanToc.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.name}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/* Giới tính */}
+                  <View style={styles.field}>
+                    <Text>Giới tính</Text>
+                    <RadioButtonRN
+                      data={[
+                        {
+                          label: "Nữ",
+                          status: false,
+                        },
+                        {
+                          label: "Nam",
+                          status: true,
+                        },
+                      ]}
+                      circleSize={10}
+                      activeColor="#61b15a"
+                      style={styles.radioButton}
+                      selectedBtn={(e) =>
+                        changeValuePicker({ GioiTinh: e.status })
+                      }
+                    />
+                  </View>
+                  {/*//? NƠI SINH ---------------------------------*/}
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
+                  >
+                    NƠI SINH :
+                  </Text>
+                  {/*// Tỉnh thành phố */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn tỉnh/thành phố{" "}
+                      <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDTinhNS}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDTinhNS: itemValue })
+                      }
+                    >
+                      {picker.IDTinhNS.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Quận huyện */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn quận/huyện <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDHuyenNS}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDHuyenNS: itemValue })
+                      }
+                    >
+                      {picker.IDHuyenNS.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Phường xã */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn phường/xã <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDXaNS}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDXaNS: itemValue })
+                      }
+                    >
+                      {picker.IDXaNS.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Số nhà đường */}
+                  <View style={styles.field}>
+                    <Text>Số nhà, đường</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ DiaChiNS: value })
+                      }
+                    >
+                      {data.DiaChiNS}
+                    </TextInput>
+                  </View>
 
-                        <Button
-                          title="Chấp nhận"
-                          size="small"
+                  {/*//? HỘ KHẨU THƯỜNG TRÚ ---------------------------------*/}
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
+                  >
+                    HỘ KHẨU THƯỜNG TRÚ :
+                  </Text>
+                  {/*// Tỉnh thành phố */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn tỉnh/thành phố{" "}
+                      <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDTinhTT}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDTinhTT: itemValue })
+                      }
+                    >
+                      {picker.IDTinhTT.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Quận huyện */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn quận/huyện <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDHuyenTT}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDHuyenTT: itemValue })
+                      }
+                    >
+                      {picker.IDHuyenTT.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Phường xã */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn phường/xã <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDXaTT}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDXaTT: itemValue })
+                      }
+                    >
+                      {picker.IDXaTT.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Số nhà đường */}
+                  <View style={styles.field}>
+                    <Text>Số nhà, đường</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ DiaChiTT: value })
+                      }
+                    >
+                      {data.DiaChiTT}
+                    </TextInput>
+                  </View>
+
+                  {/*//? NƠI Ở HIỆN TẠI ---------------------------------*/}
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
+                  >
+                    NƠI Ở HIỆN TẠI :
+                  </Text>
+                  {/*// Tỉnh thành phố */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn tỉnh/thành phố{" "}
+                      <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDTinh}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDTinh: itemValue })
+                      }
+                    >
+                      {picker.IDTinh.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Quận huyện */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn quận/huyện <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDHuyen}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDHuyen: itemValue })
+                      }
+                    >
+                      {picker.IDHuyen.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Phường xã */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn phường/xã <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDXa}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDXa: itemValue })
+                      }
+                    >
+                      {picker.IDXa.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Số nhà đường */}
+                  <View style={styles.field}>
+                    <Text>Số nhà, đường</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ DiaChi: value })
+                      }
+                    >
+                      {data.DiaChi}
+                    </TextInput>
+                  </View>
+                </View>
+              </View>
+            </View>
+            {/* -------------Đăng ký nguyện vọng------------- */}
+            <View style={styles.block}>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  paddingTop: 5,
+                  borderColor: "white",
+                  borderRadius: 15,
+
+                  margin: 20,
+                  padding: "5%",
+
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 5,
+                  },
+                  shadowOpacity: 0.34,
+                  shadowRadius: 6.27,
+
+                  elevation: 10,
+                }}
+              >
+                <View style={styles.title}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: "#145374",
+                      flexGrow: 1,
+                      textAlign: "center",
+                    }}
+                  >
+                    Đăng ký nguyện vọng
+                  </Text>
+                </View>
+                {/* Đăng ký nguyện vọng */}
+                <View style={styles.box}>
+                  <ListNV_Macdinh />
+                  <ScrollView nestedScrollEnabled style={{ maxHeight: 400 }}>
+                    <ListNV_Them />
+                  </ScrollView>
+                </View>
+              </View>
+            </View>
+            {/* -------------Chế độ ưu tiên------------- */}
+            <View style={styles.block}>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  paddingTop: 5,
+                  borderColor: "white",
+                  borderRadius: 15,
+
+                  margin: 20,
+                  padding: "5%",
+
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 5,
+                  },
+                  shadowOpacity: 0.34,
+                  shadowRadius: 6.27,
+
+                  elevation: 10,
+                }}
+              >
+                <View style={styles.title}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: "#145374",
+                      width: "100%",
+                      textAlign: "center",
+                    }}
+                  >
+                    Chế độ ưu tiên
+                  </Text>
+                </View>
+                <View style={styles.box}>
+                  {/* Đối tượng ưu tiên */}
+                  <View style={styles.field}>
+                    <Text>Đối tượng ưu tiên</Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        borderLeftWidth: 0.5,
+                        borderBottomWidth: 0.5,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          flexGrow: 1,
+                          alignSelf: "center",
+
+                          fontSize: 18,
+
+                          paddingLeft: 5,
+                        }}
+                      >
+                        {data.DoiTuongUuTien.length} mục đã chọn
+                      </Text>
+                      <IconButton
+                        icon="file"
+                        color={Colors.red500}
+                        size={20}
+                        onPress={() => setModalVisible(true)}
+                      />
+                    </View>
+
+                    <Modal
+                      animationType="slide"
+                      transparent={true}
+                      visible={modalVisible}
+                    >
+                      <BlurView
+                        style={[
+                          StyleSheet.absoluteFill,
+                          {
+                            flex: 1,
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginTop: 50,
+                          },
+                        ]}
+                        intensity={200}
+                      >
+                        <View
                           style={{
-                            marginTop: 10,
-                            borderRadius: 25,
-                            backgroundColor: "#2196F3",
-                          }}
-                          onPress={() => {
-                            setModalVisible(!modalVisible);
-                            Them();
+                            width: "95%",
+                            backgroundColor: "#eff8ff",
+                            borderRadius: 20,
+                            padding: 10,
+                            alignItems: "center",
+                            shadowColor: "#000",
+                            shadowOffset: {
+                              width: 0,
+                              height: 2,
+                            },
+                            shadowOpacity: 0.25,
+                            shadowRadius: 3.84,
+                            elevation: 5,
                           }}
                         >
-                          Chấp nhận
-                        </Button>
+                          <ScrollView
+                            nestedScrollEnabled
+                            style={{
+                              maxHeight: 500,
+                              padding: 20,
+                              paddingBottom: 0,
+                            }}
+                          >
+                            <DSDoiTuongUuTien />
+                          </ScrollView>
+
+                          <Button
+                            title="Chấp nhận"
+                            size="small"
+                            style={{
+                              marginTop: 10,
+                              borderRadius: 25,
+                              backgroundColor: "#2196F3",
+                            }}
+                            onPress={() => {
+                              setModalVisible(!modalVisible);
+                              Them();
+                            }}
+                          >
+                            Chấp nhận
+                          </Button>
+                        </View>
+                      </BlurView>
+                    </Modal>
+
+                    {/* Checkbox */}
+                    <View
+                      style={{
+                        margin: 5,
+                        backgroundColor: "#FFFFFF",
+                        width: "100%",
+                        borderColor: "#f1f1f1",
+                        alignItems: "stretch",
+                        flexDirection: "row",
+                        alignSelf: "center",
+                        shadowColor: "#000",
+                        shadowOffset: {
+                          width: 0,
+                          height: 5,
+                        },
+                        shadowOpacity: 0.34,
+                        shadowRadius: 6.27,
+
+                        elevation: 10,
+                      }}
+                    >
+                      <CheckBox
+                        value={data.CoGiaiThuongQuocGia}
+                        tintColors={{ true: "#ff4646", false: "#008577" }}
+                        // onValueChange={setData(false)}
+                        onValueChange={() =>
+                          setData((prevState) => ({
+                            ...prevState,
+                            CoGiaiThuongQuocGia: !prevState.CoGiaiThuongQuocGia,
+                          }))
+                        }
+                      />
+                      <Text style={{ fontSize: 14, alignSelf: "center" }}>
+                        Có giải thưởng cấp quốc gia
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.field}>
+                    <Text>
+                      Bổ sung các giấy tờ liên quan
+                      <Text style={{ color: "red" }}> *</Text>
+                    </Text>
+                    <View
+                      style={{
+                        marginTop: 5,
+                        alignItems: "center",
+                        backgroundColor: "#fff5c0",
+                      }}
+                    >
+                      <IconButton
+                        icon="camera"
+                        color={Colors.red500}
+                        size={25}
+                        onPress={() => console.log(data)}
+                        // onPress={() => {
+                        //   navigation.navigate("Images");
+                        // }}
+                      />
+                      {/*--------Camera--------*/}
+                      <View
+                        style={{
+                          flex: 1,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          // paddingTop: Constants.statusBarHeight,
+                          backgroundColor: "#ecf0f1",
+                        }}
+                      >
+                        {pickerResult ? (
+                          <Image
+                            source={{ uri: imageUri }}
+                            style={{ width: 200, height: 200 }}
+                          />
+                        ) : null}
+                        {pickerResult ? (
+                          <Text style={styles.paragraph}>
+                            Keys on pickerResult:{" "}
+                            {JSON.stringify(Object.keys(pickerResult))}
+                          </Text>
+                        ) : null}
                       </View>
-                    </BlurView>
-                  </Modal>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+            {/* -------------Thông tin cha mẹ, người giám hộ------------- */}
+            <View style={styles.block}>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  paddingTop: 5,
+                  borderColor: "white",
+                  borderRadius: 15,
 
+                  margin: 20,
+                  padding: "5%",
+
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 5,
+                  },
+                  shadowOpacity: 0.34,
+                  shadowRadius: 6.27,
+
+                  elevation: 10,
+                }}
+              >
+                <View style={styles.title}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: "#145374",
+                      width: "100%",
+                      textAlign: "center",
+                    }}
+                  >
+                    Thông tin cha mẹ, người giám hộ
+                  </Text>
+                </View>
+                <View style={styles.box}>
+                  {/*//? THÔNG TIN MẸ ---------------------------------*/}
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
+                  >
+                    THÔNG TIN MẸ :
+                  </Text>
+                  {/* Họ và tên */}
+                  <View style={styles.field}>
+                    <Text>Họ và tên</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ HoTenMe: value })
+                      }
+                    >
+                      {data.HoTenMe}
+                    </TextInput>
+                  </View>
+                  {/* Số CMND/Thẻ căn cước */}
+                  <View style={styles.field}>
+                    <Text>Số CMND/Thẻ căn cước</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ CMNDMe: value })
+                      }
+                    >
+                      {data.CMNDMe}
+                    </TextInput>
+                  </View>
+                  {/* Ngày sinh */}
+                  <View style={styles.field}>
+                    <Text>Ngày sinh</Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        borderLeftWidth: 0.5,
+                        borderBottomWidth: 0.5,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          flexGrow: 1,
+                          alignSelf: "center",
+
+                          fontSize: 18,
+
+                          paddingLeft: 5,
+                        }}
+                      >
+                        {date("{dd}/{mm}/{yyyy}", inputMe.date)}
+                      </Text>
+                      <IconButton
+                        icon="calendar"
+                        color={Colors.red500}
+                        size={18}
+                        onPress={inputMe.showDatepicker}
+                      />
+                      {inputMe.show && (
+                        <DateTimePicker
+                          testID="Me"
+                          value={inputMe.date}
+                          mode={inputMe.mode}
+                          is24Hour={true}
+                          display="default"
+                          onChange={inputMe.onChange}
+                        />
+                      )}
+                    </View>
+                  </View>
+                  {/*//? THÔNG TIN CHA ---------------------------------*/}
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
+                  >
+                    THÔNG TIN CHA :
+                  </Text>
+                  {/* Họ và tên */}
+                  <View style={styles.field}>
+                    <Text>Họ và tên</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ HoTenCha: value })
+                      }
+                    >
+                      {data.HoTenCha}
+                    </TextInput>
+                  </View>
+                  {/* Số CMND/Thẻ căn cước */}
+                  <View style={styles.field}>
+                    <Text>Số CMND/Thẻ căn cước</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ CMNDCha: value })
+                      }
+                    >
+                      {data.CMNDCha}
+                    </TextInput>
+                  </View>
+                  {/* Ngày sinh */}
+                  <View style={styles.field}>
+                    <Text>Ngày sinh</Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        borderLeftWidth: 0.5,
+                        borderBottomWidth: 0.5,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          flexGrow: 1,
+                          alignSelf: "center",
+
+                          fontSize: 18,
+
+                          paddingLeft: 5,
+                        }}
+                      >
+                        {date("{dd}/{mm}/{yyyy}", inputCha.date)}
+                      </Text>
+                      <IconButton
+                        icon="calendar"
+                        color={Colors.red500}
+                        size={18}
+                        onPress={inputCha.showDatepicker}
+                      />
+                      {inputCha.show && (
+                        <DateTimePicker
+                          testID="Me"
+                          value={inputCha.date}
+                          mode={inputCha.mode}
+                          is24Hour={true}
+                          display="default"
+                          onChange={inputCha.onChange}
+                        />
+                      )}
+                    </View>
+                  </View>
+                  {/*//? THÔNG TIN NGƯỜI GIÁM HỘ ---------------------------------*/}
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
+                  >
+                    THÔNG TIN NGƯỜI GIÁM HỘ :
+                  </Text>
+                  {/* Họ và tên */}
+                  <View style={styles.field}>
+                    <Text>Họ và tên</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ HoTenNguoiGiamHo: value })
+                      }
+                    >
+                      {data.HoTenNguoiGiamHo}
+                    </TextInput>
+                  </View>
+                  {/* Số CMND/Thẻ căn cước */}
+                  <View style={styles.field}>
+                    <Text>Số CMND/Thẻ căn cước</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ CMNDNguoiGiamHo: value })
+                      }
+                    >
+                      {data.CMNDNguoiGiamHo}
+                    </TextInput>
+                  </View>
+                  {/* Ngày sinh */}
+                  <View style={styles.field}>
+                    <Text>Ngày sinh</Text>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        borderLeftWidth: 0.5,
+                        borderBottomWidth: 0.5,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          flexGrow: 1,
+                          alignSelf: "center",
+
+                          fontSize: 18,
+
+                          paddingLeft: 5,
+                        }}
+                      >
+                        {date("{dd}/{mm}/{yyyy}", inputNGH.date)}
+                      </Text>
+                      <IconButton
+                        icon="calendar"
+                        color={Colors.red500}
+                        size={18}
+                        onPress={inputNGH.showDatepicker}
+                      />
+                      {inputNGH.show && (
+                        <DateTimePicker
+                          testID="Me"
+                          value={inputNGH.date}
+                          mode={inputNGH.mode}
+                          is24Hour={true}
+                          display="default"
+                          onChange={inputNGH.onChange}
+                        />
+                      )}
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+            {/* -------------Thông tin liên lạc------------- */}
+            <View style={styles.block}>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  paddingTop: 5,
+                  borderColor: "white",
+                  borderRadius: 15,
+
+                  margin: 20,
+                  padding: "5%",
+
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 5,
+                  },
+                  shadowOpacity: 0.34,
+                  shadowRadius: 6.27,
+
+                  elevation: 10,
+                }}
+              >
+                <View style={styles.title}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: "#145374",
+                      width: "100%",
+                      textAlign: "center",
+                    }}
+                  >
+                    Thông tin liên lạc
+                  </Text>
+                </View>
+                <View style={styles.box}>
+                  {/*//? THÔNG TIN LIÊN LẠC ---------------------------------*/}
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontWeight: "bold",
+                      margin: "2%",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    Vui lòng nhập số điện thoại và địa chỉ email để cơ quan chức
+                    năng liên hệ với ông/bà khi có kết quả.
+                  </Text>
+                  {/* Điện thoại liên hệ */}
+                  <View style={styles.field}>
+                    <Text>
+                      Điện thoại liên hệ <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <TextInput
+                      style={styles.textInput}
+                      keyboardType={"number-pad"}
+                      multiline={false}
+                      onChangeText={(value) =>
+                        changeValuePicker({ DienThoaiLienHe: value })
+                      }
+                    >
+                      {data.DienThoaiLienHe}
+                    </TextInput>
+                  </View>
+
+                  {/* Email liên hệ */}
+                  <View style={styles.field}>
+                    <Text>
+                      Email liên hệ <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <TextInput
+                      style={styles.textInput}
+                      placeholder="email@gmail.com"
+                      keyboardType={"email-address"}
+                      multiline={false}
+                      onChangeText={(value) =>
+                        changeValuePicker({ MailLienHe: value })
+                      }
+                    >
+                      {data.MailLienHe}
+                    </TextInput>
+                  </View>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontWeight: "bold",
+                      margin: "2%",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    Sau khi phụ huynh học sinh đăng ký tuyển sinh đầu cấp thành
+                    công ngoài việc nhận giấy báo nhập học qua email đăng ký,
+                    phụ huynh học sinh có thể in/tải giấy báo nhập học tại trang
+                    web tuyensinhedu.huongvietedm.vn ở chức năng TRA CỨU KẾT QUẢ
+                    TUYỂN SINH.
+                  </Text>
+                </View>
+              </View>
+            </View>
+            {/* -------------Cam kết khai báo đúng thông tin------------- */}
+            <View style={[styles.block, { width: "94%", borderRadius: 10 }]}>
+              <View style={styles.box}>
+                {/* Đối tượng ưu tiên */}
+                <View style={[styles.field, { borderWidth: 0 }]}>
                   {/* Checkbox */}
                   <View
                     style={{
+                      borderRadius: 10,
                       margin: 5,
                       backgroundColor: "#FFFFFF",
                       width: "100%",
@@ -2322,562 +2775,121 @@ export default function Trangdangky({ route }) {
                     }}
                   >
                     <CheckBox
-                      value={data.CoGiaiThuongQuocGia}
+                      value={data.Xacnhanthongtin}
                       tintColors={{ true: "#ff4646", false: "#008577" }}
                       // onValueChange={setData(false)}
                       onValueChange={() =>
                         setData((prevState) => ({
                           ...prevState,
-                          CoGiaiThuongQuocGia: !prevState.CoGiaiThuongQuocGia,
+                          Xacnhanthongtin: !prevState.Xacnhanthongtin,
                         }))
                       }
                     />
                     <Text style={{ fontSize: 14, alignSelf: "center" }}>
-                      Có giải thưởng cấp quốc gia
+                      Tôi xin cam kết khai báo đúng thông tin
                     </Text>
-                  </View>
-                </View>
-                <View style={styles.field}>
-                  <Text>
-                    Bổ sung các giấy tờ liên quan
-                    <Text style={{ color: "red" }}> *</Text>
-                  </Text>
-                  <View
-                    style={{
-                      marginTop: 5,
-                      alignItems: "center",
-                      backgroundColor: "#fff5c0",
-                    }}
-                  >
-                    <IconButton
-                      icon="camera"
-                      color={Colors.red500}
-                      size={25}
-                      onPress={() => console.log(data)}
-                      // onPress={() => {
-                      //   navigation.navigate("Images");
-                      // }}
-                    />
-                    {/*--------Camera--------*/}
-                    <View
-                      style={{
-                        flex: 1,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        // paddingTop: Constants.statusBarHeight,
-                        backgroundColor: "#ecf0f1",
-                      }}
-                    >
-                      {pickerResult ? (
-                        <Image
-                          source={{ uri: imageUri }}
-                          style={{ width: 200, height: 200 }}
-                        />
-                      ) : null}
-                      {pickerResult ? (
-                        <Text style={styles.paragraph}>
-                          Keys on pickerResult:{" "}
-                          {JSON.stringify(Object.keys(pickerResult))}
-                        </Text>
-                      ) : null}
-                    </View>
                   </View>
                 </View>
               </View>
             </View>
-          </View>
-          {/* -------------Thông tin cha mẹ, người giám hộ------------- */}
-          <View style={styles.block}>
             <View
               style={{
-                backgroundColor: "white",
-                paddingTop: 5,
-                borderColor: "white",
-                borderRadius: 15,
-
-                margin: 20,
-                padding: "5%",
-
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 5,
-                },
-                shadowOpacity: 0.34,
-                shadowRadius: 6.27,
-
-                elevation: 10,
+                height: 50,
+                marginBottom: 20,
+                width: "100%",
+                alignItems: "center",
               }}
             >
-              <View style={styles.title}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    color: "#145374",
-                    width: "100%",
-                    textAlign: "center",
-                  }}
-                >
-                  Thông tin cha mẹ, người giám hộ
-                </Text>
-              </View>
-              <View style={styles.box}>
-                {/*//? THÔNG TIN MẸ ---------------------------------*/}
-                <Text
-                  style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
-                >
-                  THÔNG TIN MẸ :
-                </Text>
-                {/* Họ và tên */}
-                <View style={styles.field}>
-                  <Text>Họ và tên</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ HoTenMe: value })
-                    }
+              {TrangThai() ? (
+                <View>
+                  <Button
+                    round
+                    title="Đăng ký"
+                    style={styles.button}
+                    onPress={() => DangKy()}
                   >
-                    {data.HoTenMe}
-                  </TextInput>
+                    <Text style={{ color: "white" }}>Đăng ký</Text>
+                  </Button>
+                  <ModalKiemTraThongTin />
                 </View>
-                {/* Số CMND/Thẻ căn cước */}
-                <View style={styles.field}>
-                  <Text>Số CMND/Thẻ căn cước</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ CMNDMe: value })
-                    }
-                  >
-                    {data.CMNDMe}
-                  </TextInput>
-                </View>
-                {/* Ngày sinh */}
-                <View style={styles.field}>
-                  <Text>Ngày sinh</Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      borderLeftWidth: 0.5,
-                      borderBottomWidth: 0.5,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        flexGrow: 1,
-                        alignSelf: "center",
-
-                        fontSize: 18,
-
-                        paddingLeft: 5,
-                      }}
-                    >
-                      {date("{dd}/{mm}/{yyyy}", inputMe.date)}
-                    </Text>
-                    <IconButton
-                      icon="calendar"
-                      color={Colors.red500}
-                      size={18}
-                      onPress={inputMe.showDatepicker}
-                    />
-                    {inputMe.show && (
-                      <DateTimePicker
-                        testID="Me"
-                        value={inputMe.date}
-                        mode={inputMe.mode}
-                        is24Hour={true}
-                        display="default"
-                        onChange={inputMe.onChange}
-                      />
-                    )}
-                  </View>
-                </View>
-                {/*//? THÔNG TIN CHA ---------------------------------*/}
-                <Text
-                  style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
-                >
-                  THÔNG TIN CHA :
-                </Text>
-                {/* Họ và tên */}
-                <View style={styles.field}>
-                  <Text>Họ và tên</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ HoTenCha: value })
-                    }
-                  >
-                    {data.HoTenCha}
-                  </TextInput>
-                </View>
-                {/* Số CMND/Thẻ căn cước */}
-                <View style={styles.field}>
-                  <Text>Số CMND/Thẻ căn cước</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ CMNDCha: value })
-                    }
-                  >
-                    {data.CMNDCha}
-                  </TextInput>
-                </View>
-                {/* Ngày sinh */}
-                <View style={styles.field}>
-                  <Text>Ngày sinh</Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      borderLeftWidth: 0.5,
-                      borderBottomWidth: 0.5,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        flexGrow: 1,
-                        alignSelf: "center",
-
-                        fontSize: 18,
-
-                        paddingLeft: 5,
-                      }}
-                    >
-                      {date("{dd}/{mm}/{yyyy}", inputCha.date)}
-                    </Text>
-                    <IconButton
-                      icon="calendar"
-                      color={Colors.red500}
-                      size={18}
-                      onPress={inputCha.showDatepicker}
-                    />
-                    {inputCha.show && (
-                      <DateTimePicker
-                        testID="Me"
-                        value={inputCha.date}
-                        mode={inputCha.mode}
-                        is24Hour={true}
-                        display="default"
-                        onChange={inputCha.onChange}
-                      />
-                    )}
-                  </View>
-                </View>
-                {/*//? THÔNG TIN NGƯỜI GIÁM HỘ ---------------------------------*/}
-                <Text
-                  style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
-                >
-                  THÔNG TIN NGƯỜI GIÁM HỘ :
-                </Text>
-                {/* Họ và tên */}
-                <View style={styles.field}>
-                  <Text>Họ và tên</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ HoTenNguoiGiamHo: value })
-                    }
-                  >
-                    {data.HoTenNguoiGiamHo}
-                  </TextInput>
-                </View>
-                {/* Số CMND/Thẻ căn cước */}
-                <View style={styles.field}>
-                  <Text>Số CMND/Thẻ căn cước</Text>
-                  <TextInput
-                    style={styles.textInput}
-                    onChangeText={(value) =>
-                      changeValuePicker({ CMNDNguoiGiamHo: value })
-                    }
-                  >
-                    {data.CMNDNguoiGiamHo}
-                  </TextInput>
-                </View>
-                {/* Ngày sinh */}
-                <View style={styles.field}>
-                  <Text>Ngày sinh</Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      borderLeftWidth: 0.5,
-                      borderBottomWidth: 0.5,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        flexGrow: 1,
-                        alignSelf: "center",
-
-                        fontSize: 18,
-
-                        paddingLeft: 5,
-                      }}
-                    >
-                      {date("{dd}/{mm}/{yyyy}", inputNGH.date)}
-                    </Text>
-                    <IconButton
-                      icon="calendar"
-                      color={Colors.red500}
-                      size={18}
-                      onPress={inputNGH.showDatepicker}
-                    />
-                    {inputNGH.show && (
-                      <DateTimePicker
-                        testID="Me"
-                        value={inputNGH.date}
-                        mode={inputNGH.mode}
-                        is24Hour={true}
-                        display="default"
-                        onChange={inputNGH.onChange}
-                      />
-                    )}
-                  </View>
-                </View>
-              </View>
+              ) : null}
             </View>
           </View>
-          {/* -------------Thông tin liên lạc------------- */}
-          <View style={styles.block}>
-            <View
-              style={{
-                backgroundColor: "white",
-                paddingTop: 5,
-                borderColor: "white",
-                borderRadius: 15,
-
-                margin: 20,
-                padding: "5%",
-
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 5,
-                },
-                shadowOpacity: 0.34,
-                shadowRadius: 6.27,
-
-                elevation: 10,
-              }}
-            >
-              <View style={styles.title}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    color: "#145374",
-                    width: "100%",
-                    textAlign: "center",
-                  }}
-                >
-                  Thông tin liên lạc
-                </Text>
-              </View>
-              <View style={styles.box}>
-                {/*//? THÔNG TIN LIÊN LẠC ---------------------------------*/}
-                <Text
-                  style={{
-                    fontSize: 12,
-                    fontWeight: "bold",
-                    margin: "2%",
-                    fontStyle: "italic",
-                  }}
-                >
-                  Vui lòng nhập số điện thoại và địa chỉ email để cơ quan chức
-                  năng liên hệ với ông/bà khi có kết quả.
-                </Text>
-                {/* Điện thoại liên hệ */}
-                <View style={styles.field}>
-                  <Text>
-                    Điện thoại liên hệ <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <TextInput
-                    style={styles.textInput}
-                    keyboardType={"number-pad"}
-                    multiline={false}
-                    onChangeText={(value) =>
-                      changeValuePicker({ DienThoaiLienHe: value })
-                    }
-                  >
-                    {data.DienThoaiLienHe}
-                  </TextInput>
-                </View>
-
-                {/* Email liên hệ */}
-                <View style={styles.field}>
-                  <Text>
-                    Email liên hệ <Text style={{ color: "red" }}>*</Text>
-                  </Text>
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder="email@gmail.com"
-                    keyboardType={"email-address"}
-                    multiline={false}
-                    onChangeText={(value) =>
-                      changeValuePicker({ MailLienHe: value })
-                    }
-                  >
-                    {data.MailLienHe}
-                  </TextInput>
-                </View>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    fontWeight: "bold",
-                    margin: "2%",
-                    fontStyle: "italic",
-                  }}
-                >
-                  Sau khi phụ huynh học sinh đăng ký tuyển sinh đầu cấp thành
-                  công ngoài việc nhận giấy báo nhập học qua email đăng ký, phụ
-                  huynh học sinh có thể in/tải giấy báo nhập học tại trang web
-                  tuyensinhedu.huongvietedm.vn ở chức năng TRA CỨU KẾT QUẢ TUYỂN
-                  SINH.
-                </Text>
-              </View>
-            </View>
-          </View>
-          {/* -------------Cam kết khai báo đúng thông tin------------- */}
-          <View style={[styles.block, { width: "94%", borderRadius: 10 }]}>
-            <View style={styles.box}>
-              {/* Đối tượng ưu tiên */}
-              <View style={[styles.field, { borderWidth: 0 }]}>
-                {/* Checkbox */}
-                <View
-                  style={{
-                    borderRadius: 10,
-                    margin: 5,
-                    backgroundColor: "#FFFFFF",
-                    width: "100%",
-                    borderColor: "#f1f1f1",
-                    alignItems: "stretch",
-                    flexDirection: "row",
-                    alignSelf: "center",
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 5,
-                    },
-                    shadowOpacity: 0.34,
-                    shadowRadius: 6.27,
-
-                    elevation: 10,
-                  }}
-                >
-                  <CheckBox
-                    value={data.Xacnhanthongtin}
-                    tintColors={{ true: "#ff4646", false: "#008577" }}
-                    // onValueChange={setData(false)}
-                    onValueChange={() =>
-                      setData((prevState) => ({
-                        ...prevState,
-                        Xacnhanthongtin: !prevState.Xacnhanthongtin,
-                      }))
-                    }
-                  />
-                  <Text style={{ fontSize: 14, alignSelf: "center" }}>
-                    Tôi xin cam kết khai báo đúng thông tin
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
+        </ScrollView>
+        <FlashMessage
+          autoHide={false}
+          position="top"
+          statusBarHeight={0}
+          style={{
+            borderWidth: 1,
+          }}
+          titleStyle={{
+            marginTop: -10,
+            padding: 10,
+            fontSize: 20,
+            textAlign: "center",
+            alignSelf: "center",
+            borderWidth: 1,
+          }}
+          textStyle={{
+            fontSize: 16,
+            textAlign: "center",
+            borderWidth: 1,
+          }}
+        />
+        {!TrangThai() && (
           <View
             style={{
-              height: 50,
-              marginBottom: 20,
-              width: "100%",
-              alignItems: "center",
+              position: "absolute",
+              left: 20,
+              right: 20,
+              bottom: 10,
+              zIndex: 1,
+              borderRadius: 15,
+              paddingVertical: 5,
+              paddingHorizontal: 15,
+
+              backgroundColor: "#fff5c0",
+
+              borderColor: "white",
+
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 5,
+              },
+              shadowOpacity: 0.34,
+              shadowRadius: 6.27,
+
+              elevation: 10,
             }}
           >
-            {TrangThai() ? (
-              <View>
-                <Button
-                  round
-                  title="Đăng ký"
-                  style={styles.button}
-                  onPress={() => DangKy()}
-                >
-                  <Text style={{ color: "white" }}>Đăng ký</Text>
-                </Button>
-                <ModalKiemTraThongTin />
-              </View>
-            ) : null}
-          </View>
-        </View>
-      </ScrollView>
-      <FlashMessage
-        autoHide={false}
-        position="top"
-        statusBarHeight={0}
-        style={{
-          borderWidth: 1,
-        }}
-        titleStyle={{
-          marginTop: -10,
-          padding: 10,
-          fontSize: 20,
-          textAlign: "center",
-          alignSelf: "center",
-          borderWidth: 1,
-        }}
-        textStyle={{
-          fontSize: 16,
-          textAlign: "center",
-          borderWidth: 1,
-        }}
-      />
-      {!TrangThai() && (
-        <View
-          style={{
-            position: "absolute",
-            left: 20,
-            right: 20,
-            bottom: 10,
-            zIndex: 1,
-            borderRadius: 15,
-            paddingVertical: 5,
-            paddingHorizontal: 15,
-
-            backgroundColor: "#fff5c0",
-
-            borderColor: "white",
-
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 5,
-            },
-            shadowOpacity: 0.34,
-            shadowRadius: 6.27,
-
-            elevation: 10,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 12.5,
-              fontWeight: "bold",
-              // color: "#ff4646",
-              color: "red",
-              textAlign: "center",
-            }}
-          >
-            Lưu ý: Chỉ có thể đăng ký khi các thông tin bắt buộc {"\n"}
             <Text
               style={{
-                fontSize: 13.5,
+                fontSize: 12.5,
                 fontWeight: "bold",
+                // color: "#ff4646",
                 color: "red",
                 textAlign: "center",
               }}
             >
-              (có dấu *)
-            </Text>{" "}
-            được điền đầy đủ
-          </Text>
-        </View>
-      )}
-    </KeyboardAvoidingView>
+              Lưu ý: Chỉ có thể đăng ký khi các thông tin bắt buộc {"\n"}
+              <Text
+                style={{
+                  fontSize: 13.5,
+                  fontWeight: "bold",
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                (có dấu *)
+              </Text>{" "}
+              được điền đầy đủ
+            </Text>
+          </View>
+        )}
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({

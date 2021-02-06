@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Image, ImageBackground } from "react-native";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  StyleSheet,
+  Image,
+  ImageBackground,
+} from "react-native";
 import { Button } from "galio-framework";
 import { useNavigation } from "@react-navigation/native";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
@@ -39,7 +46,7 @@ export default function Dangkytuyensinh() {
   }, []);
   const Load_View = () => {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <AnimatedEllipsis
           numberOfDots={3}
           minOpacity={0.4}
@@ -50,12 +57,12 @@ export default function Dangkytuyensinh() {
             letterSpacing: -15,
           }}
         />
-      </View>
+      </SafeAreaView>
     );
   };
   const Success_View = () => {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.block}>
           {data.map((item, index) => (
             <View style={styles.box} key={index}>
@@ -98,12 +105,12 @@ export default function Dangkytuyensinh() {
             </View>
           ))}
         </View>
-      </View>
+      </SafeAreaView>
     );
   };
   const Error_View = () => {
     return (
-      <View style={{ flex: 1, flexDirection: "column" }}>
+      <SafeAreaView style={{ flex: 1, flexDirection: "column" }}>
         <ImageBackground
           source={require("./img/error.png")}
           style={{ flex: 1, resizeMode: "cover", justifyContent: "center" }}
@@ -121,7 +128,7 @@ export default function Dangkytuyensinh() {
             Không có kỳ tuyển sinh nào trong khoảng thời gian này
           </Text>
         </ImageBackground>
-      </View>
+      </SafeAreaView>
     );
   };
   return status === 0 ? (

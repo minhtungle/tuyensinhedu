@@ -4,7 +4,7 @@ import {
   createStackNavigator,
 } from "@react-navigation/stack";
 import React from "react";
-import { ImageBackground, Text, View } from "react-native";
+import { ImageBackground, Text, View, SafeAreaView } from "react-native";
 import { Colors, IconButton } from "react-native-paper";
 //* Screen
 import {
@@ -27,7 +27,7 @@ function Trangchu({ route }) {
   const navigation = useNavigation();
   const { Tinh } = route.params;
   return (
-    <View>
+    <SafeAreaView>
       <View
         style={{
           position: "absolute",
@@ -91,7 +91,7 @@ function Trangchu({ route }) {
       >
         <Wallet />
       </ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 }
 // <Wallet/>

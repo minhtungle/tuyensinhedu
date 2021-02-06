@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Text,
+  SafeAreaView,
   View,
   StyleSheet,
   Alert,
@@ -176,10 +177,7 @@ export default function ComboBox() {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
+    <SafeAreaView style={styles.container}>
       {loading && (
         <View style={{ position: "absolute", top: 5 }}>
           <AnimatedEllipsis
@@ -206,7 +204,10 @@ export default function ComboBox() {
           },
         ]}
       >
-        <View style={styles.top}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.top}
+        >
           <View style={[styles.block, { marginBottom: headerHeight }]}>
             <View style={styles.checkBoxContainer}>
               {/* Checkbox */}
@@ -248,7 +249,7 @@ export default function ComboBox() {
               )}
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
         <View style={styles.bottom}>
           <IconButton
             icon="home-search"
@@ -259,13 +260,14 @@ export default function ComboBox() {
               bottom: headerHeight + 10,
               right: 10,
               backgroundColor: Colors.red500,
+              zIndex: 100,
             }}
             onPress={Disapear}
           />
           {data !== null && <Ketqua data={data} bottom={headerHeight} />}
         </View>
       </Animated.View>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
