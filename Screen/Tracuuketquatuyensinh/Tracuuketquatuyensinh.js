@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FFFF",
+    backgroundColor: "#DEEBFE",
   },
 });
 export default Tracuuketquatuyensinh;

@@ -574,7 +574,7 @@ export default function Thongtintuyensinh() {
 const styles = StyleSheet.create({
   //? Phân cấp View : container > block = title > box > field(...element)
   container: {
-    backgroundColor: "#eff8ff",
+    backgroundColor: "#DEEBFE",
     width: "100%",
     height: "100%",
     alignItems: "center",

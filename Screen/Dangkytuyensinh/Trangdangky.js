@@ -2898,10 +2898,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     alignItems: "center",
-    backgroundColor: "#eff8ff",
+    backgroundColor: "#DEEBFE",
   },
   block: {
-    backgroundColor: "#eff8ff",
+    backgroundColor: "#DEEBFE",
     width: "100%",
   },
   title: {

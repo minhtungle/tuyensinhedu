@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#eff8ff",
+    // backgroundColor: "#eff8ff",
+    backgroundColor: "#DEEBFE",
   },
   block: {
     alignItems: "center",

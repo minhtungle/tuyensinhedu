@@ -285,12 +285,12 @@ const styles = StyleSheet.create({
 
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#eff8ff",
+    backgroundColor: "#DEEBFE",
   },
   bottom: {
     width: screen_width,
     height: screen_height,
-    backgroundColor: "#eff8ff",
+    backgroundColor: "#DEEBFE",
   },
   result: {
     flex: 1,
