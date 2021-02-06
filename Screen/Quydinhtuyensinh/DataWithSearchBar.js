@@ -7,14 +7,18 @@ import {
   FlatList,
   TextInput,
   Linking,
+  Alert,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import AnimatedEllipsis from "react-native-animated-ellipsis";
 import { IconButton, Colors } from "react-native-paper";
 
 const DataWithSearchBar = () => {
   const [search, setSearch] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   //* Lấy API
   useEffect(() => {
     fetch(
@@ -33,9 +37,11 @@ const DataWithSearchBar = () => {
         });
         setFilteredDataSource(arrData);
         setMasterDataSource(arrData);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error("Hệ thống đang cập nhật dữ liệu");
+        Alert.alert("Hệ thống đang cập nhật dữ liệu");
+        setLoading(false);
       });
   }, []);
 
@@ -102,6 +108,20 @@ const DataWithSearchBar = () => {
 
   return (
     <View style={styles.data}>
+      {loading && (
+        <View style={{ position: "absolute", alignSelf: "center" }}>
+          <AnimatedEllipsis
+            numberOfDots={3}
+            minOpacity={0.4}
+            animationDelay={200}
+            style={{
+              color: "#61b15a",
+              fontSize: 100,
+              letterSpacing: -15,
+            }}
+          />
+        </View>
+      )}
       <TextInput
         style={styles.searchInput}
         onChangeText={(text) => searchFilterFunction(text)}
