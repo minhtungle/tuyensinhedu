@@ -11,8 +11,11 @@ import {
   Animated,
   Easing,
 } from "react-native";
+import { useHeaderHeight } from "@react-navigation/stack";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
 import CheckBox from "@react-native-community/checkbox";
+import { Colors, IconButton } from "react-native-paper";
+
 import { Button } from "galio-framework";
 import Inputs from "./Input";
 import Ketqua from "./Ketqua";
@@ -21,6 +24,8 @@ const screen_height = Dimensions.get("window").height;
 const screen_width = Dimensions.get("window").width;
 
 export default function ComboBox() {
+  const headerHeight = useHeaderHeight();
+
   //* State :
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -90,7 +95,7 @@ export default function ComboBox() {
               "Không tồn tại kết quả tra cứu ! Vui lòng kiểm tra lại thông tin đã nhập "
             ),
             setData(null))
-          : setData(result);
+          : (setData(result), Appear());
       })
       .catch(() => {
         Alert.alert(
@@ -202,7 +207,7 @@ export default function ComboBox() {
         ]}
       >
         <View style={styles.top}>
-          <View style={styles.block}>
+          <View style={[styles.block, { marginBottom: headerHeight }]}>
             <View style={styles.checkBoxContainer}>
               {/* Checkbox */}
               {checkboxValue.map((checkbox, i) => (
@@ -241,35 +246,23 @@ export default function ComboBox() {
                   Tra cứu
                 </Button>
               )}
-              <Button
-                round
-                style={styles.button}
-                color="#61b15a"
-                onPress={() => console.log(data)}
-              >
-                Data
-              </Button>
-              <Button
-                round
-                style={styles.button}
-                color="#61b15a"
-                onPress={Appear}
-              >
-                Move
-              </Button>
             </View>
           </View>
         </View>
         <View style={styles.bottom}>
-          {data !== null && <Ketqua data={data} disapear={Disapear()} />}
-          <Button
-            round
-            style={styles.button}
-            color="#61b15a"
+          <IconButton
+            icon="home-search"
+            color="#FFF"
+            size={32}
+            style={{
+              position: "absolute",
+              bottom: headerHeight + 10,
+              right: 10,
+              backgroundColor: Colors.red500,
+            }}
             onPress={Disapear}
-          >
-            Disapear
-          </Button>
+          />
+          {data !== null && <Ketqua data={data} bottom={headerHeight} />}
         </View>
       </Animated.View>
     </KeyboardAvoidingView>
@@ -295,9 +288,10 @@ const styles = StyleSheet.create({
   bottom: {
     width: screen_width,
     height: screen_height,
-    // alignItems: "center",
-    // justifyContent: "center",
     backgroundColor: "#eff8ff",
+  },
+  result: {
+    flex: 1,
   },
   block: {
     width: "90%",

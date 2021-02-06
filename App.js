@@ -8,16 +8,16 @@ import { ImageBackground, Text, View } from "react-native";
 import { Colors, IconButton } from "react-native-paper";
 //* Screen
 import {
-  Dangnhap,
   Dangkytuyensinh,
-  Trangdangky,
-  Images,
-  Thongtintuyensinh,
-  Quydinhtuyensinh,
-  Tracuuketquatuyensinh,
-  Ketqua,
-  Huongdandangkytructuyen,
+  Dangnhap,
   Gopy,
+  Huongdandangkytructuyen,
+  Images,
+  Ketqua,
+  Quydinhtuyensinh,
+  Thongtintuyensinh,
+  Tracuuketquatuyensinh,
+  Trangdangky,
 } from "./Screen/index";
 //* Trang chủ
 import Wallet from "./Wallet/Trangchu";

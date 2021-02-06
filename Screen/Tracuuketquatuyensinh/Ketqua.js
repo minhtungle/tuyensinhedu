@@ -3,84 +3,88 @@ import { Text, StyleSheet, View, ScrollView } from "react-native";
 import { Button } from "galio-framework";
 
 export default function Ketqua(props) {
-  const { data, Disapear } = props;
+  const { data, bottom } = props;
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.title1}>
-        <Text
-          numberOfLines={1}
-          style={{ alignSelf: "center", fontSize: 18, color: "#045762" }}
-        >
-          THÔNG TIN TUYỂN SINH
-        </Text>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
-        </View>
-        {/* Dữ liệu */}
-        <View style={styles.thongtin}>
-          <View style={styles.thongtinLeft}>
-            {/*Mã hồ sơ*/}
-            <View style={styles.thongtinBlock}>
-              <Text style={styles.textField}>Mã hồ sơ:</Text>
-              <Text style={styles.textData}>{data.MaHoSo}</Text>
+    <View style={[styles.container, { marginBottom: bottom }]}>
+      <ScrollView>
+        <View style={styles.title1}>
+          <Text
+            numberOfLines={1}
+            style={{ alignSelf: "center", fontSize: 18, color: "#045762" }}
+          >
+            THÔNG TIN TUYỂN SINH
+          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
+          </View>
+          {/* Dữ liệu */}
+          <View style={styles.thongtin}>
+            <View style={styles.thongtinLeft}>
+              {/*Mã hồ sơ*/}
+              <View style={styles.thongtinBlock}>
+                <Text style={styles.textField}>Mã hồ sơ:</Text>
+                <Text style={styles.textData}>{data.MaHoSo}</Text>
+              </View>
+              {/*Họ tên*/}
+              <View style={styles.thongtinBlock}>
+                <Text style={styles.textField}>Họ tên:</Text>
+                <Text style={styles.textData}>{data.HoTen}</Text>
+              </View>
+              {/*Ngày sinh*/}
+              <View style={styles.thongtinBlock}>
+                <Text style={styles.textField}>Ngày sinh:</Text>
+                <Text style={styles.textData}>{data.NgaySinh}</Text>
+              </View>
+              {/*Giới tính*/}
+              <View style={styles.thongtinBlock}>
+                <Text style={styles.textField}>Giới tính:</Text>
+                <Text style={styles.textData}>
+                  {data.GioiTinh ? "Nam" : "Nữ"}
+                </Text>
+              </View>
             </View>
-            {/*Họ tên*/}
-            <View style={styles.thongtinBlock}>
-              <Text style={styles.textField}>Họ tên:</Text>
-              <Text style={styles.textData}>{data.HoTen}</Text>
-            </View>
-            {/*Ngày sinh*/}
-            <View style={styles.thongtinBlock}>
-              <Text style={styles.textField}>Ngày sinh:</Text>
-              <Text style={styles.textData}>{data.NgaySinh}</Text>
-            </View>
-            {/*Giới tính*/}
-            <View style={styles.thongtinBlock}>
-              <Text style={styles.textField}>Giới tính:</Text>
-              <Text style={styles.textData}>
-                {data.GioiTinh ? "Nam" : "Nữ"}
-              </Text>
+            <View style={styles.thongtinRight}>
+              {/*Quê quán*/}
+              <View style={styles.thongtinBlock}>
+                <Text style={styles.textField}>Quê quán:</Text>
+                <Text style={styles.textData}>{data.DiaChi}</Text>
+              </View>
+              {/*Ngày nộp hồ sơ*/}
+              <View style={styles.thongtinBlock}>
+                <Text style={styles.textField}>Ngày nộp hồ sơ:</Text>
+                <Text style={styles.textData}>{data.NgayTao}</Text>
+              </View>
+              {/*Trường đăng ký*/}
+              <View style={styles.thongtinBlock}>
+                <Text style={styles.textField}>Trường đăng ký:</Text>
+                <Text style={styles.textData}>{data.TenTruong}</Text>
+              </View>
+              {/*Trạng thái hồ sơ*/}
+              <View style={styles.thongtinBlock}>
+                <Text style={styles.textField}>Trạng thái hồ sơ:</Text>
+                <Text style={styles.textData}>
+                  {data.TrangThai == 1
+                    ? "Hồ sơ đã đăng ký"
+                    : data.TrangThai == 2
+                    ? "Hồ sơ đã được duyệt"
+                    : data.TrangThai == 3
+                    ? "Hồ sơ trúng tuyển"
+                    : "Hồ sơ trả lại"}
+                </Text>
+              </View>
             </View>
           </View>
-          <View style={styles.thongtinRight}>
-            {/*Quê quán*/}
-            <View style={styles.thongtinBlock}>
-              <Text style={styles.textField}>Quê quán:</Text>
-              <Text style={styles.textData}>{data.DiaChi}</Text>
-            </View>
-            {/*Ngày nộp hồ sơ*/}
-            <View style={styles.thongtinBlock}>
-              <Text style={styles.textField}>Ngày nộp hồ sơ:</Text>
-              <Text style={styles.textData}>{data.NgayTao}</Text>
-            </View>
-            {/*Trường đăng ký*/}
-            <View style={styles.thongtinBlock}>
-              <Text style={styles.textField}>Trường đăng ký:</Text>
-              <Text style={styles.textData}>{data.TenTruong}</Text>
-            </View>
-            {/*Trạng thái hồ sơ*/}
-            <View style={styles.thongtinBlock}>
-              <Text style={styles.textField}>Trạng thái hồ sơ:</Text>
-              <Text style={styles.textData}>
-                {data.TrangThai == 1
-                  ? "Hồ sơ đã đăng ký"
-                  : data.TrangThai == 2
-                  ? "Hồ sơ đã được duyệt"
-                  : data.TrangThai == 3
-                  ? "Hồ sơ trúng tuyển"
-                  : "Hồ sơ trả lại"}
-              </Text>
-            </View>
-          </View>
+          <Text></Text>
         </View>
-        <Text></Text>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   title1: {
     /*  borderColor: "blue",
     borderWidth: 1, */
