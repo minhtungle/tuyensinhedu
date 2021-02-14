@@ -1,10 +1,10 @@
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from "@react-navigation/stack";
-import React from "react";
-import { ImageBackground, Text, View, SafeAreaView } from "react-native";
+import React, { useLayoutEffect } from "react";
+import { ImageBackground, SafeAreaView, Text, View } from "react-native";
 import { Colors, IconButton } from "react-native-paper";
 //* Screen
 import {
@@ -12,8 +12,6 @@ import {
   Dangnhap,
   Gopy,
   Huongdandangkytructuyen,
-  Images,
-  Ketqua,
   Quydinhtuyensinh,
   Thongtintuyensinh,
   Tracuuketquatuyensinh,
@@ -22,9 +20,20 @@ import {
 //* Trang chủ
 import Wallet from "./Wallet/Trangchu";
 
+const ScreenStyle = {
+  headerTitleStyle: {
+    alignSelf: "center",
+    marginRight: "18%",
+  },
+  cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+};
 // Trang chủ
-function Trangchu({ route }) {
-  const navigation = useNavigation();
+function Trangchu({ route, navigation }) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  });
   const { Tinh } = route.params;
   return (
     <SafeAreaView>
@@ -99,149 +108,33 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Đăng nhập"
-        screenOptions={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      >
+      <Stack.Navigator initialRouteName="Đăng nhập" screenOptions={ScreenStyle}>
         {/* Đăng nhập */}
-        <Stack.Screen
-          name="Đăng nhập"
-          component={Dangnhap}
-          options={{
-            headerShown: false,
-          }}
-        />
+        <Stack.Screen name="Đăng nhập" component={Dangnhap} />
         {/* Trang chủ */}
-        <Stack.Screen
-          name="Trang chủ"
-          component={Trangchu}
-          // options={{
-          //   title: "Trang chủ",
-          //   headerStyle: {
-          //     //  "#0a043c","#1f1d4a", "#eb2188", "#f855a8"
-          //     backgroundColor: "#1f1d4a",
-          //     borderBottomWidth: 0.25,
-          //     borderBottomColor: "#e8e8e8",
-          //   },
-          //   headerTitleStyle: {
-          //     alignSelf: "center",
-          //     color: "#fff",
-          //   },
-          // }}
-          options={{
-            headerShown: false,
-          }}
-        />
+        <Stack.Screen name="Trang chủ" component={Trangchu} />
         {/* Quy định tuyển sinh */}
-        <Stack.Screen
-          name="Quy định tuyển sinh"
-          component={Quydinhtuyensinh}
-          options={{
-            title: "Quy định tuyển sinh",
-            headerTitleStyle: {
-              alignSelf: "center",
-              marginRight: "18%",
-            },
-          }}
-        />
+        <Stack.Screen name="Quy định tuyển sinh" component={Quydinhtuyensinh} />
         {/* Thông tin tuyển sinh */}
         <Stack.Screen
           name="Thông tin tuyển sinh"
           component={Thongtintuyensinh}
-          options={{
-            title: "Thông tin tuyển sinh",
-            headerTitleStyle: {
-              alignSelf: "center",
-              marginRight: "18%",
-            },
-          }}
         />
         {/* Đăng ký tuyển sinh */}
-        <Stack.Screen
-          name="Đăng ký tuyển sinh"
-          component={Dangkytuyensinh}
-          options={{
-            title: "Đăng ký tuyển sinh",
-            headerTitleStyle: {
-              alignSelf: "center",
-              marginRight: "18%",
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Trangdangky"
-          component={Trangdangky}
-          options={{
-            title: "Đăng ký",
-            headerTitleStyle: {
-              alignSelf: "center",
-              marginRight: "18%",
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Images"
-          component={Images}
-          options={{
-            title: "Images",
-            headerTitleStyle: {
-              alignSelf: "center",
-              marginRight: "18%",
-            },
-          }}
-        />
+        <Stack.Screen name="Đăng ký tuyển sinh" component={Dangkytuyensinh} />
+        <Stack.Screen name="Trang đăng ký" component={Trangdangky} />
         {/* Tra cứu kết quả tuyển sinh */}
         <Stack.Screen
           name="Tra cứu kết quả tuyển sinh"
           component={Tracuuketquatuyensinh}
-          options={{
-            title: "Tra cứu kết quả tuyển sinh",
-            headerTitleStyle: {
-              alignSelf: "center",
-              marginRight: "18%",
-            },
-            headerStyle: {
-              //  "#0a043c","#1f1d4a", "#eb2188", "#f855a8"
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Ketqua"
-          component={Ketqua}
-          options={{
-            title: "Kết quả",
-            headerTitleStyle: {
-              alignSelf: "center",
-              marginRight: "18%",
-            },
-          }}
         />
         {/* Hướng dẫn đăng ký trực tuyến */}
         <Stack.Screen
           name="Hướng dẫn đăng ký trực tuyến"
           component={Huongdandangkytructuyen}
-          options={{
-            title: "Hướng dẫn đăng ký trực tuyến",
-            headerTitleStyle: {
-              alignSelf: "center",
-              marginRight: "18%",
-            },
-          }}
         />
         {/* Góp ý */}
-        <Stack.Screen
-          name="Góp ý"
-          component={Gopy}
-          options={{
-            title: "Góp ý",
-            headerTitleStyle: {
-              alignSelf: "center",
-              marginRight: "18%",
-            },
-          }}
-        />
+        <Stack.Screen name="Góp ý" component={Gopy} />
       </Stack.Navigator>
     </NavigationContainer>
   );

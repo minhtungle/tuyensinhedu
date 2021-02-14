@@ -1,8 +1,11 @@
-import * as React from "react";
-import { Button, Text, View, SafeAreaView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-function Gopy() {
-  const navigation = useNavigation();
+import React, { useLayoutEffect } from "react";
+import { SafeAreaView, Text } from "react-native";
+function Gopy({ navigation }) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Góp ý",
+    });
+  });
   return (
     <SafeAreaView
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}

@@ -1,18 +1,23 @@
 import { Picker } from "@react-native-picker/picker";
 import { Button } from "galio-framework";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   Linking,
   Modal,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  SafeAreaView,
 } from "react-native";
 import { Colors, IconButton } from "react-native-paper";
 
-export default function Thongtintuyensinh() {
+export default function Thongtintuyensinh({ navigation }) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Thông tin tuyển sinh",
+    });
+  });
   const [data, setData] = useState({
     IDTinh: "",
     IDHuyen: "",

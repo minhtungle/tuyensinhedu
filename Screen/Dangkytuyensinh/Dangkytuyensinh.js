@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { Button } from "galio-framework";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
-  Text,
-  View,
-  SafeAreaView,
-  StyleSheet,
   Image,
   ImageBackground,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import { Button } from "galio-framework";
-import { useNavigation } from "@react-navigation/native";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
 
-export default function Dangkytuyensinh() {
-  const navigation = useNavigation();
+export default function Dangkytuyensinh({ navigation }) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Đăng ký tuyển sinh",
+    });
+  });
   const [status, setStatus] = useState(0);
   const image = [
     require("./img/c0.jpg"),
@@ -91,7 +94,7 @@ export default function Dangkytuyensinh() {
                 color={item.TrangThai === 1 ? "#61b15a" : "#fc8621"}
                 onPress={() => {
                   item.TrangThai === 1
-                    ? navigation.navigate("Trangdangky", {
+                    ? navigation.navigate("Trang đăng ký", {
                         DoiTuongTuyenSinh: item.DoiTuongTuyenSinh,
                         IDKyThi: item.IDKyThi,
                       })

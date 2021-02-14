@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import React, { useLayoutEffect } from "react";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import DataWithSearchBar from "./DataWithSearchBar";
 
-function Quydinhtuyensinh() {
+function Quydinhtuyensinh({ navigation }) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Quy định tuyển sinh",
+    });
+  });
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.block}>

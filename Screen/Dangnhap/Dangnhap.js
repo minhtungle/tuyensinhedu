@@ -1,20 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import { Picker } from "@react-native-picker/picker";
+import { Button } from "galio-framework";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
-  View,
-  SafeAreaView,
-  Text,
+  Animated,
+  Dimensions,
   Image,
   ImageBackground,
-  StyleSheet,
-  Animated,
+  SafeAreaView,
   StatusBar,
-  Dimensions,
-  Easing,
+  StyleSheet,
+  View,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import { Colors, IconButton } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
-import { Button } from "galio-framework";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
@@ -42,8 +39,12 @@ const Banner = (props) => {
   );
 };
 
-export default function Dangnhap() {
-  const navigation = useNavigation();
+export default function Dangnhap({ navigation }) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  });
   const [data, setData] = useState({
     Tinh: "Chọn Tỉnh/Thành phố",
   });
@@ -153,7 +154,7 @@ export default function Dangnhap() {
 
   //#endregion
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ImageBackground
         source={require("../../assets/background.png")}
         style={{
@@ -235,7 +236,7 @@ export default function Dangnhap() {
           )}
         </View>
       </ImageBackground>
-    </SafeAreaView>
+    </View>
   );
 }
 

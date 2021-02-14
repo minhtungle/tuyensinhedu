@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
   Alert,
   Image,
@@ -13,7 +13,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 import { BlurView } from "expo-blur";
 import CheckBox from "@react-native-community/checkbox";
@@ -56,10 +55,13 @@ function useInput() {
 }
 //* hàm chuyển đổi ngày tháng
 const date = require("s-date");
-export default function Trangdangky({ route }) {
+export default function Trangdangky({ route, navigation }) {
   const { DoiTuongTuyenSinh, IDKyThi } = route.params;
-  const navigation = useNavigation();
-
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Đăng ký tuyển sinh",
+    });
+  });
   //#region DatePicker
   const inputMe = useInput(new Date());
   const inputCon = useInput(new Date());

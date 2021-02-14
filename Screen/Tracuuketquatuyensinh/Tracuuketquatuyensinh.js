@@ -1,11 +1,13 @@
-import * as React from "react";
-import { View, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-
+import React, { useLayoutEffect } from "react";
+import { StyleSheet } from "react-native";
 import ComboBox from "./ComboBox";
 
-function Tracuuketquatuyensinh() {
-  const navigation = useNavigation();
+function Tracuuketquatuyensinh({ navigation }) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Tra cứu kết quả tuyển sinh",
+    });
+  });
   return <ComboBox />;
 }
 const styles = StyleSheet.create({
