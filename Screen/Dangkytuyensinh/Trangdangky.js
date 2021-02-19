@@ -1397,14 +1397,14 @@ export default function Trangdangky({ route, navigation }) {
           console.log(responseJson.Result);
           responseJson.Result.status
             ? showMessage({
-                message: "Đăng ký thành công",
-                description: `${responseJson.Result}`,
+                message: "Thành công",
+                description: `${responseJson.Result.message}`,
                 duration: 3000,
                 type: "success",
               })
             : showMessage({
-                message: "Đăng ký thất bại",
-                description: `${responseJson.Result}`,
+                message: "Thất bại",
+                description: `${responseJson.Result.message}`,
                 duration: 3000,
                 type: "warning",
               });
@@ -1412,8 +1412,8 @@ export default function Trangdangky({ route, navigation }) {
     } catch (e) {
       //
       showMessage({
-        message: "Đăng ký thất bại",
-        description: `${responseJson.Result}`,
+        message: "Thất bại",
+        description: `${responseJson.Result.message}`,
         duration: 3000,
         type: "error",
       });
@@ -2819,7 +2819,7 @@ export default function Trangdangky({ route, navigation }) {
           </View>
         </ScrollView>
         <FlashMessage
-          autoHide={false}
+          autoHide={true}
           position="top"
           statusBarHeight={0}
           style={{
@@ -2831,12 +2831,10 @@ export default function Trangdangky({ route, navigation }) {
             fontSize: 20,
             textAlign: "center",
             alignSelf: "center",
-            borderWidth: 1,
           }}
           textStyle={{
             fontSize: 16,
             textAlign: "center",
-            borderWidth: 1,
           }}
         />
         {!TrangThai() && (

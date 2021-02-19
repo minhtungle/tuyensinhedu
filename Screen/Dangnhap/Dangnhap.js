@@ -1,12 +1,11 @@
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { Button } from "galio-framework";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   Animated,
   Dimensions,
   Image,
   ImageBackground,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
   View,

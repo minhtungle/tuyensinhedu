@@ -1,5 +1,7 @@
 //* Đăng nhập
 import Dangnhap from "./Dangnhap/Dangnhap";
+//* Trang chủ
+import Trangchu from "./Trangchu/Trangchu";
 //* Đăng ký tuyển sinh
 import Dangkytuyensinh from "./Dangkytuyensinh/Dangkytuyensinh";
 import Trangdangky from "./Dangkytuyensinh/Trangdangky";
@@ -18,6 +20,7 @@ import Gopy from "./Gopy/Gopy";
 
 export {
   Dangnhap,
+  Trangchu,
   Dangkytuyensinh,
   Trangdangky,
   Images,
