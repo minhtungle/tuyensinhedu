@@ -1,6 +1,7 @@
 import { Picker } from "@react-native-picker/picker";
 import { Button } from "galio-framework";
 import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useHeaderHeight } from "@react-navigation/stack";
 import {
   Linking,
   Modal,
@@ -18,6 +19,7 @@ export default function Thongtintuyensinh({ navigation }) {
       title: "Thông tin tuyển sinh",
     });
   });
+  const headerHeight = useHeaderHeight();
   const [data, setData] = useState({
     IDTinh: "",
     IDHuyen: "",
@@ -101,7 +103,7 @@ export default function Thongtintuyensinh({ navigation }) {
   //* Tỉnh:
   useEffect(() => {
     fetch(
-      "http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=1&level=1"
+      "http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=1&level=1"
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -156,7 +158,7 @@ export default function Thongtintuyensinh({ navigation }) {
       ],
     }));
     fetch(
-      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDTinh}&level=2`
+      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${data.IDTinh}&level=2`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -204,7 +206,7 @@ export default function Thongtintuyensinh({ navigation }) {
       ],
     }));
     fetch(
-      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyen}&level=3`
+      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyen}&level=3`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -252,7 +254,7 @@ export default function Thongtintuyensinh({ navigation }) {
   const Tracuu = async () => {
     try {
       await fetch(
-        `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getkehoachbyyear?namhoc=${data.NamTS}&caphoc=${data.CapTS}&idquanhuyen=${data.IDHuyen}&idxaphuong=${data.IDXa}`
+        `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getkehoachbyyear?namhoc=${data.NamTS}&caphoc=${data.CapTS}&idquanhuyen=${data.IDHuyen}&idxaphuong=${data.IDXa}`
       )
         .then((response) => response.json())
         .then((responseJson) => {
@@ -502,7 +504,9 @@ export default function Thongtintuyensinh({ navigation }) {
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: 22,
+                marginTop: headerHeight,
+                backgroundColor: "#DEEBFE",
+                //opacity: 0.5,
               }}
             >
               <View
@@ -553,7 +557,7 @@ export default function Thongtintuyensinh({ navigation }) {
                           padding: 10,
                         }}
                       >
-                        <Text>Kết quả tìm kiếm không tồn tại</Text>
+                        <Text>Không có thông tin phù hợp</Text>
                       </View>
                     </TouchableOpacity>
                   </View>

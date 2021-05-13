@@ -86,7 +86,7 @@ export default function ComboBox() {
         break;
     }
     await fetch(
-      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/tracuuketqua?type=${type}&mahoso=${mahoso}&mahocsinh=${mahocsinh}&matkhau=${matkhau}&sbd=${sbd}`
+      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/tracuuketqua?type=${type}&mahoso=${mahoso}&mahocsinh=${mahocsinh}&matkhau=${matkhau}&sbd=${sbd}`
     )
       .then((response) => response.json())
       .then((responseJson) => {

@@ -25,7 +25,7 @@ export default function Dangkytuyensinh({ navigation }) {
   ];
   const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("http://tuyensinh.huongvietedm.vn/api/TSAPIService/getkythi")
+    fetch("http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getkythi")
       .then((response) => response.json())
       .then((responseJson) => {
         const arrData = [];

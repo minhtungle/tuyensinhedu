@@ -18,7 +18,7 @@ import { BlurView } from "expo-blur";
 import CheckBox from "@react-native-community/checkbox";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import * as ImagePicker from "expo-image-picker";
+// import * as ImagePicker from "expo-image-picker";
 import RadioButtonRN from "radio-buttons-react-native";
 import { Button } from "galio-framework";
 import { Colors, IconButton } from "react-native-paper";
@@ -422,24 +422,24 @@ export default function Trangdangky({ route, navigation }) {
   //#endregion
 
   //#region Ảnh: Thêm - Xóa
-  //* Dữ liệu ảnh
-  const [pickerResult, setPickerResult] = useState(null);
-  //* Nén ảnh thành base64
-  const _pickImg = async () => {
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      base64: true,
-      allowsEditing: false,
-      aspect: [4, 3],
-    });
+  // //* Dữ liệu ảnh
+  // const [pickerResult, setPickerResult] = useState(null);
+  // //* Nén ảnh thành base64
+  // const _pickImg = async () => {
+  //   let pickerResult = await ImagePicker.launchImageLibraryAsync({
+  //     base64: true,
+  //     allowsEditing: false,
+  //     aspect: [4, 3],
+  //   });
 
-    setPickerResult({
-      pickerResult,
-    });
-  };
-  let imageUri = pickerResult
-    ? `data:image/png;base64,${pickerResult.base64}`
-    : null;
-  imageUri && console.log({ uri: imageUri.slice(0, 100) });
+  //   setPickerResult({
+  //     pickerResult,
+  //   });
+  // };
+  // let imageUri = pickerResult
+  //   ? `data:image/png;base64,${pickerResult.base64}`
+  //   : null;
+  // imageUri && console.log({ uri: imageUri.slice(0, 100) });
   //#endregion
 
   //#region Nguyện Vọng: Thêm - Xóa - Sửa Value - List - Call API
@@ -733,7 +733,7 @@ export default function Trangdangky({ route, navigation }) {
   //* Tỉnh:
   useEffect(() => {
     fetch(
-      "http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=1&level=1"
+      "http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=1&level=1"
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -794,7 +794,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDTinhNS}&level=2`
+      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${data.IDTinhNS}&level=2`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -848,7 +848,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDTinhTT}&level=2`
+      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${data.IDTinhTT}&level=2`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -902,7 +902,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDTinh}&level=2`
+      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${data.IDTinh}&level=2`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -952,7 +952,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyenNS}&level=3`
+      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyenNS}&level=3`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1000,7 +1000,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyenTT}&level=3`
+      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyenTT}&level=3`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1048,7 +1048,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyen}&level=3`
+      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyen}&level=3`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1117,7 +1117,9 @@ export default function Trangdangky({ route, navigation }) {
   //#endregion
   //#region Đối tượng ưu tiên
   useEffect(() => {
-    fetch("http://tuyensinh.huongvietedm.vn/api/TSAPIService/getdoituonguutien")
+    fetch(
+      "http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getdoituonguutien"
+    )
       .then((response) => response.json())
       .then((responseJson) => {
         const arrData = [];
@@ -1143,7 +1145,7 @@ export default function Trangdangky({ route, navigation }) {
   //#region Nguyện vọng
   useEffect(() => {
     fetch(
-      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getschools?idTinh_ThuongTru=${data.IDTinhTT}&Cap=${DoiTuongTuyenSinh}`
+      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getschools?idTinh_ThuongTru=${data.IDTinhTT}&Cap=${DoiTuongTuyenSinh}`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1381,7 +1383,7 @@ export default function Trangdangky({ route, navigation }) {
     // console.log(DataPush);
     try {
       await fetch(
-        "http://tuyensinh.huongvietedm.vn/api/TSAPIService/dangkytuyensinh",
+        "http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/dangkytuyensinh",
         {
           method: "POST",
           mode: "no-cors",

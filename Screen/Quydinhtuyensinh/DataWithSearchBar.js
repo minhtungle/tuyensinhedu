@@ -22,7 +22,7 @@ const DataWithSearchBar = () => {
   //* Lấy API
   useEffect(() => {
     fetch(
-      "http://tuyensinh.huongvietedm.vn/api/TSAPIService/getquyetdinhtuyensinh"
+      "http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getquyetdinhtuyensinh"
     )
       .then((response) => response.json())
       .then((responseJson) => {
