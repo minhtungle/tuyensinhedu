@@ -2374,7 +2374,7 @@ export default function Trangdangky({ route, navigation }) {
                         // }}
                       />
                       {/*--------Camera--------*/}
-                      <View
+                      {/* <View
                         style={{
                           flex: 1,
                           alignItems: "center",
@@ -2395,7 +2395,7 @@ export default function Trangdangky({ route, navigation }) {
                             {JSON.stringify(Object.keys(pickerResult))}
                           </Text>
                         ) : null}
-                      </View>
+                      </View> */}
                     </View>
                   </View>
                 </View>
