@@ -11,8 +11,8 @@ import Thongtintuyensinh from "./Thongtintuyensinh/Thongtintuyensinh";
 //* Tra cứu kết quả tuyển sinh
 import Tracuuketquatuyensinh from "./Tracuuketquatuyensinh/Tracuuketquatuyensinh";
 import Ketqua from "./Tracuuketquatuyensinh/Ketqua";
-//* Quy định tuyển sinh
-import Quydinhtuyensinh from "./Quydinhtuyensinh/Quydinhtuyensinh";
+//* Danh mục văn bản
+import Danhmucvanban from "./Danhmucvanban/Danhmucvanban";
 //* Hướng dẫn đăng ký
 import Huongdandangkytructuyen from "./Huongdandangkytructuyen/Huongdandangkytructuyen";
 //* Góp ý
@@ -25,7 +25,7 @@ export {
   Trangdangky,
   Images,
   Thongtintuyensinh,
-  Quydinhtuyensinh,
+  Danhmucvanban,
   Tracuuketquatuyensinh,
   Ketqua,
   Huongdandangkytructuyen,

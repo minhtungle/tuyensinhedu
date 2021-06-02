@@ -20,9 +20,17 @@ import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 // import * as ImagePicker from "expo-image-picker";
 import RadioButtonRN from "radio-buttons-react-native";
-import { Button } from "galio-framework";
+import { Button, Input } from "galio-framework";
 import { Colors, IconButton } from "react-native-paper";
-
+import {
+  Table,
+  TableWrapper,
+  Row,
+  Rows,
+  Col,
+  Cols,
+  Cell,
+} from "react-native-table-component";
 import FlashMessage from "react-native-flash-message";
 import { showMessage, hideMessage } from "react-native-flash-message";
 
@@ -76,17 +84,22 @@ export default function Trangdangky({ route, navigation }) {
     NgaySinh: "",
     DanToc: "",
     GioiTinh: false,
-
+    // Nơi sinh
     IDTinhNS: "",
     IDHuyenNS: "",
     IDXaNS: "",
     DiaChiNS: "",
-
+    // Thường trú
     IDTinhTT: "",
     IDHuyenTT: "",
-    IDXaNS: "",
+    IDXaTT: "",
     DiaChiTT: "",
-
+    // Tạm trú
+    IDTinhTamTru: "",
+    IDHuyenTamTru: "",
+    IDXaTamTru: "",
+    DiaChiTamTru: "",
+    // Nơi ở
     IDTinh: "",
     IDHuyen: "",
     IDXa: "",
@@ -118,239 +131,28 @@ export default function Trangdangky({ route, navigation }) {
     MailLienHe: "",
     Xacnhanthongtin: false,
   });
-
+  const inputTable = (item, index) => (
+    <TextInput style={{ paddingLeft: 5 }} placeholder="Nhập điểm ..." />
+  );
+  const [table, setTable] = useState({
+    header: ["Môn", "Toán", "Anh"],
+    body: [
+      ["Lớp 3", inputTable(), inputTable()],
+      ["Lớp 4", inputTable(), inputTable()],
+      ["Lớp 5", inputTable(), inputTable()],
+    ],
+  });
   //#region Alert
   //* 0: ẩn, 1: thành công, 2: info, -1: thất bại, -2: cảnh báo
   const [alert, setAlert] = useState(0);
   //* Thông báo
   const [message, setMessage] = useState("");
   //#endregion
-
+  const dantocData = require("../Dangkytuyensinh/Dantoc.json");
   //#region DropPicker: Dữ liệu - Thay đổi value khi chọn
   //* Dữ liệu trong dropDown
   const [picker, setPicker] = useState({
-    DanToc: [
-      {
-        id: "",
-        name: "Chọn dân tộc",
-      },
-      {
-        id: "1",
-        name: "Kinh",
-      },
-      {
-        id: "2",
-        name: "Tày",
-      },
-      {
-        id: "3",
-        name: "Thái",
-      },
-      {
-        id: "4",
-        name: "Mường",
-      },
-      {
-        id: "5",
-        name: "Khơ me",
-      },
-      {
-        id: "6",
-        name: "Hoa (Hán)",
-      },
-      {
-        id: "7",
-        name: "Nùng",
-      },
-      {
-        id: "8",
-        name: "H'mông (Mèo)",
-      },
-      {
-        id: "9",
-        name: "Dao",
-      },
-      {
-        id: "10",
-        name: "Gia - rai",
-      },
-      {
-        id: "11",
-        name: "Ê-đê",
-      },
-      {
-        id: "12",
-        name: "Ba-na",
-      },
-      {
-        id: "13",
-        name: "Sán Chay (Cao Lan-Sán Chỉ)",
-      },
-      {
-        id: "14",
-        name: "Chăm (Chàm)",
-      },
-      {
-        id: "15",
-        name: "Cơ-ho",
-      },
-      {
-        id: "16",
-        name: "Xơ-đăng",
-      },
-      {
-        id: "17",
-        name: "Sán Dìu",
-      },
-      {
-        id: "18",
-        name: "Hrê",
-      },
-      {
-        id: "19",
-        name: "Ra-glai",
-      },
-      {
-        id: "20",
-        name: "Mnông",
-      },
-      {
-        id: "21",
-        name: "Thổ (4)",
-      },
-      {
-        id: "22",
-        name: "XTiêng",
-      },
-      {
-        id: "23",
-        name: "Khơ-mú",
-      },
-      {
-        id: "24",
-        name: "Bru-Vân Kiều",
-      },
-      {
-        id: "25",
-        name: "Cơ-Tu",
-      },
-      {
-        id: "26",
-        name: "Giáy",
-      },
-      {
-        id: "27",
-        name: "Tà-ôi",
-      },
-      {
-        id: "28",
-        name: "Mạ",
-      },
-      {
-        id: "29",
-        name: "Gié-Triêng",
-      },
-      {
-        id: "30",
-        name: "Co",
-      },
-      {
-        id: "31",
-        name: "Chơ - ro",
-      },
-      {
-        id: "32",
-        name: "Xinh-mun",
-      },
-      {
-        id: "33",
-        name: "Hà Nhì",
-      },
-      {
-        id: "34",
-        name: "Chu - ru",
-      },
-      {
-        id: "35",
-        name: "Lào",
-      },
-      {
-        id: "36",
-        name: "La Chí",
-      },
-      {
-        id: "37",
-        name: "Kháng",
-      },
-      {
-        id: "38",
-        name: "Phù Lá",
-      },
-      {
-        id: "39",
-        name: "La Hủ",
-      },
-      {
-        id: "40",
-        name: "La Ha",
-      },
-      {
-        id: "41",
-        name: "Pà Thẻn",
-      },
-      {
-        id: "42",
-        name: "Lự",
-      },
-      {
-        id: "43",
-        name: "Ngái",
-      },
-      {
-        id: "44",
-        name: "Chứt",
-      },
-      {
-        id: "45",
-        name: "Lô Lô",
-      },
-      {
-        id: "46",
-        name: "Mảng",
-      },
-      {
-        id: "47",
-        name: "Cơ Lao",
-      },
-      {
-        id: "48",
-        name: "Bố Y",
-      },
-      {
-        id: "49",
-        name: "Cống",
-      },
-      {
-        id: "50",
-        name: "Si La",
-      },
-      {
-        id: "51",
-        name: "Pu Péo",
-      },
-      {
-        id: "52",
-        name: "Rơ - măm",
-      },
-      {
-        id: "53",
-        name: "Brâu",
-      },
-      {
-        id: "54",
-        name: "Ơ Đu",
-      },
-    ],
+    DanToc: dantocData.dantoc,
     // Nơi sinh
     IDTinhNS: [
       {
@@ -754,6 +556,7 @@ export default function Trangdangky({ route, navigation }) {
           ...prevState,
           IDTinhNS: arrData,
           IDTinhTT: arrData,
+          IDTinhTamTru: arrData,
           IDTinh: arrData,
         }));
       })
@@ -882,6 +685,60 @@ export default function Trangdangky({ route, navigation }) {
         }));
       });
   }, [data.IDTinhTT]);
+  //* Huyện TamTru
+  useEffect(() => {
+    //! Cứ khi ID tỉnh thay đổi thì set id và picker huyện-xã về null
+    changeValuePicker({ IDHuyenTamTru: "", IDXaTamTru: "" });
+    setPicker((prevState) => ({
+      ...prevState,
+      IDHuyenTamTru: [
+        {
+          id: "",
+          name: "Chọn Quận/Huyện",
+        },
+      ],
+      IDXaTamTru: [
+        {
+          id: "",
+          name: "Chọn phường/xã",
+        },
+      ],
+    }));
+    fetch(
+      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${data.IDTinhTamTru}&level=2`
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        const arrData = [
+          {
+            id: "",
+            name: "Chọn Quận/Huyện",
+          },
+        ];
+        responseJson.Result.results.map((item, index) => {
+          const obj = {
+            id: item.ID,
+            name: item.TenDiaChi,
+          };
+          arrData.push(obj);
+        });
+        setPicker((prevState) => ({
+          ...prevState,
+          IDHuyenTamTru: arrData,
+        }));
+      })
+      .catch((error) => {
+        setPicker((prevState) => ({
+          ...prevState,
+          IDHuyenTamTru: [
+            {
+              id: "",
+              name: "Chọn Quận/Huyện",
+            },
+          ],
+        }));
+      });
+  }, [data.IDTinhTamTru]);
   //* Huyện
   useEffect(() => {
     //! Cứ khi ID tỉnh thay đổi thì set id và picker huyện-xã về null
@@ -1113,7 +970,7 @@ export default function Trangdangky({ route, navigation }) {
   //       }));
   //     })
   //     .catch((error) => error);
-  // }, [data.IDTinhTT]);
+  // }, [0]);
   //#endregion
   //#region Đối tượng ưu tiên
   useEffect(() => {
@@ -1683,6 +1540,51 @@ export default function Trangdangky({ route, navigation }) {
       >
         <ScrollView keyboardDismissMode="on-drag">
           <View style={styles.container}>
+            {/* -------------Đăng ký nguyện vọng------------- */}
+            <View style={styles.block}>
+              <View
+                style={{
+                  backgroundColor: "white",
+                  paddingTop: 5,
+                  borderColor: "white",
+                  borderRadius: 15,
+
+                  margin: 20,
+                  padding: "5%",
+
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 5,
+                  },
+                  shadowOpacity: 0.34,
+                  shadowRadius: 6.27,
+
+                  elevation: 10,
+                }}
+              >
+                <View style={styles.title}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: "#145374",
+                      flexGrow: 1,
+                      textAlign: "center",
+                    }}
+                  >
+                    Đăng ký nguyện vọng
+                  </Text>
+                </View>
+                {/* Đăng ký nguyện vọng */}
+                <View style={styles.box}>
+                  <ListNV_Macdinh />
+                  <ScrollView nestedScrollEnabled style={{ maxHeight: 400 }}>
+                    <ListNV_Them />
+                  </ScrollView>
+                </View>
+              </View>
+            </View>
             {/* -------------Thông tin học sinh------------- */}
             <View style={styles.block}>
               <View
@@ -1870,6 +1772,7 @@ export default function Trangdangky({ route, navigation }) {
                       }
                     />
                   </View>
+
                   {/*//? NƠI SINH ---------------------------------*/}
                   <Text
                     style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
@@ -1956,6 +1859,95 @@ export default function Trangdangky({ route, navigation }) {
                       }
                     >
                       {data.DiaChiNS}
+                    </TextInput>
+                  </View>
+
+                  {/*//? HỘ KHẨU TẠM TRÚ ---------------------------------*/}
+                  <Text
+                    style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
+                  >
+                    HỘ KHẨU TẠM TRÚ :
+                  </Text>
+                  {/*// Tỉnh thành phố */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn tỉnh/thành phố{" "}
+                      <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDTinhTamTru}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDTinhTamTru: itemValue })
+                      }
+                    >
+                      {picker.IDTinhTT.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Quận huyện */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn quận/huyện <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDHuyenTamTru}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDHuyenTamTru: itemValue })
+                      }
+                    >
+                      {picker.IDHuyenTT.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Phường xã */}
+                  <View style={styles.field}>
+                    <Text>
+                      Chọn phường/xã <Text style={{ color: "red" }}>*</Text>
+                    </Text>
+                    <Picker
+                      selectedValue={data.IDXaTamTru}
+                      style={{ height: 50, width: "100%" }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        changeValuePicker({ IDXaTamTru: itemValue })
+                      }
+                    >
+                      {picker.IDXaTT.map((item, index) => {
+                        return (
+                          <Picker.Item
+                            key={index.toString()}
+                            label={item.name}
+                            value={item.id}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </View>
+                  {/*// Số nhà đường */}
+                  <View style={styles.field}>
+                    <Text>Số nhà, đường</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ DiaChiTamTru: value })
+                      }
+                    >
+                      {data.DiaChiTamTru}
                     </TextInput>
                   </View>
 
@@ -2139,51 +2131,122 @@ export default function Trangdangky({ route, navigation }) {
                 </View>
               </View>
             </View>
-            {/* -------------Đăng ký nguyện vọng------------- */}
-            <View style={styles.block}>
-              <View
-                style={{
-                  backgroundColor: "white",
-                  paddingTop: 5,
-                  borderColor: "white",
-                  borderRadius: 15,
+            {/* -------------Học bạ------------- */}
+            {DoiTuongTuyenSinh >= 2 && (
+              <View style={styles.block}>
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    paddingTop: 5,
+                    borderColor: "white",
+                    borderRadius: 15,
 
-                  margin: 20,
-                  padding: "5%",
+                    margin: 20,
+                    padding: "5%",
 
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 5,
-                  },
-                  shadowOpacity: 0.34,
-                  shadowRadius: 6.27,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 5,
+                    },
+                    shadowOpacity: 0.34,
+                    shadowRadius: 6.27,
 
-                  elevation: 10,
-                }}
-              >
-                <View style={styles.title}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      color: "#145374",
-                      flexGrow: 1,
-                      textAlign: "center",
-                    }}
-                  >
-                    Đăng ký nguyện vọng
-                  </Text>
-                </View>
-                {/* Đăng ký nguyện vọng */}
-                <View style={styles.box}>
-                  <ListNV_Macdinh />
-                  <ScrollView nestedScrollEnabled style={{ maxHeight: 400 }}>
-                    <ListNV_Them />
-                  </ScrollView>
+                    elevation: 10,
+                  }}
+                >
+                  <View style={styles.title}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: "bold",
+                        color: "#145374",
+                        width: "100%",
+                        textAlign: "center",
+                      }}
+                      numberOfLines={1}
+                    >
+                      Học bạ
+                    </Text>
+                  </View>
+                  <View style={styles.box}>
+                    {DoiTuongTuyenSinh == 3 && (
+                      <View>
+                        {/* Học lực */}
+                        <View style={styles.field}>
+                          <Text>
+                            Hạnh kiểm <Text style={{ color: "red" }}>*</Text>
+                          </Text>
+                          <TextInput
+                            style={styles.textInput}
+                            onChangeText={(value) =>
+                              changeValuePicker({ HocLuc: value })
+                            }
+                          >
+                            {data.HocLuc}
+                          </TextInput>
+                        </View>
+                        {/* Hạnh kiểm */}
+                        <View style={styles.field}>
+                          <Text>
+                            Học lực <Text style={{ color: "red" }}>*</Text>
+                          </Text>
+                          <TextInput
+                            style={styles.textInput}
+                            onChangeText={(value) =>
+                              changeValuePicker({ HanhKiem: value })
+                            }
+                          >
+                            {data.HanhKiem}
+                          </TextInput>
+                        </View>
+                      </View>
+                    )}
+                    <View style={styles.field}>
+                      <Text>
+                        Điểm học bạ <Text style={{ color: "red" }}>*</Text>
+                      </Text>
+                      <Table
+                        borderStyle={{ borderColor: "transparent" }}
+                        borderStyle={{ borderWidth: 1 }}
+                      >
+                        <Row
+                          data={table.header}
+                          style={{
+                            height: 40,
+                            backgroundColor: "#008577",
+                          }}
+                          textStyle={{ margin: 6, textAlign: "center" }}
+                        />
+                        {table.body.map((rowData, index) => (
+                          <TableWrapper
+                            key={index}
+                            style={{
+                              flexDirection: "row",
+                              backgroundColor: "#FFF1C1",
+                              borderColor: "black",
+                            }}
+                          >
+                            {rowData.map((cellData, cellIndex) => (
+                              <Cell
+                                key={cellIndex}
+                                data={cellData}
+                                style={
+                                  cellIndex == 0 && {
+                                    paddingHorizontal: 27.4,
+                                  }
+                                }
+                                textStyle={styles.text}
+                              />
+                            ))}
+                          </TableWrapper>
+                        ))}
+                      </Table>
+                    </View>
+                  </View>
                 </View>
               </View>
-            </View>
+            )}
             {/* -------------Chế độ ưu tiên------------- */}
             <View style={styles.block}>
               <View

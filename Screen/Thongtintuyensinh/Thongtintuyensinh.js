@@ -13,12 +13,13 @@ import {
 } from "react-native";
 import { Colors, IconButton } from "react-native-paper";
 
-export default function Thongtintuyensinh({ navigation }) {
+export default function Thongtintuyensinh({ navigation, route }) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Thông tin tuyển sinh",
     });
   });
+  const { Tinh } = route.params;
   const headerHeight = useHeaderHeight();
   const [data, setData] = useState({
     IDTinh: "",
@@ -113,17 +114,75 @@ export default function Thongtintuyensinh({ navigation }) {
             name: "Chọn Tỉnh/Thành phố",
           },
         ];
-        responseJson.Result.results.map((item, index) => {
-          const obj = {
-            id: item.ID,
-            name: item.TenDiaChi,
-          };
-          arrData.push(obj);
+        // responseJson.Result.results.map((item, index) => {
+        //   const obj = {
+        //     id: item.ID,
+        //     name: item.TenDiaChi,
+        //   };
+        //   arrData.push(obj);
+        // });
+        const obj = responseJson.Result.results.filter(
+          (item, index) => item.TenDiaChi.toString() === Tinh.toString()
+        );
+        arrData.length = 0;
+        arrData.push({
+          id: obj[0].ID,
+          name: obj[0].TenDiaChi,
         });
         setPicker((prevState) => ({
           ...prevState,
           IDTinh: arrData,
         }));
+        changeValuePicker({ IDHuyen: "", IDXa: "" });
+        setPicker((prevState) => ({
+          ...prevState,
+          IDHuyen: [
+            {
+              id: "",
+              name: "Chọn Quận/Huyện",
+            },
+          ],
+          IDXa: [
+            {
+              id: "",
+              name: "Chọn phường/xã",
+            },
+          ],
+        }));
+        fetch(
+          `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${obj[0].ID}&level=2`
+        )
+          .then((response) => response.json())
+          .then((responseJson) => {
+            const arrData = [
+              {
+                id: "",
+                name: "Chọn Quận/Huyện",
+              },
+            ];
+            responseJson.Result.results.map((item, index) => {
+              const obj = {
+                id: item.ID,
+                name: item.TenDiaChi,
+              };
+              arrData.push(obj);
+            });
+            setPicker((prevState) => ({
+              ...prevState,
+              IDHuyen: arrData,
+            }));
+          })
+          .catch((error) => {
+            setPicker((prevState) => ({
+              ...prevState,
+              IDHuyen: [
+                {
+                  id: "",
+                  name: "Chọn Quận/Huyện",
+                },
+              ],
+            }));
+          });
       })
       .catch((error) => {
         const arrDataFail = [
@@ -243,10 +302,7 @@ export default function Thongtintuyensinh({ navigation }) {
   //#endregion
   //#region Button: Ẩn hiện - Tra cứu - Lấy API Tra cứu
   const Trangthai = () => {
-    if (
-      (data.IDTinh && data.IDHuyen && data.IDXa && data.CapTS && data.NamTS) !=
-      ""
-    ) {
+    if ((data.IDHuyen && data.IDXa) != "") {
       return true;
     }
     return false;
@@ -290,9 +346,11 @@ export default function Thongtintuyensinh({ navigation }) {
             obj = {};
           }
           changeValuePicker({ ketqua: rs });
+          setModalVisible(true);
         });
     } catch (e) {
       changeValuePicker({ ketqua: [] });
+      setModalVisible(true);
     }
   };
   //#endregion
@@ -319,7 +377,7 @@ export default function Thongtintuyensinh({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.block}>
         {/*// Tỉnh thành phố */}
-        <View style={[styles.field, { zIndex: 11003 }]}>
+        <View style={[styles.field, { zIndex: 11003, display: "none" }]}>
           {data.IDTinh == "" || null ? null : (
             <View style={styles.label}>
               <IconButton
@@ -490,7 +548,7 @@ export default function Thongtintuyensinh({ navigation }) {
             round
             style={styles.button}
             color="#61b15a"
-            onPress={() => setModalVisible(true)}
+            onPress={() => Tracuu()}
           >
             Tra cứu
           </Button>

@@ -73,7 +73,7 @@ function Trangchu({ route, navigation }) {
         style={{ width: "100%", height: "100%" }}
         blurRadius={1.5}
       >
-        <Wallet />
+        <Wallet {...{ Tinh }} />
       </ImageBackground>
     </SafeAreaView>
   );

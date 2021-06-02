@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Pressable,
-  SafeAreaView,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Header({ title }) {
   return (

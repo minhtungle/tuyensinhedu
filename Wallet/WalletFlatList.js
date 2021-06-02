@@ -1,17 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-
-import {
-  Animated,
-  FlatList,
-  TouchableOpacity,
-  TouchableHighlight,
-  Button,
-} from "react-native";
-
+import { Animated, FlatList } from "react-native";
 import { Cards } from "../Transformations/components/Card";
 import WalletCard from "./WalletCard";
-import { useNavigation } from "@react-navigation/native";
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 const cards = [
@@ -41,14 +32,14 @@ const cards = [
   },
 ];
 const y = new Animated.Value(0);
-const Wallet = () => {
+const Wallet = ({ Tinh }) => {
   const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y } } }], {
     useNativeDriver: true,
   });
   const navigation = useNavigation();
   // Lặp từng Card
   const renderItem = ({ index, item: { type } }) => (
-    <WalletCard {...{ index, y, type }} />
+    <WalletCard {...{ index, y, type, Tinh }} />
   );
   return (
     <AnimatedFlatList

@@ -2,10 +2,10 @@ import React, { useLayoutEffect } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import DataWithSearchBar from "./DataWithSearchBar";
 
-function Quydinhtuyensinh({ navigation }) {
+function Danhmucvanban({ navigation }) {
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Quy định tuyển sinh",
+      title: "Danh mục văn bản",
     });
   });
   return (
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 13 },
   },
 });
-export default Quydinhtuyensinh;
+export default Danhmucvanban;

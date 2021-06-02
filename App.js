@@ -10,7 +10,7 @@ import {
   Dangnhap,
   Gopy,
   Huongdandangkytructuyen,
-  Quydinhtuyensinh,
+  Danhmucvanban,
   Thongtintuyensinh,
   Tracuuketquatuyensinh,
   Trangchu,
@@ -35,8 +35,8 @@ export default function App() {
         <Stack.Screen name="Đăng nhập" component={Dangnhap} />
         {/* Trang chủ */}
         <Stack.Screen name="Trang chủ" component={Trangchu} />
-        {/* Quy định tuyển sinh */}
-        <Stack.Screen name="Quy định tuyển sinh" component={Quydinhtuyensinh} />
+        {/* Danh mục văn bản */}
+        <Stack.Screen name="Danh mục văn bản" component={Danhmucvanban} />
         {/* Thông tin tuyển sinh */}
         <Stack.Screen
           name="Thông tin tuyển sinh"

@@ -1,6 +1,9 @@
 {
     "dantoc":[
         {
+            "id": "0",
+            "name": "Chọn dân tộc"
+        },{
             "id": "1",
             "name": "Kinh"
         },{

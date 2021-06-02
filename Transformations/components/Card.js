@@ -1,14 +1,12 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
   Dimensions,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableHighlight,
   ImageBackground,
+  StyleSheet,
   Text,
+  TouchableOpacity,
 } from "react-native";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 const ratio = 228 / 362;
@@ -56,7 +54,7 @@ export var Cards;
   Cards[(Cards["Card6"] = 5)] = "Card6";
 })(Cards || (Cards = {}));
 
-export default ({ type }) => {
+export default ({ type, Tinh }) => {
   const navigation = useNavigation();
   let source;
   let page;
@@ -64,8 +62,8 @@ export default ({ type }) => {
   let textSub;
   switch (type) {
     case Cards.Card1:
-      page = "Quy định tuyển sinh";
-      title = "Quy định \ntuyển sinh";
+      page = "Danh mục văn bản";
+      title = "Danh mục \nvăn bản";
       textSub = "Các bài viết liên quan đến luật";
       source = require("../assets/550x271_Blue.jpg");
       break;
@@ -105,7 +103,7 @@ export default ({ type }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate(page);
+        navigation.navigate(page, { Tinh });
       }}
     >
       <ImageBackground

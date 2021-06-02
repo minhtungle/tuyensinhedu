@@ -38,24 +38,6 @@ export function Images(props) {
   const KiemtraNV = (itemChild) => {
     return json1.some((item) => item.id == itemChild.id);
   };
-  const Type = {
-    success: {
-      color: "#9CDC78",
-      image: "emoticon-excited",
-    },
-    error: {
-      color: "#FF8E9E",
-      image: "emoticon-confused",
-    },
-    waring: {
-      color: "#F8C03E",
-      image: "emoticon-tongue-outline",
-    },
-    info: {
-      color: "#84AFF7",
-      image: "emoticon-wink-outline",
-    },
-  };
 
   return (
     <View style={styles.container}>

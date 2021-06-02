@@ -1,16 +1,9 @@
+import { StatusBar } from "expo-status-bar";
 import React from "react";
-import {
-  Animated,
-  Dimensions,
-  StyleSheet,
-  View,
-  ImageBackground,
-} from "react-native";
+import { Animated, Dimensions, StyleSheet } from "react-native";
 import Card, {
-  Cards,
   CARD_HEIGHT as DEFAULT_CARD_HEIGHT,
 } from "../Transformations/components/Card";
-import { StatusBar } from "expo-status-bar";
 export const MARGIN = 20;
 export const CARD_HEIGHT = DEFAULT_CARD_HEIGHT + MARGIN * 2;
 
@@ -27,7 +20,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-const WalletCard = ({ type, y, index }) => {
+const WalletCard = ({ type, y, index, Tinh }) => {
   const position = Animated.subtract(index * CARD_HEIGHT, y);
   const isDisappearing = -CARD_HEIGHT;
   const isTop = 0;
@@ -63,7 +56,7 @@ const WalletCard = ({ type, y, index }) => {
       key={index}
     >
       <StatusBar hidden />
-      <Card {...{ type }} />
+      <Card {...{ type, Tinh }} />
     </Animated.View>
   );
 };

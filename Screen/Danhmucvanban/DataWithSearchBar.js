@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  SafeAreaView,
-  Text,
-  StyleSheet,
-  View,
-  FlatList,
-  TextInput,
-  Linking,
   Alert,
+  FlatList,
+  Linking,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
-import { IconButton, Colors } from "react-native-paper";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Colors, IconButton } from "react-native-paper";
 
 const DataWithSearchBar = () => {
   const [search, setSearch] = useState("");
