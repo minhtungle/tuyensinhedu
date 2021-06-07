@@ -1,4 +1,3 @@
-import { Button } from "galio-framework";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   Image,
@@ -8,7 +7,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Touchable,
 } from "react-native";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
 
