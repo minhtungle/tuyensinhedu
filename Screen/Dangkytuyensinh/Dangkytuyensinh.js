@@ -7,6 +7,8 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
+  Touchable,
 } from "react-native";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
 
@@ -25,20 +27,21 @@ export default function Dangkytuyensinh({ navigation }) {
   ];
   const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getkythi")
+    fetch("http://192.168.0.108:1995/api/TSAPIService/getkythi")
       .then((response) => response.json())
       .then((responseJson) => {
         const arrData = [];
-        responseJson.Result.results.map((item, index) => {
+        responseJson.results.map((item, index) => {
           const obj = {
-            id: index + 1,
+            ID: index + 1,
             TenKyThi: item.TenKyThi,
-            TrangThai: item.TrangThai,
+            TrangThai: item.TrangThai_HienThi,
             DoiTuongTuyenSinh: item.DoiTuongTuyenSinh,
             IDKyThi: item.ID,
           };
           arrData.push(obj);
         });
+        //console.log(arrData[0]);
         setData(arrData);
         setStatus(1);
       })
@@ -68,8 +71,19 @@ export default function Dangkytuyensinh({ navigation }) {
       <SafeAreaView style={styles.container}>
         <View style={styles.block}>
           {data.map((item, index) => (
-            <View style={styles.box} key={index}>
-              <View style={styles.image}>
+            <TouchableOpacity
+              activeOpacity={0.85}
+              key={index}
+              onPress={() => {
+                item.TrangThai === 3
+                  ? navigation.navigate("Trang đăng ký", {
+                      DoiTuongTuyenSinh: item.DoiTuongTuyenSinh,
+                      IDKyThi: item.IDKyThi,
+                    })
+                  : null;
+              }}
+            >
+              <View style={styles.box}>
                 <Image
                   source={
                     item.DoiTuongTuyenSinh == 0
@@ -83,29 +97,53 @@ export default function Dangkytuyensinh({ navigation }) {
                   style={styles.image}
                   resizeMode={"cover"} // <- needs to be "cover" for borderRadius to take effect on Android
                 />
-              </View>
-
-              <Text style={styles.text}>{item.TenKyThi}</Text>
-
-              <Button
-                round
-                title="Đăng ký"
-                style={styles.button}
-                color={item.TrangThai === 1 ? "#61b15a" : "#fc8621"}
-                onPress={() => {
-                  item.TrangThai === 1
-                    ? navigation.navigate("Trang đăng ký", {
-                        DoiTuongTuyenSinh: item.DoiTuongTuyenSinh,
-                        IDKyThi: item.IDKyThi,
-                      })
-                    : null;
-                }}
-              >
-                <Text style={{ color: "white" }}>
-                  {item.TrangThai === 1 ? "Đăng ký" : "Hết hạn"}
+                <Text
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                  style={styles.text}
+                >
+                  {item.TenKyThi}
                 </Text>
-              </Button>
-            </View>
+                {item.TrangThai === 0 ? (
+                  <View
+                    style={[
+                      styles.trangthai,
+                      {
+                        backgroundColor: "#e1701a",
+                      },
+                    ]}
+                  >
+                    <Text style={styles.trangthai_text}>
+                      Chưa có lịch trình
+                    </Text>
+                  </View>
+                ) : item.TrangThai === 1 ? (
+                  <View
+                    style={[
+                      styles.trangthai,
+                      {
+                        backgroundColor: "#51c4d3",
+                      },
+                    ]}
+                  >
+                    <Text style={styles.trangthai_text}>
+                      Chưa đến thời gian
+                    </Text>
+                  </View>
+                ) : item.TrangThai === 2 ? (
+                  <View
+                    style={[
+                      styles.trangthai,
+                      {
+                        backgroundColor: "#ce1212",
+                      },
+                    ]}
+                  >
+                    <Text style={styles.trangthai_text}>Quá thời gian</Text>
+                  </View>
+                ) : null}
+              </View>
+            </TouchableOpacity>
           ))}
         </View>
       </SafeAreaView>
@@ -156,11 +194,14 @@ const styles = StyleSheet.create({
     marginBottom: "10%",
   },
   box: {
-    width: "95%",
+    padding: 10,
+    width: "90%",
     flexDirection: "row",
     alignItems: "center",
-    margin: "2%",
+    margin: 10,
     backgroundColor: "#FFFF",
+    borderBottomRightRadius: 0,
+    borderTopLeftRadius: 0,
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
@@ -175,6 +216,8 @@ const styles = StyleSheet.create({
   image: {
     marginLeft: 3,
     borderRadius: 75,
+    borderWidth: 1.5,
+    borderColor: "#d1d9d9",
     minWidth: 50,
     minHeight: 50,
     maxWidth: 50,
@@ -182,7 +225,6 @@ const styles = StyleSheet.create({
   },
   text: {
     flexShrink: 1,
-
     paddingLeft: 20,
     alignItems: "stretch",
     flexGrow: 1,
@@ -199,5 +241,16 @@ const styles = StyleSheet.create({
     elevation: 6,
     shadowRadius: 15,
     shadowOffset: { width: 1, height: 13 },
+  },
+  trangthai: {
+    position: "absolute",
+    opacity: 0.8,
+    top: -14,
+    left: -14,
+    paddingHorizontal: 2,
+  },
+  trangthai_text: {
+    color: "#FFF",
+    fontWeight: "bold",
   },
 });

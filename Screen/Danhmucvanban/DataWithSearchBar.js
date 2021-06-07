@@ -20,13 +20,11 @@ const DataWithSearchBar = () => {
 
   //* Lấy API
   useEffect(() => {
-    fetch(
-      "http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getquyetdinhtuyensinh"
-    )
+    fetch("http://192.168.0.108:1995/api/TSAPIService/getquyetdinhtuyensinh")
       .then((response) => response.json())
       .then((responseJson) => {
         const arrData = [];
-        responseJson.Result.results.map((item, index) => {
+        responseJson.results.map((item, index) => {
           const obj = {
             id: index + 1,
             title: item.TieuDe,
@@ -70,16 +68,43 @@ const DataWithSearchBar = () => {
   const ItemView = ({ item }) => {
     return (
       // Flat List Item
-      <TouchableOpacity
-        onPress={() => getItem(item.url)}
-        style={{ flexDirection: "row" }}
-      >
-        <Text style={[styles.itemStyle, { flexGrow: 1 }]}>
-          {item.id}
-          {". "}
-          {item.title.toUpperCase()}
-        </Text>
-        <IconButton icon="file" color={Colors.red500} size={18} />
+      <TouchableOpacity style={{}} onPress={() => getItem(item.url)}>
+        <View
+          style={{
+            flexDirection: "row",
+            marginLeft: 5,
+            marginVertical: 5,
+          }}
+        >
+          <View
+            style={{
+              flexGrow: 2,
+              justifyContent: "center",
+              maxWidth: "90%",
+            }}
+          >
+            <Text style={styles.itemStyle}>
+              {item.id}
+              {". "}
+              {item.title.toUpperCase()}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexGrow: 1,
+              flexDirection: "column",
+            }}
+          >
+            <IconButton
+              style={{
+                alignSelf: "flex-end",
+              }}
+              icon="file"
+              color={Colors.red500}
+              size={18}
+            />
+          </View>
+        </View>
       </TouchableOpacity>
     );
   };
@@ -156,9 +181,7 @@ const styles = StyleSheet.create({
 
     elevation: 10,
   },
-  itemStyle: {
-    padding: 10,
-  },
+  itemStyle: {},
   searchInput: {
     borderRadius: 10,
     height: 40,

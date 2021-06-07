@@ -26,7 +26,7 @@ export default function Thongtintuyensinh({ navigation, route }) {
     IDHuyen: "",
     IDXa: "",
     CapTS: "",
-    NamTS: "",
+    IDTruong: "",
     ketqua: [],
   });
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,10 +51,20 @@ export default function Thongtintuyensinh({ navigation, route }) {
         name: "Chọn Phường/Xã",
       },
     ],
+    IDTruong: [
+      {
+        id: "",
+        name: "Chọn Trường",
+      },
+    ],
     CapTS: [
       {
         id: "",
         name: "Chọn cấp tuyển sinh",
+      },
+      {
+        id: "0",
+        name: "Mầm non",
       },
       {
         id: "1",
@@ -69,28 +79,6 @@ export default function Thongtintuyensinh({ navigation, route }) {
         name: "Cấp 3",
       },
     ],
-    NamTS: [
-      {
-        id: "",
-        name: "Chọn năm tuyển sinh",
-      },
-      {
-        id: "2018",
-        name: "2018",
-      },
-      {
-        id: "2019",
-        name: "2019",
-      },
-      {
-        id: "2020",
-        name: "2020",
-      },
-      {
-        id: "2021",
-        name: "2021",
-      },
-    ],
   });
   //* Chọn giá trị cho Picker
   const changeValuePicker = (arg) => {
@@ -101,38 +89,38 @@ export default function Thongtintuyensinh({ navigation, route }) {
   };
   //#endregion
   //#region API - Call:  tỉnh-huyện-xã
-  //* Tỉnh:
+  //* Huyện + Trường:
   useEffect(() => {
     fetch(
-      "http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=1&level=1"
+      "http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=1&level=1"
     )
       .then((response) => response.json())
       .then((responseJson) => {
+        // console.log(responseJson);
         const arrData = [
           {
             id: "",
             name: "Chọn Tỉnh/Thành phố",
           },
         ];
-        // responseJson.Result.results.map((item, index) => {
-        //   const obj = {
-        //     id: item.ID,
-        //     name: item.TenDiaChi,
-        //   };
-        //   arrData.push(obj);
-        // });
-        const obj = responseJson.Result.results.filter(
+        const obj = responseJson.results.filter(
           (item, index) => item.TenDiaChi.toString() === Tinh.toString()
         );
+        // console.log(obj);
+        // Reset dữ liệu tỉnh để nhận duy nhất tỉnh đang chọn từ đăng nhập
         arrData.length = 0;
         arrData.push({
           id: obj[0].ID,
           name: obj[0].TenDiaChi,
         });
+        //console.log(obj[0].ID);
         setPicker((prevState) => ({
           ...prevState,
           IDTinh: arrData,
         }));
+        // Set idTinh
+        changeValuePicker({ IDTinh: obj[0].ID });
+        // Set lại IDHuyen và IDXa
         changeValuePicker({ IDHuyen: "", IDXa: "" });
         setPicker((prevState) => ({
           ...prevState,
@@ -145,22 +133,24 @@ export default function Thongtintuyensinh({ navigation, route }) {
           IDXa: [
             {
               id: "",
-              name: "Chọn phường/xã",
+              name: "Chọn Phường/Xã",
             },
           ],
         }));
+        // Gọi dữ liệu Quận/Huyện của Tỉnh
         fetch(
-          `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${obj[0].ID}&level=2`
+          `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${obj[0].ID}&level=2`
         )
           .then((response) => response.json())
           .then((responseJson) => {
+            // console.log(responseJson);
             const arrData = [
               {
                 id: "",
                 name: "Chọn Quận/Huyện",
               },
             ];
-            responseJson.Result.results.map((item, index) => {
+            responseJson.results.map((item, index) => {
               const obj = {
                 id: item.ID,
                 name: item.TenDiaChi,
@@ -183,6 +173,43 @@ export default function Thongtintuyensinh({ navigation, route }) {
               ],
             }));
           });
+        //console.log(obj);
+        // GỌi dữ liệu Trường của Tỉnh
+        fetch(
+          `http://192.168.0.108:1995/api/TSAPIService/getschoolbyaddress?idtinh=${obj[0].ID}&idquanhuyen=${data.IDHuyen}&idphuongxa=${data.IDXa}&cap=${data.CapTS}`
+        )
+          .then((response) => response.json())
+          .then((responseJson) => {
+            const arrData = [
+              {
+                id: "",
+                name: "Chọn Trường",
+              },
+            ];
+            responseJson.results.map((item, index) => {
+              const obj = {
+                id: item.ID,
+                name: item.TenTruong,
+              };
+              arrData.push(obj);
+            });
+            setPicker((prevState) => ({
+              ...prevState,
+              IDTruong: arrData,
+            }));
+            //console.log(arrData);
+          })
+          .catch((error) => {
+            setPicker((prevState) => ({
+              ...prevState,
+              IDTruong: [
+                {
+                  id: "",
+                  name: "Chọn Trường",
+                },
+              ],
+            }));
+          });
       })
       .catch((error) => {
         const arrDataFail = [
@@ -197,60 +224,59 @@ export default function Thongtintuyensinh({ navigation, route }) {
         }));
       });
   }, [0]);
-  //* Huyện
-  useEffect(() => {
-    //! Cứ khi ID tỉnh thay đổi thì set id và picker huyện-xã về null
-    changeValuePicker({ IDHuyen: "", IDXa: "" });
-    setPicker((prevState) => ({
-      ...prevState,
-      IDHuyen: [
-        {
-          id: "",
-          name: "Chọn Quận/Huyện",
-        },
-      ],
-      IDXa: [
-        {
-          id: "",
-          name: "Chọn phường/xã",
-        },
-      ],
-    }));
-    fetch(
-      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${data.IDTinh}&level=2`
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
-        const arrData = [
-          {
-            id: "",
-            name: "Chọn Quận/Huyện",
-          },
-        ];
-        responseJson.Result.results.map((item, index) => {
-          const obj = {
-            id: item.ID,
-            name: item.TenDiaChi,
-          };
-          arrData.push(obj);
-        });
-        setPicker((prevState) => ({
-          ...prevState,
-          IDHuyen: arrData,
-        }));
-      })
-      .catch((error) => {
-        setPicker((prevState) => ({
-          ...prevState,
-          IDHuyen: [
-            {
-              id: "",
-              name: "Chọn Quận/Huyện",
-            },
-          ],
-        }));
-      });
-  }, [data.IDTinh]);
+  //#region Huyện
+  // useEffect(() => {
+  //   setPicker((prevState) => ({
+  //     ...prevState,
+  //     IDHuyen: [
+  //       {
+  //         id: "",
+  //         name: "Chọn Quận/Huyện",
+  //       },
+  //     ],
+  //     IDXa: [
+  //       {
+  //         id: "",
+  //         name: "Chọn Phường/xã",
+  //       },
+  //     ],
+  //   }));
+  //   fetch(
+  //     `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDTinh}&level=2`
+  //   )
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
+  //       const arrData = [
+  //         {
+  //           id: "",
+  //           name: "Chọn Quận/Huyện",
+  //         },
+  //       ];
+  //       responseJson.results.map((item, index) => {
+  //         const obj = {
+  //           id: item.ID,
+  //           name: item.TenDiaChi,
+  //         };
+  //         arrData.push(obj);
+  //       });
+  //       setPicker((prevState) => ({
+  //         ...prevState,
+  //         IDHuyen: arrData,
+  //       }));
+  //     })
+  //     .catch((error) => {
+  //       setPicker((prevState) => ({
+  //         ...prevState,
+  //         IDHuyen: [
+  //           {
+  //             id: "",
+  //             name: "Chọn Quận/Huyện",
+  //           },
+  //         ],
+  //       }));
+  //     });
+  // }, [data.IDTinh]);
+  //#endregion
   //* Xã
   useEffect(() => {
     //! Cứ khi ID huyện thay đổi thì set id và picker xã về null
@@ -260,12 +286,12 @@ export default function Thongtintuyensinh({ navigation, route }) {
       IDXa: [
         {
           id: "",
-          name: "Chọn phường/xã",
+          name: "Chọn Phường/xã",
         },
       ],
     }));
     fetch(
-      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyen}&level=3`
+      `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDHuyen}&level=3`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -275,7 +301,7 @@ export default function Thongtintuyensinh({ navigation, route }) {
             name: "Chọn Phường/Xã",
           },
         ];
-        responseJson.Result.results.map((item, index) => {
+        responseJson.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -299,10 +325,60 @@ export default function Thongtintuyensinh({ navigation, route }) {
         }));
       });
   }, [data.IDHuyen]);
+  //* Trường
+  useEffect(() => {
+    //! Cứ khi ID huyện || phường || cấp thay đổi thì set id và picker trường về null
+    changeValuePicker({ IDTruong: "" });
+    setPicker((prevState) => ({
+      ...prevState,
+      IDTruong: [
+        {
+          id: "",
+          name: "Chọn Trường",
+        },
+      ],
+    }));
+    //console.log(data);
+    fetch(
+      `http://192.168.0.108:1995/api/TSAPIService/getschoolbyaddress?idtinh=${data.IDTinh}&idquanhuyen=${data.IDHuyen}&idphuongxa=${data.IDXa}&cap=${data.CapTS}`
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        const arrData = [
+          {
+            id: "",
+            name: "Chọn Trường",
+          },
+        ];
+        responseJson.results.map((item, index) => {
+          const obj = {
+            id: item.ID,
+            name: item.TenTruong,
+          };
+          arrData.push(obj);
+        });
+        //console.log(arrData);
+        setPicker((prevState) => ({
+          ...prevState,
+          IDTruong: arrData,
+        }));
+      })
+      .catch((error) => {
+        setPicker((prevState) => ({
+          ...prevState,
+          IDTruong: [
+            {
+              id: "",
+              name: "Chọn Trường",
+            },
+          ],
+        }));
+      });
+  }, [data.IDHuyen, data.IDXa, data.CapTS]);
   //#endregion
   //#region Button: Ẩn hiện - Tra cứu - Lấy API Tra cứu
   const Trangthai = () => {
-    if ((data.IDHuyen && data.IDXa) != "") {
+    if (((data.IDHuyen && data.IDXa && data.IDTruong) || data.IDTruong) != "") {
       return true;
     }
     return false;
@@ -310,41 +386,25 @@ export default function Thongtintuyensinh({ navigation, route }) {
   const Tracuu = async () => {
     try {
       await fetch(
-        `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getkehoachbyyear?namhoc=${data.NamTS}&caphoc=${data.CapTS}&idquanhuyen=${data.IDHuyen}&idxaphuong=${data.IDXa}`
+        `http://192.168.0.108:1995/api/TSAPIService/getkehoachbyyear?idquanhuyen=${data.IDHuyen}&idphuongxa=${data.IDXa}&idtruong=${data.IDTruong}&cap=${data.CapTS}`
       )
         .then((response) => response.json())
         .then((responseJson) => {
-          let obj = {
-            id: "",
-            idTruong: "",
-            tenFile: "",
-            tieuDe: "",
-            fileDinhkem: "",
-          };
+          let obj = {};
           let rs = [];
-          /*  if (responseJson.Result.Message != "The request is invalid.") {
-            for (let i = 0; i < responseJson.Result.results.length; i++) {
-              obj.id = responseJson.Result.results[i].ID;
-              obj.idTruong = responseJson.Result.results[i].IDTruong;
-              obj.tenFile = responseJson.Result.results[i].TenFile;
-              obj.tieuDe = responseJson.Result.results[i].TieuDe;
-              obj.fileDinhkem = responseJson.Result.results[i].FileDinhKem;
-              rs.push(obj);
-              obj = {};
-            }
-            changeValuePicker({ ketqua: rs });
-          } else {
-            changeValuePicker({ ketqua: [] });
-          } */
-          for (let i = 0; i < responseJson.Result.results.length; i++) {
-            obj.id = responseJson.Result.results[i].ID;
-            obj.idTruong = responseJson.Result.results[i].IDTruong;
-            obj.tenFile = responseJson.Result.results[i].TenFile;
-            obj.tieuDe = responseJson.Result.results[i].TieuDe;
-            obj.fileDinhkem = responseJson.Result.results[i].FileDinhKem;
+          for (let i = 0; i < responseJson.results.length; i++) {
+            obj.ID = i + 1;
+            obj.IDTruong = responseJson.results[i].ID;
+            obj.MaTruong = responseJson.results[i].MaTruong;
+            obj.TenTruong = responseJson.results[i].TenTruong;
+            obj.TenFile = responseJson.results[i].TenFile;
+            obj.TieuDe = responseJson.results[i].TieuDe;
+            obj.DuongDan = responseJson.results[i].DuongDan;
             rs.push(obj);
             obj = {};
           }
+          // console.log(responseJson);
+          // console.log(rs);
           changeValuePicker({ ketqua: rs });
           setModalVisible(true);
         });
@@ -356,21 +416,52 @@ export default function Thongtintuyensinh({ navigation, route }) {
   //#endregion
   const ExternalLinkBtn = (props) => {
     return (
-      <Button
-        round
-        size="large"
-        color="#61b15a"
-        title={props.title}
+      <TouchableOpacity
+        key={props.index}
         onPress={() => {
           Linking.openURL(props.url).catch((err) => {
             console.error("Không thể kết nối trang web bởi: ", err);
             alert("Không tải được tệp");
           });
         }}
-        key={props.key}
       >
-        {props.title}
-      </Button>
+        <View
+          style={{
+            flexDirection: "row",
+            marginLeft: 5,
+            marginVertical: 5,
+          }}
+        >
+          <View
+            style={{
+              flexGrow: 2,
+              justifyContent: "center",
+              maxWidth: "90%",
+            }}
+          >
+            <Text>
+              {props.index}
+              {". "}
+              {props.title.toUpperCase()}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexGrow: 1,
+              flexDirection: "column",
+            }}
+          >
+            <IconButton
+              style={{
+                alignSelf: "flex-end",
+              }}
+              icon="file"
+              color={Colors.red500}
+              size={18}
+            />
+          </View>
+        </View>
+      </TouchableOpacity>
     );
   };
   return (
@@ -508,9 +599,9 @@ export default function Thongtintuyensinh({ navigation, route }) {
             })}
           </Picker>
         </View>
-        {/*// Năm tuyển sinh */}
+        {/*// Trường */}
         <View style={[styles.field, { zIndex: 11001 }]}>
-          {data.NamTS == "" ? null : (
+          {data.IDTruong == "" ? null : (
             <View style={styles.label}>
               <IconButton
                 style={{ backgroundColor: "#61b15a" }}
@@ -521,16 +612,16 @@ export default function Thongtintuyensinh({ navigation, route }) {
             </View>
           )}
           <Picker
-            selectedValue={data.NamTS}
+            selectedValue={data.IDTruong}
             style={styles.picker}
             onValueChange={(itemValue, itemIndex) =>
-              changeValuePicker({ NamTS: itemValue })
+              changeValuePicker({ IDTruong: itemValue })
             }
             dropdownIconColor={
-              data.NamTS == "" || null ? Colors.red500 : "#61b15a"
+              data.IDTruong == "" || null ? Colors.red500 : "#61b15a"
             }
           >
-            {picker.NamTS.map((item, index) => {
+            {picker.IDTruong.map((item, index) => {
               return (
                 <Picker.Item
                   key={index.toString()}
@@ -569,6 +660,9 @@ export default function Thongtintuyensinh({ navigation, route }) {
             >
               <View
                 style={{
+                  flexDirection: "column",
+                  width: "90%",
+                  minHeight: 300,
                   margin: 20,
                   backgroundColor: "white",
                   borderRadius: 20,
@@ -584,52 +678,73 @@ export default function Thongtintuyensinh({ navigation, route }) {
                   elevation: 5,
                 }}
               >
-                {data.ketqua.length !== 0 ? (
-                  <View
-                    style={{
-                      justifyContent: "center",
-                      paddingHorizontal: 10,
-                    }}
-                  >
-                    {data.ketqua.map((item, index) => {
-                      return (
-                        <ExternalLinkBtn
-                          title={item.tieuDe}
-                          url={item.fileDinhkem}
-                          key={index}
-                        />
-                      );
-                    })}
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      justifyContent: "center",
-                      paddingHorizontal: 10,
-                    }}
-                  >
-                    <TouchableOpacity>
-                      <View
-                        style={{
-                          alignItems: "center",
-                          padding: 10,
-                        }}
-                      >
-                        <Text>Không có thông tin phù hợp</Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                )}
-                <Button
-                  round
-                  style={styles.button}
-                  color="#61b15a"
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
+                <View
+                  style={{
+                    flexGrow: 2,
+                    width: "100%",
+                    flexDirection: "column",
                   }}
                 >
-                  Đóng
-                </Button>
+                  {data.ketqua.length !== 0 ? (
+                    <View
+                      style={{
+                        marginVertical: 5,
+                        borderBottomWidth: 0.5,
+                        width: "100%",
+                      }}
+                    >
+                      {data.ketqua.map((item, index) => {
+                        return (
+                          <ExternalLinkBtn
+                            index={item.ID}
+                            title={item.TieuDe}
+                            url={item.DuongDan}
+                            key={index}
+                          />
+                        );
+                      })}
+                    </View>
+                  ) : (
+                    <View
+                      style={{
+                        justifyContent: "center",
+                        paddingHorizontal: 10,
+                        width: "100%",
+                      }}
+                    >
+                      <TouchableOpacity>
+                        <View
+                          style={{
+                            alignItems: "center",
+                            padding: 10,
+                          }}
+                        >
+                          <Text>Không có thông tin phù hợp</Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+                <View
+                  style={{
+                    flexGrow: 1,
+                    flexDirection: "row",
+                  }}
+                >
+                  <Button
+                    round
+                    style={[
+                      styles.button,
+                      { width: "45%", alignSelf: "flex-end" },
+                    ]}
+                    color="#61b15a"
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                    }}
+                  >
+                    Đóng
+                  </Button>
+                </View>
               </View>
             </View>
           </Modal>

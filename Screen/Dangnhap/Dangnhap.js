@@ -14,6 +14,7 @@ import { Colors, IconButton } from "react-native-paper";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
+const axios = require("axios");
 
 const Banner = (props) => {
   //#region Animated
@@ -70,21 +71,28 @@ export default function Dangnhap({ navigation }) {
   //* Tỉnh:
   useEffect(() => {
     fetch(
-      "http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=1&level=1"
+      "http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=1&level=1",
+      // "http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=1&level=1",
+      {
+        method: "get",
+        headers: new Headers(),
+      }
     )
       .then((response) => response.json())
       .then((responseJson) => {
+        // console.log(responseJson);
         const arrData = [
           {
             id: "",
             name: "Chọn Tỉnh/Thành phố",
           },
         ];
-        responseJson.Result.results.map((item, index) => {
+        responseJson.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
           };
+          // console.log(item.TenDiaChi);
           arrData.push(obj);
         });
         setPicker((prevState) => ({

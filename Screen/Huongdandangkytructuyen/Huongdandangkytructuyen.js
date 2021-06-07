@@ -7,8 +7,9 @@ import {
   Text,
   Platform,
   Dimensions,
+  Image,
 } from "react-native";
-import Carousel, { ParallaxImage } from "react-native-snap-carousel";
+import Carousel, { Pagination } from "react-native-snap-carousel";
 
 const { width: screenWidth } = Dimensions.get("window");
 function Huongdandangkytructuyen({ navigation }) {
@@ -18,20 +19,38 @@ function Huongdandangkytructuyen({ navigation }) {
     });
   });
   const [images, setImages] = useState({
-    b1: [require("./Images/b1.png")],
-    b2: [require("./Images/b2.png")],
-    b3: [require("./Images/b3.png")],
-    b4: [
-      require("./Images/b4_1.png"),
-      require("./Images/b4_2.png"),
-      require("./Images/b4_3.png"),
-      require("./Images/b4_4.png"),
-      require("./Images/b4_5.png"),
-      require("./Images/b4_6.png"),
-      require("./Images/b4_7.png"),
-    ],
-    b5: [require("./Images/b5_1.png"), require("./Images/b5_2.png")],
-    b6: [require("./Images/b6.png")],
+    b1: {
+      uri: [require("./Images/b1.png")],
+      activeImg: 0,
+    },
+    b2: {
+      uri: [require("./Images/b2.png")],
+      activeImg: 0,
+    },
+    b3: {
+      uri: [require("./Images/b3.png")],
+      activeImg: 0,
+    },
+    b4: {
+      uri: [
+        require("./Images/b4_1.png"),
+        require("./Images/b4_2.png"),
+        require("./Images/b4_3.png"),
+        require("./Images/b4_4.png"),
+        require("./Images/b4_5.png"),
+        require("./Images/b4_6.png"),
+        require("./Images/b4_7.png"),
+      ],
+      activeImg: 0,
+    },
+    b5: {
+      uri: [require("./Images/b5_1.png"), require("./Images/b5_2.png")],
+      activeImg: 0,
+    },
+    b6: {
+      uri: [require("./Images/b6.png")],
+      activeImg: 0,
+    },
   });
   return (
     <SafeAreaView style={styles.container}>
@@ -48,23 +67,44 @@ function Huongdandangkytructuyen({ navigation }) {
                   <Text style={{ fontWeight: "bold" }}>Đăng ký tuyển sinh</Text>
                 </Text>
                 <Carousel
-                  sliderWidth={screenWidth}
-                  sliderHeight={screenWidth}
+                  sliderWidth={(screenWidth * 70) / 100}
+                  sliderHeight={200}
                   itemWidth={screenWidth - 60}
-                  data={images.b1}
-                  renderItem={(item, index) => (
-                    <ParallaxImage
-                      source={{ uri: "./Images/b1.png" }}
-                      containerStyle={styles.imageContainer}
-                      style={styles.image}
-                      parallaxFactor={0.4}
-                      //{...parallaxProps}
-                    />
+                  data={images.b4.uri}
+                  renderItem={({ item, index }) => (
+                    <Image source={item} style={styles.image} />
                   )}
-                  // onSnapToItem={(index) =>
-                  //   this.setState({ activeSlide: index })
-                  // }
-                  hasParallaxImages={true}
+                  style={styles.imageContainer}
+                  startAutoplay={true}
+                  layout={"stack"}
+                  onSnapToItem={(index) =>
+                    setImages((prev) => ({
+                      ...prev,
+                      b4: {
+                        uri: prev.b4.uri,
+                        activeImg: index,
+                      },
+                    }))
+                  }
+                />
+                <Pagination
+                  dotsLength={images.b4.uri.length}
+                  activeDotIndex={images.b4.activeImg}
+                  containerStyle={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
+                  dotStyle={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: 5,
+                    marginHorizontal: 8,
+                    backgroundColor: "rgba(255, 255, 255, 0.92)",
+                  }}
+                  inactiveDotStyle={
+                    {
+                      // Define styles for inactive dots here
+                    }
+                  }
+                  inactiveDotOpacity={0.4}
+                  inactiveDotScale={0.6}
                 />
               </View>
             </View>
@@ -123,8 +163,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   box: {
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
+    alignItems: "center",
   },
   boxText: {
     paddingHorizontal: 10,
@@ -140,12 +179,14 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     //marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
-    backgroundColor: "green",
+    //backgroundColor: "green",
     borderRadius: 8,
   },
   image: {
     //...StyleSheet.absoluteFillObject,
     resizeMode: "cover",
+    height: 450,
+    width: 250,
   },
 });
 export default Huongdandangkytructuyen;

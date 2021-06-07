@@ -106,11 +106,9 @@ export default function Trangdangky({ route, navigation }) {
     DiaChi: "",
     NguyenVong: [
       {
-        ID: "1",
         IDTruong: "",
-        CoSoDangKy: "",
-        IDLopChuyen: "",
-        IDMonChuyen: "",
+        MaTruong: "",
+        TenTruong: "",
       },
     ], //Id, MaTruong
     DoiTuongUuTien: [],
@@ -133,7 +131,6 @@ export default function Trangdangky({ route, navigation }) {
     MailLienHe: "",
     Xacnhanthongtin: false,
   });
-  //console.log(data.NguyenVong);
   const inputTable = (item, index) => (
     <TextInput style={{ paddingLeft: 5 }} placeholder="Nhập điểm ..." />
   );
@@ -145,6 +142,12 @@ export default function Trangdangky({ route, navigation }) {
       ["Lớp 5", inputTable(), inputTable()],
     ],
   });
+  //#region Alert
+  //* 0: ẩn, 1: thành công, 2: info, -1: thất bại, -2: cảnh báo
+  const [alert, setAlert] = useState(0);
+  //* Thông báo
+  const [message, setMessage] = useState("");
+  //#endregion
   const dantocData = require("../Dangkytuyensinh/Dantoc.json");
   //#region DropPicker: Dữ liệu - Thay đổi value khi chọn
   //* Dữ liệu trong dropDown
@@ -208,7 +211,7 @@ export default function Trangdangky({ route, navigation }) {
       },
     ],
     DoiTuongUuTien: [],
-    NguyenVong1: [],
+    NguyenVong: [],
   });
   const [DSdoituonguutien, setDSdoituonguutien] = useState([]);
   //* Chọn giá trị cho Picker
@@ -242,31 +245,6 @@ export default function Trangdangky({ route, navigation }) {
   //#endregion
 
   //#region Nguyện Vọng: Thêm - Xóa - Sửa Value - List - Call API
-  //* Chọn nguyện vọng 1
-  const ChonNguyenVong1 = (itemParent, indexParent, itemValue) => {
-    let obj = {
-      ...itemParent,
-      IDTruong: itemValue,
-      CoSoDangKy: "",
-      IDLopChuyen: "",
-      IDMonChuyen: "",
-    };
-    /* console.log(
-      "indexP: " +
-        indexParent +
-        " - itemP: " +
-        itemParent +
-        " - itemV: " +
-        itemValue
-    ); */
-    setData((prevState) => ({
-      ...prevState,
-      NguyenVong: prevState.NguyenVong.map((item, index) =>
-        indexParent === index ? obj : item
-      ),
-    }));
-    // Gọi dữ liệu NV khác và trường chuyênn
-  };
   //* Thêm nguyện vọng
   const ThemNV = () => {
     setData((prevState) => ({
@@ -289,6 +267,21 @@ export default function Trangdangky({ route, navigation }) {
       }),
     }));
   };
+  //* Thay đổi mã trường
+  const ChangeMaTruong = (indexParent, itemParent, itemValue) => {
+    let obj = {
+      ...itemParent,
+      IDTruong: itemValue.IDTruong,
+      MaTruong: itemValue.MaTruong,
+      TenTruong: itemValue.TenTruong,
+    };
+    setData((prevState) => ({
+      ...prevState,
+      NguyenVong: prevState.NguyenVong.map((item, index) =>
+        indexParent === index ? obj : item
+      ),
+    }));
+  };
   const KiemtraNV = (itemChild) => {
     return data.NguyenVong.some((item) => item.IDTruong === itemChild.IDTruong);
   };
@@ -297,35 +290,117 @@ export default function Trangdangky({ route, navigation }) {
     data.NguyenVong.map((itemParent, indexParent) => {
       return (
         indexParent === 0 && (
-          //* Nguyện vọng 1
+          //* Nguyện vọng mặc định
           <View
             style={{
               backgroundColor: "#d4e2d4",
               padding: 5,
               marginBottom: 15,
+              flexDirection: "column",
               borderWidth: 1,
             }}
             key={indexParent.toString()}
           >
-            <View style={{ borderWidth: 1 }}>
-              <Picker
-                selectedValue={data.NguyenVong[indexParent].IDTruong}
-                style={{ height: 40, flexGrow: 1 }}
-                itemStyle={{ fontSize: 8 }}
-                onValueChange={(itemValue, itemIndex) =>
-                  ChonNguyenVong1(itemParent, indexParent, itemValue)
-                }
+            {/*------------- Top ----------------*/}
+            <View>
+              <Text
+                style={{
+                  padding: 12,
+                  textAlignVertical: "center",
+                  textAlign: "left",
+                  fontWeight: "bold",
+                }}
               >
-                {picker.NguyenVong1.map((itemChild, indexChild) => {
-                  return (
-                    <Picker.Item
-                      key={itemChild.ID.toString()}
-                      label={itemChild.TenTruong}
-                      value={itemChild.IDTruong}
-                    />
-                  );
-                })}
-              </Picker>
+                <Text
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  Mã trường:
+                </Text>{" "}
+                {data.NguyenVong[indexParent].MaTruong} {"\n"}
+                <Text
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  Tên trường:
+                </Text>{" "}
+                {data.NguyenVong[indexParent].TenTruong}
+              </Text>
+            </View>
+            {/*--------- Bottom -------*/}
+            <View
+              style={{
+                flexDirection: "row",
+              }}
+            >
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    padding: 10,
+                    textAlignVertical: "center",
+                    textAlign: "center",
+                  }}
+                  numberOfLines={1}
+                >
+                  {indexParent + 1}.
+                </Text>
+              </View>
+              {/*------------- Left ----------------*/}
+              <View style={{ flexGrow: 1, borderWidth: 1 }}>
+                <Picker
+                  selectedValue={data.NguyenVong[indexParent]}
+                  style={{ height: 40, flexGrow: 1 }}
+                  onValueChange={(itemValue, itemIndex) =>
+                    ChangeMaTruong(indexParent, itemParent, itemValue)
+                  }
+                >
+                  {picker.NguyenVong.map((itemChild, indexChild) => {
+                    return (
+                      !KiemtraNV(itemChild) && (
+                        <Picker.Item
+                          key={indexChild.toString()}
+                          label={
+                            itemChild.MaTruong + ": " + itemChild.TenTruong
+                          }
+                          value={{
+                            IDTruong: itemChild.IDTruong,
+                            MaTruong: itemChild.MaTruong,
+                            TenTruong: itemChild.TenTruong,
+                          }}
+                        />
+                      )
+                    );
+                  })}
+                </Picker>
+              </View>
+              {/*------------- Right ----------------*/}
+
+              {/* Chỉ cho phép hiển thị button Thêm NV khi số lượng nguyện vọng đang có
+              nhỏ hơn số lượng NV trong danh sách (do danh sách NV bao giờ cũng thừa 1
+              NV rỗng mặc định nên phải trừ đi 1)*/}
+
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {data.NguyenVong.length < picker.NguyenVong.length - 1 && (
+                  <IconButton
+                    icon="plus"
+                    color={Colors.red500}
+                    size={25}
+                    onPress={() => ThemNV()}
+                  />
+                )}
+              </View>
             </View>
           </View>
         )
@@ -411,8 +486,14 @@ export default function Trangdangky({ route, navigation }) {
                       !KiemtraNV(itemChild) && (
                         <Picker.Item
                           key={indexChild.toString()}
-                          label={itemChild.TenTruong}
-                          value={itemChild.IDTruong}
+                          label={
+                            itemChild.MaTruong + ": " + itemChild.TenTruong
+                          }
+                          value={{
+                            IDTruong: itemChild.IDTruong,
+                            MaTruong: itemChild.MaTruong,
+                            TenTruong: itemChild.TenTruong,
+                          }}
                         />
                       )
                     );
@@ -859,6 +940,38 @@ export default function Trangdangky({ route, navigation }) {
       });
   }, [data.IDHuyen]);
   //#endregion
+  //#region Trường
+  // useEffect(() => {
+  //   fetch(
+  //     `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getschools?idTinh_ThuongTru=${data.IDTinhTT}&Cap=${DoiTuongTuyenSinh}`
+  //   )
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
+  //       const arrData = [
+  //         {
+  //           id: "",
+  //           idtruong: "",
+  //           matruong: "",
+  //           tentruong: "Chọn trường",
+  //         },
+  //       ];
+  //       responseJson.results.map((item, index) => {
+  //         const obj = {
+  //           id: index + 1,
+  //           idtruong: item.ID,
+  //           matruong: item.MaTruong,
+  //           tentruong: item.TenTruong,
+  //         };
+  //         arrData.push(obj);
+  //       });
+  //       setPicker((prevState) => ({
+  //         ...prevState,
+  //         listTruong: arrData,
+  //       }));
+  //     })
+  //     .catch((error) => error);
+  // }, [0]);
+  //#endregion
   //#region Đối tượng ưu tiên
   useEffect(() => {
     fetch("http://192.168.0.108:1995/api/TSAPIService/getdoituonguutien")
@@ -882,67 +995,6 @@ export default function Trangdangky({ route, navigation }) {
         setDSdoituonguutien(arrData);
       })
       .catch((error) => setDSdoituonguutien([]));
-  }, [0]);
-  //#endregion
-  //#region Nguyện vọng 1
-  useEffect(() => {
-    fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getschoolall?cap=${DoiTuongTuyenSinh}`
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
-        const arrData = [
-          {
-            ID: "",
-            IDTruong: "",
-            MaTruong: "",
-            TenTruong: "Chọn trường",
-            DiaChi: "",
-            IDTinh: "",
-            IDQuan: "",
-            IDPhuong: "",
-            idKeHoach: "",
-          },
-        ];
-        // console.log(DoiTuongTuyenSinh, responseJson);
-        responseJson.results.map((item, index) => {
-          const obj = {
-            ID: index + 1,
-            IDTruong: item.ID,
-            MaTruong: item.MaTruong,
-            TenTruong: item.TenTruong,
-            DiaChi: item.DiaChi,
-            IDTinh: item.IDTinh,
-            IDQuan: item.IDQuan,
-            IDPhuong: item.IDPhuong,
-            idKeHoach: item.idKeHoach,
-          };
-          arrData.push(obj);
-        });
-        //console.log(arrData[1]);
-        setPicker((prevState) => ({
-          ...prevState,
-          NguyenVong1: arrData,
-        }));
-      })
-      .catch((error) => {
-        setPicker((prevState) => ({
-          ...prevState,
-          NguyenVong: [
-            {
-              ID: "",
-              IDTruong: "",
-              MaTruong: "",
-              TenTruong: "Chọn trường",
-              DiaChi: "",
-              IDTinh: "",
-              IDQuan: "",
-              IDPhuong: "",
-              idKeHoach: "",
-            },
-          ],
-        }));
-      });
   }, [0]);
   //#endregion
   //#region Nguyện vọng
@@ -987,6 +1039,38 @@ export default function Trangdangky({ route, navigation }) {
       });
   }, [data.IDTinhTT]);
   //#endregion
+  //#endregion
+
+  //#region Chọn loại ưu tiên
+  //* Hàm xử lí thay đổi kiểu check (true/false)
+  //#region Code cũ thêm - xóa loại ưu tiên
+  // //* Thêm loại ưu tiên
+  // const Them_DoiTuongUuTien = (indexParent, indexChild, value) => {
+  //   // Chuyển kiểu check
+  //   let DS = Check(indexParent, indexChild, value);
+  //   setDSdoituonguutien(DS);
+  //   // Thêm đối tượng vào danh sách đôi tượng
+  //   setData((prevState) => ({
+  //     ...prevState,
+  //     DoiTuongUuTien: prevState.DoiTuongUuTien.concat({
+  //       id: indexParent.toString() + indexChild.toString(),
+  //       ma: DSdoituonguutien[indexParent].lstDanhSach[indexChild].Ma,
+  //     }),
+  //   }));
+  // };
+  // //* Xóa loại ưu tiên
+  // const Xoa_DoiTuongUuTien = (indexParent, indexChild, value) => {
+  //   // Chuyển kiểu check
+  //   let DS = Check(indexParent, indexChild, value);
+  //   setDSdoituonguutien(DS);
+  //   // Xóa đối tượng khỏi danh sach đối tượng
+  //   setData((prevState) => ({
+  //     ...prevState,
+  //     DoiTuongUuTien: prevState.DoiTuongUuTien.filter((item) => {
+  //       return item.id !== indexParent.toString() + indexChild.toString();
+  //     }),
+  //   }));
+  // };
   //#endregion
   const Check = (indexParent, indexChild, value) => {
     let arr = DSdoituonguutien.map(
