@@ -112,7 +112,23 @@ export default function Trangdangky({ route, navigation }) {
         IDLopChuyen: "",
         IDMonChuyen: "",
       },
-    ], //Id, MaTruong
+    ],
+    NguyenVong_Picker: [
+      // Nguyện vọng 1
+      [
+        {
+          ID: 1,
+          IDTruong: "",
+          MaTruong: "",
+          TenTruong: "Chọn trường",
+          DiaChi: "",
+          IDTinh: "",
+          IDQuan: "",
+          IDPhuong: "",
+          idKeHoach: "",
+        },
+      ],
+    ],
     DoiTuongUuTien: [],
     CoGiaiThuongQuocGia: false,
     DanhSachFileDinhKem: [],
@@ -226,8 +242,8 @@ export default function Trangdangky({ route, navigation }) {
     ],
     // Nguyện vọng n...
   });
-  console.log(`data.NguyenVong: ${data.NguyenVong.length}
-  data.Picker: ${picker.NguyenVong.length}`);
+  /* console.log(`data.NguyenVong: ${data.NguyenVong.length}
+  data.Picker: ${data.NguyenVong_Picker.length}`); */
   const [DSdoituonguutien, setDSdoituonguutien] = useState([]);
   //* Chọn giá trị cho Picker
   const changeValuePicker = (arg) => {
@@ -296,15 +312,15 @@ export default function Trangdangky({ route, navigation }) {
           arrData.push(obj);
         });
         //console.log(arrData[1]);
-        setPicker((prevState) => ({
+        setData((prevState) => ({
           ...prevState,
-          NguyenVong: [arrData],
+          NguyenVong_Picker: [arrData],
         }));
       })
       .catch((error) => {
-        setPicker((prevState) => ({
+        setData((prevState) => ({
           ...prevState,
-          NguyenVong: [
+          NguyenVong_Picker: [
             [
               {
                 ID: 1,
@@ -325,7 +341,7 @@ export default function Trangdangky({ route, navigation }) {
 
   //* Thêm nguyện vọng
   const ThemNV = (stt_nguyenvong, arrData) => {
-    console.log(stt_nguyenvong, arrData);
+    //console.log(stt_nguyenvong, arrData);
     // Tạo thêm 1 data Nguyện vọng
     var obj = {
       ID: stt_nguyenvong,
@@ -337,11 +353,7 @@ export default function Trangdangky({ route, navigation }) {
     setData((prevState) => ({
       ...prevState,
       NguyenVong: [...prevState.NguyenVong, obj],
-    }));
-    // Tạo thêm 1 picker Nguyện vọng
-    setPicker((prevState) => ({
-      ...prevState,
-      NguyenVong: [...prevState.NguyenVong, arrData],
+      NguyenVong_Picker: [...prevState.NguyenVong_Picker, arrData],
     }));
   };
   //* Xóa nguyện vọng
@@ -379,7 +391,7 @@ export default function Trangdangky({ route, navigation }) {
       .then((response) => response.json())
       .then((responseJson) => {
         // Mỗi khi thay đổi nguyện vọng 1 thì sẽ xóa hết nguyện vọng còn lại tại data và picker
-        // XoaNV();
+        XoaNV();
         responseJson.data.lstNguyenVong_Group.map((item_lstNV, index_lstNV) => {
           // Tạo list NV phụ
           const arrData = [
@@ -399,7 +411,7 @@ export default function Trangdangky({ route, navigation }) {
           item_lstNV.lstChild.map((item_lstChild, index_lstChild) => {
             const obj = {
               ID: item_lstNV.NguyenVongSo,
-              IDTruong: item_lstChild.ID,
+              IDTruong: item_lstChild.IDTruong,
               MaTruong: item_lstChild.MaTruong,
               TenTruong: item_lstChild.TenTruong,
               DiaChi: item_lstChild.DiaChi,
@@ -416,42 +428,101 @@ export default function Trangdangky({ route, navigation }) {
         });
       });
   };
-
+  //* Chọn nguyện vọng thêm
+  const ChonNguyenVongThem = (itemParent, indexParent, itemValue) => {
+    let obj = {
+      ...itemParent,
+      IDTruong: itemValue,
+      CoSoDangKy: "",
+      IDLopChuyen: "",
+      IDMonChuyen: "",
+    };
+    setData((prevState) => ({
+      ...prevState,
+      NguyenVong: prevState.NguyenVong.map((item, index) =>
+        indexParent === index ? obj : item
+      ),
+    }));
+  };
   //* List nguyện vọng
-  const ListNV = () =>
+  const NV_MacDinh = () =>
     data.NguyenVong.map((itemParent, indexParent) => {
       return (
-        //* Nguyện vọng 1
-        <View
-          style={{
-            backgroundColor: "#d4e2d4",
-            padding: 5,
-            marginBottom: 15,
-            borderWidth: 1,
-          }}
-          key={indexParent.toString()}
-        >
-          <View style={{ borderWidth: 1 }}>
-            <Picker
-              selectedValue={data.NguyenVong[indexParent].IDTruong}
-              style={{ height: 40, flexGrow: 1 }}
-              itemStyle={{ fontSize: 8 }}
-              onValueChange={(itemValue, itemIndex) =>
-                ChonNguyenVong1(itemParent, indexParent, itemValue)
-              }
-            >
-              {picker.NguyenVong[indexParent].map((itemChild, indexChild) => {
-                return (
-                  <Picker.Item
-                    key={itemChild.ID.toString()}
-                    label={itemChild.TenTruong}
-                    value={itemChild.IDTruong}
-                  />
-                );
-              })}
-            </Picker>
+        indexParent === 0 && (
+          //* Nguyện vọng 1
+          <View
+            style={{
+              backgroundColor: "#d4e2d4",
+              padding: 5,
+              marginBottom: 15,
+              borderWidth: 1,
+            }}
+            key={indexParent.toString()}
+          >
+            <View style={{ borderWidth: 1 }}>
+              <Picker
+                selectedValue={data.NguyenVong[indexParent].IDTruong}
+                style={{ height: 40, flexGrow: 1 }}
+                itemStyle={{ fontSize: 8 }}
+                onValueChange={(itemValue, itemIndex) =>
+                  ChonNguyenVong1(itemParent, indexParent, itemValue)
+                }
+              >
+                {data.NguyenVong_Picker[indexParent].map(
+                  (itemChild, indexChild) => {
+                    return (
+                      <Picker.Item
+                        key={itemChild.ID.toString()}
+                        label={itemChild.TenTruong}
+                        value={itemChild.IDTruong}
+                      />
+                    );
+                  }
+                )}
+              </Picker>
+            </View>
           </View>
-        </View>
+        )
+      );
+    });
+  const ListNV_Them = () =>
+    data.NguyenVong.map((itemParent, indexParent) => {
+      return (
+        indexParent !== 0 && (
+          //* Nguyện vọng 1
+          <View
+            style={{
+              backgroundColor: "#fcf8e8",
+              padding: 5,
+              marginBottom: 15,
+              borderWidth: 1,
+            }}
+            key={indexParent.toString()}
+          >
+            <View style={{ borderWidth: 1 }}>
+              <Picker
+                selectedValue={data.NguyenVong[indexParent].IDTruong}
+                style={{ height: 40, flexGrow: 1 }}
+                itemStyle={{ fontSize: 8 }}
+                onValueChange={(itemValue, itemIndex) =>
+                  ChonNguyenVongThem(itemParent, indexParent, itemValue)
+                }
+              >
+                {data.NguyenVong_Picker[indexParent].map(
+                  (itemChild, indexChild) => {
+                    return (
+                      <Picker.Item
+                        key={itemChild.ID.toString()}
+                        label={itemChild.TenTruong}
+                        value={itemChild.IDTruong}
+                      />
+                    );
+                  }
+                )}
+              </Picker>
+            </View>
+          </View>
+        )
       );
     });
   //#endregion
@@ -1406,8 +1477,9 @@ export default function Trangdangky({ route, navigation }) {
                 </View>
                 {/* Đăng ký nguyện vọng */}
                 <View style={styles.box}>
+                  <NV_MacDinh />
                   <ScrollView nestedScrollEnabled style={{ maxHeight: 400 }}>
-                    <ListNV />
+                    <ListNV_Them />
                   </ScrollView>
                 </View>
               </View>
