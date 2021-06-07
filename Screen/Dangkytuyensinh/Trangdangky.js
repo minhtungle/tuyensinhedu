@@ -111,23 +111,8 @@ export default function Trangdangky({ route, navigation }) {
         CoSoDangKy: "",
         IDLopChuyen: "",
         IDMonChuyen: "",
+        lstLopChuyen: null,
       },
-    ],
-    NguyenVong_Picker: [
-      // Nguyện vọng 1
-      [
-        {
-          ID: 1,
-          IDTruong: "",
-          MaTruong: "",
-          TenTruong: "Chọn trường",
-          DiaChi: "",
-          IDTinh: "",
-          IDQuan: "",
-          IDPhuong: "",
-          idKeHoach: "",
-        },
-      ],
     ],
     DoiTuongUuTien: [],
     CoGiaiThuongQuocGia: false,
@@ -148,6 +133,22 @@ export default function Trangdangky({ route, navigation }) {
     DienThoaiLienHe: "",
     MailLienHe: "",
     Xacnhanthongtin: false,
+    NguyenVong_Picker: [
+      // Nguyện vọng 1
+      [
+        {
+          ID: 1,
+          IDTruong: "",
+          MaTruong: "",
+          TenTruong: "Chọn trường",
+          DiaChi: "",
+          IDTinh: "",
+          IDQuan: "",
+          IDPhuong: "",
+          idKeHoach: "",
+        },
+      ],
+    ],
   });
   //console.log(data.NguyenVong);
   const inputTable = (item, index) => (
@@ -242,7 +243,7 @@ export default function Trangdangky({ route, navigation }) {
     ],
     // Nguyện vọng n...
   });
-  /* console.log(`data.NguyenVong: ${data.NguyenVong.length}
+  /*   console.log(`data.NguyenVong: ${data.NguyenVong.length}
   data.Picker: ${data.NguyenVong_Picker.length}`); */
   const [DSdoituonguutien, setDSdoituonguutien] = useState([]);
   //* Chọn giá trị cho Picker
@@ -349,6 +350,7 @@ export default function Trangdangky({ route, navigation }) {
       CoSoDangKy: "",
       IDLopChuyen: "",
       IDMonChuyen: "",
+      lstLopChuyen: null,
     };
     setData((prevState) => ({
       ...prevState,
@@ -357,16 +359,15 @@ export default function Trangdangky({ route, navigation }) {
     }));
   };
   //* Xóa nguyện vọng
-  const XoaNV = (indexParent) => {
+  const XoaNV = () => {
     setData((prevState) => ({
       ...prevState,
       NguyenVong: prevState.NguyenVong.filter((item, index) => {
         return index === 0;
       }),
-    }));
-    setPicker((prevState) => ({
-      ...prevState,
-      NguyenVong: (prevState.NguyenVong.length = 1),
+      NguyenVong_Picker: prevState.NguyenVong_Picker.filter((item, index) => {
+        return index === 0;
+      }),
     }));
   };
   //* Chọn nguyện vọng 1
@@ -377,6 +378,7 @@ export default function Trangdangky({ route, navigation }) {
       CoSoDangKy: "",
       IDLopChuyen: "",
       IDMonChuyen: "",
+      lstLopChuyen: null,
     };
     setData((prevState) => ({
       ...prevState,
@@ -384,49 +386,90 @@ export default function Trangdangky({ route, navigation }) {
         indexParent === index ? obj : item
       ),
     }));
-    // Gọi dữ liệu NV khác và trường chuyên
-    fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getschools?idTruong=${itemValue}&idKyThi=${IDKyThi}`
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
-        // Mỗi khi thay đổi nguyện vọng 1 thì sẽ xóa hết nguyện vọng còn lại tại data và picker
-        XoaNV();
-        responseJson.data.lstNguyenVong_Group.map((item_lstNV, index_lstNV) => {
-          // Tạo list NV phụ
-          const arrData = [
+    // Mỗi khi thay đổi nguyện vọng 1 thì sẽ xóa hết nguyện vọng còn lại tại data và picker
+    XoaNV();
+    // Không phải mặc định thì mới gọi api
+    if (itemValue !== null && itemValue !== "" && itemValue !== undefined) {
+      // Gọi dữ liệu NV khác và trường chuyên
+      fetch(
+        `http://192.168.0.108:1995/api/TSAPIService/getschools?idTruong=${itemValue}&idKyThi=${IDKyThi}`
+      )
+        .then((response) => response.json())
+        .then((responseJson) => {
+          // Đổ dữ liệu lớp chuyên hoặc chất lượng cao tương ứng vào trường
+          var arr_lstLopChuyen = [
             {
-              ID: item_lstNV.NguyenVongSo,
-              IDTruong: "",
-              MaTruong: "",
-              TenTruong: "Chọn trường",
-              DiaChi: "",
-              IDTinh: "",
-              IDQuan: "",
-              IDPhuong: "",
-              idKeHoach: "",
+              ID: 0,
+              TenLopChuyen: "Chọn lớp",
+              TenMonChuyen: "",
+              IDLopChuyen: 0,
+              IDMonChuyen: 0,
+              lstChild: null,
             },
           ];
-          // Đổ dữ liệu vào list NV phụ
-          item_lstNV.lstChild.map((item_lstChild, index_lstChild) => {
-            const obj = {
-              ID: item_lstNV.NguyenVongSo,
-              IDTruong: item_lstChild.IDTruong,
-              MaTruong: item_lstChild.MaTruong,
-              TenTruong: item_lstChild.TenTruong,
-              DiaChi: item_lstChild.DiaChi,
-              IDTinh: item_lstChild.IDTinh,
-              IDQuan: item_lstChild.IDQuan,
-              IDPhuong: item_lstChild.IDPhuong,
-              idKeHoach: item_lstChild.idKeHoach,
+          responseJson.data.lstLopChuyen.map((item, index) => {
+            const _lstLopChuyen = {
+              ID: index,
+              TenLopChuyen: item.TenLopChuyen,
+              TenMonChuyen: "",
+              IDLopChuyen: item.IDLopChuyen,
+              IDMonChuyen: 0,
+              lstChild: item.lstChild,
             };
-            arrData.push(obj);
+            arr_lstLopChuyen.push(_lstLopChuyen);
           });
+          //console.log(arr_lstLopChuyen);
 
-          // Tạo thêm nguyện vọng tương ứng đang chọn ở data và picker
-          ThemNV(item_lstNV.NguyenVongSo, arrData);
+          setData((prevState) => ({
+            ...prevState,
+            NguyenVong: prevState.NguyenVong.map((item, index) =>
+              indexParent === index
+                ? {
+                    ...item,
+                    lstLopChuyen: arr_lstLopChuyen,
+                  }
+                : item
+            ),
+          }));
+          // Tạo nv phụ
+          responseJson.data.lstNguyenVong_Group.map(
+            (item_lstNV, index_lstNV) => {
+              // Tạo list NV phụ
+              const arrData = [
+                {
+                  ID: item_lstNV.NguyenVongSo,
+                  IDTruong: "",
+                  MaTruong: "",
+                  TenTruong: "Chọn trường",
+                  DiaChi: "",
+                  IDTinh: "",
+                  IDQuan: "",
+                  IDPhuong: "",
+                  idKeHoach: "",
+                },
+              ];
+              // Đổ dữ liệu vào list NV phụ
+              item_lstNV.lstChild.map((item_lstChild, index_lstChild) => {
+                const obj = {
+                  ID: item_lstNV.NguyenVongSo,
+                  IDTruong: item_lstChild.IDTruong,
+                  MaTruong: item_lstChild.MaTruong,
+                  TenTruong: item_lstChild.TenTruong,
+                  DiaChi: item_lstChild.DiaChi,
+                  IDTinh: item_lstChild.IDTinh,
+                  IDQuan: item_lstChild.IDQuan,
+                  IDPhuong: item_lstChild.IDPhuong,
+                  idKeHoach: item_lstChild.idKeHoach,
+                };
+                arrData.push(obj);
+              });
+
+              // Tạo thêm nguyện vọng tương ứng đang chọn ở data và picker
+              ThemNV(item_lstNV.NguyenVongSo, arrData);
+            }
+          );
         });
-      });
+    }
   };
   //* Chọn nguyện vọng thêm
   const ChonNguyenVongThem = (itemParent, indexParent, itemValue) => {
@@ -436,11 +479,71 @@ export default function Trangdangky({ route, navigation }) {
       CoSoDangKy: "",
       IDLopChuyen: "",
       IDMonChuyen: "",
+      lstLopChuyen: null,
     };
     setData((prevState) => ({
       ...prevState,
       NguyenVong: prevState.NguyenVong.map((item, index) =>
         indexParent === index ? obj : item
+      ),
+    }));
+    // Không phải mặc định thì mới gọi api
+    if (itemValue !== null && itemValue !== "" && itemValue !== undefined) {
+      // Gọi dữ liệu NV khác và trường chuyên
+      fetch(
+        `http://192.168.0.108:1995/api/TSAPIService/gettruongchuyen?idTruong=${itemValue}`
+      )
+        .then((response) => response.json())
+        .then((responseJson) => {
+          // Đổ dữ liệu lớp chuyên hoặc chất lượng cao tương ứng vào trường
+          var arr_lstLopChuyen = [
+            {
+              ID: 0,
+              TenLopChuyen: "Chọn lớp",
+              TenMonChuyen: "",
+              IDLopChuyen: 0,
+              IDMonChuyen: 0,
+              lstChild: null,
+            },
+          ];
+          responseJson.data.lstLopChuyen.map((item, index) => {
+            const _lstLopChuyen = {
+              ID: index,
+              TenLopChuyen: item.TenLopChuyen,
+              TenMonChuyen: "",
+              IDLopChuyen: item.ID,
+              IDMonChuyen: 0,
+              lstChild: null,
+            };
+            arr_lstLopChuyen.push(_lstLopChuyen);
+          });
+          //console.log(arr_lstLopChuyen);
+
+          setData((prevState) => ({
+            ...prevState,
+            NguyenVong: prevState.NguyenVong.map((item, index) =>
+              indexParent === index
+                ? {
+                    ...item,
+                    lstLopChuyen: arr_lstLopChuyen,
+                  }
+                : item
+            ),
+          }));
+        });
+    }
+  };
+  //* Chọn lớp chuyên
+  const ChonLopChuyen = (itemParent, indexParent, itemValue) => {
+    setData((prevState) => ({
+      ...prevState,
+      NguyenVong: prevState.NguyenVong.map((item, index) =>
+        indexParent === index
+          ? {
+              ...item,
+              IDLopChuyen: itemValue,
+            }
+          : item
       ),
     }));
   };
@@ -456,12 +559,13 @@ export default function Trangdangky({ route, navigation }) {
               padding: 5,
               marginBottom: 15,
               borderWidth: 1,
+              flexDirection: "column",
             }}
             key={indexParent.toString()}
           >
             <View style={{ borderWidth: 1 }}>
               <Picker
-                selectedValue={data.NguyenVong[indexParent].IDTruong}
+                selectedValue={itemParent.IDTruong}
                 style={{ height: 40, flexGrow: 1 }}
                 itemStyle={{ fontSize: 8 }}
                 onValueChange={(itemValue, itemIndex) =>
@@ -481,6 +585,48 @@ export default function Trangdangky({ route, navigation }) {
                 )}
               </Picker>
             </View>
+            {/*Chât lượng cao hoặc chuyên*/}
+            {itemParent.lstLopChuyen !== null && (
+              <View style={{ flexDirection: "row", marginTop: 2 }}>
+                <View
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      padding: 10,
+                      textAlignVertical: "center",
+                      textAlign: "center",
+                    }}
+                    numberOfLines={1}
+                  >
+                    Chọn lớp :
+                  </Text>
+                </View>
+                <View style={{ flexGrow: 1, borderWidth: 1 }}>
+                  <Picker
+                    selectedValue={itemParent.IDLopChuyen}
+                    style={{ height: 40, flexGrow: 1 }}
+                    itemStyle={{ fontSize: 8 }}
+                    onValueChange={(itemValue, itemIndex) =>
+                      ChonLopChuyen(itemParent, indexParent, itemValue)
+                    }
+                  >
+                    {itemParent.lstLopChuyen.map((itemChild, indexChild) => {
+                      return (
+                        <Picker.Item
+                          key={itemChild.ID.toString()}
+                          label={itemChild.TenLopChuyen}
+                          value={itemChild.IDLopChuyen}
+                        />
+                      );
+                    })}
+                  </Picker>
+                </View>
+              </View>
+            )}
           </View>
         )
       );
@@ -501,7 +647,7 @@ export default function Trangdangky({ route, navigation }) {
           >
             <View style={{ borderWidth: 1 }}>
               <Picker
-                selectedValue={data.NguyenVong[indexParent].IDTruong}
+                selectedValue={itemParent.IDTruong}
                 style={{ height: 40, flexGrow: 1 }}
                 itemStyle={{ fontSize: 8 }}
                 onValueChange={(itemValue, itemIndex) =>
@@ -521,6 +667,48 @@ export default function Trangdangky({ route, navigation }) {
                 )}
               </Picker>
             </View>
+            {/*Chât lượng cao hoặc chuyên*/}
+            {itemParent.lstLopChuyen !== null && (
+              <View style={{ flexDirection: "row", marginTop: 2 }}>
+                <View
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      padding: 10,
+                      textAlignVertical: "center",
+                      textAlign: "center",
+                    }}
+                    numberOfLines={1}
+                  >
+                    Chọn lớp :
+                  </Text>
+                </View>
+                <View style={{ flexGrow: 1, borderWidth: 1 }}>
+                  <Picker
+                    selectedValue={itemParent.IDLopChuyen}
+                    style={{ height: 40, flexGrow: 1 }}
+                    itemStyle={{ fontSize: 8 }}
+                    onValueChange={(itemValue, itemIndex) =>
+                      ChonLopChuyen(itemParent, indexParent, itemValue)
+                    }
+                  >
+                    {itemParent.lstLopChuyen.map((itemChild, indexChild) => {
+                      return (
+                        <Picker.Item
+                          key={itemChild.ID.toString()}
+                          label={itemChild.TenLopChuyen}
+                          value={itemChild.IDLopChuyen}
+                        />
+                      );
+                    })}
+                  </Picker>
+                </View>
+              </View>
+            )}
           </View>
         )
       );
