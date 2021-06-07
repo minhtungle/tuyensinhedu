@@ -104,6 +104,8 @@ export default function Trangdangky({ route, navigation }) {
     IDHuyen: "",
     IDXa: "",
     DiaChi: "",
+    HanhKiem: "",
+    HocLuc: "",
     NguyenVong: [
       {
         ID: 1,
@@ -225,21 +227,53 @@ export default function Trangdangky({ route, navigation }) {
       },
     ],
     DoiTuongUuTien: [],
-    NguyenVong: [
-      // Nguyện vọng 1
-      [
-        {
-          ID: 1,
-          IDTruong: "",
-          MaTruong: "",
-          TenTruong: "Chọn trường",
-          DiaChi: "",
-          IDTinh: "",
-          IDQuan: "",
-          IDPhuong: "",
-          idKeHoach: "",
-        },
-      ],
+    HanhKiem: [
+      {
+        id: "",
+        name: "Chọn hạnh kiểm",
+      },
+      {
+        id: 1,
+        name: "Tốt",
+      },
+      {
+        id: 2,
+        name: "Khá",
+      },
+      {
+        id: 3,
+        name: "Trung bình",
+      },
+      {
+        id: 4,
+        name: "Yếu",
+      },
+    ],
+    HocLuc: [
+      {
+        id: "",
+        name: "Chọn học lực",
+      },
+      {
+        id: 1,
+        name: "Giỏi",
+      },
+      {
+        id: 2,
+        name: "Khá",
+      },
+      {
+        id: 3,
+        name: "Trung bình",
+      },
+      {
+        id: 4,
+        name: "Yếu",
+      },
+      {
+        id: 5,
+        name: "Kém",
+      },
     ],
     // Nguyện vọng n...
   });
@@ -786,7 +820,7 @@ export default function Trangdangky({ route, navigation }) {
       IDXaNS: [
         {
           id: "",
-          name: "Chọn phường/xã",
+          name: "Chọn Phường/xã",
         },
       ],
     }));
@@ -998,7 +1032,7 @@ export default function Trangdangky({ route, navigation }) {
       IDXaNS: [
         {
           id: "",
-          name: "Chọn phường/xã",
+          name: "Chọn Phường/xã",
         },
       ],
     }));
@@ -1161,6 +1195,8 @@ export default function Trangdangky({ route, navigation }) {
   //#endregion
 
   //#endregion
+
+  //#region Đối tượng ưu tiên
   const Check = (indexParent, indexChild, value) => {
     let arr = DSdoituonguutien.map(
       (item_DSdoituonguutien, index_DSdoituonguutien) =>
@@ -2264,28 +2300,46 @@ export default function Trangdangky({ route, navigation }) {
                           <Text>
                             Hạnh kiểm <Text style={{ color: "red" }}>*</Text>
                           </Text>
-                          <TextInput
-                            style={styles.textInput}
-                            onChangeText={(value) =>
-                              changeValuePicker({ HocLuc: value })
+                          <Picker
+                            selectedValue={data.HanhKiem}
+                            style={{ height: 50, width: "100%" }}
+                            onValueChange={(itemValue, itemIndex) =>
+                              changeValuePicker({ HanhKiem: itemValue })
                             }
                           >
-                            {data.HocLuc}
-                          </TextInput>
+                            {picker.HanhKiem.map((item, index) => {
+                              return (
+                                <Picker.Item
+                                  key={index.toString()}
+                                  label={item.name}
+                                  value={item.name}
+                                />
+                              );
+                            })}
+                          </Picker>
                         </View>
                         {/* Hạnh kiểm */}
                         <View style={styles.field}>
                           <Text>
                             Học lực <Text style={{ color: "red" }}>*</Text>
                           </Text>
-                          <TextInput
-                            style={styles.textInput}
-                            onChangeText={(value) =>
-                              changeValuePicker({ HanhKiem: value })
+                          <Picker
+                            selectedValue={data.HocLuc}
+                            style={{ height: 50, width: "100%" }}
+                            onValueChange={(itemValue, itemIndex) =>
+                              changeValuePicker({ HocLuc: itemValue })
                             }
                           >
-                            {data.HanhKiem}
-                          </TextInput>
+                            {picker.HocLuc.map((item, index) => {
+                              return (
+                                <Picker.Item
+                                  key={index.toString()}
+                                  label={item.name}
+                                  value={item.name}
+                                />
+                              );
+                            })}
+                          </Picker>
                         </View>
                       </View>
                     )}
