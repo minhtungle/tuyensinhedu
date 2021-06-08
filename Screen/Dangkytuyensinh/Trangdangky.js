@@ -167,6 +167,8 @@ export default function Trangdangky({ route, navigation }) {
     <TextInput
       style={{ paddingLeft: 5 }}
       placeholder="Nhập điểm ..."
+      keyboardType={"number-pad"}
+      multiline={false}
       onChangeText={(value) => NhapDiemHocBa(indexRow, indexCell, value)}
     />
   );
@@ -1472,26 +1474,12 @@ export default function Trangdangky({ route, navigation }) {
 
   //#region Kiểm tra tất cả thông tin
   const TrangThai = () => {
-    return ((data.MaHocSinh &&
-      data.MatKhau &&
-      data.HoTen &&
-      data.DanToc &&
-      data.IDTinhNS &&
-      data.IDHuyenNS &&
-      data.IDXaNS &&
-      data.IDTinhTT &&
-      data.IDHuyenTT &&
-      data.IDXaTT &&
-      data.IDTinh &&
-      data.IDHuyen &&
-      data.IDXa &&
-      data.DienThoaiLienHe &&
-      data.MailLienHe &&
-      data.NguyenVong[0].MaTruong) != "" ||
-      null) &&
-      data.Xacnhanthongtin
-      ? true
-      : false;
+    var trangthai = true;
+    var thongbao = "Bạn chưa nhập thông tin: ";
+    if (data.HoTen == "" || data.HoTen == null) {
+      trangthai = false;
+      thongbao += "Họ tên";
+    }
   };
   const ModalKiemTraThongTin = () => {
     return (
@@ -1815,9 +1803,7 @@ export default function Trangdangky({ route, navigation }) {
                 <View style={styles.box}>
                   {/* Mã học sinh */}
                   <View style={styles.field}>
-                    <Text>
-                      Mã học sinh <Text style={{ color: "red" }}>*</Text>
-                    </Text>
+                    <Text>Mã học sinh</Text>
                     <TextInput
                       style={styles.textInput}
                       onChangeText={(value) =>
@@ -1829,9 +1815,7 @@ export default function Trangdangky({ route, navigation }) {
                   </View>
                   {/* Mật khẩu */}
                   <View style={[styles.field, { marginBottom: "5%" }]}>
-                    <Text>
-                      Mật khẩu <Text style={{ color: "red" }}>*</Text>
-                    </Text>
+                    <Text>Mật khẩu</Text>
                     <View
                       style={{
                         flexDirection: "row",
@@ -1865,6 +1849,14 @@ export default function Trangdangky({ route, navigation }) {
                   </View>
                   {/* Họ và tên */}
                   <View style={styles.field}>
+                    {data.HoTen === "" && (
+                      <IconButton
+                        icon="menu-right"
+                        color={Colors.red500}
+                        size={30}
+                        style={{ position: "absolute", left: -42, top: -12 }}
+                      />
+                    )}
                     <Text>
                       Họ và tên <Text style={{ color: "red" }}>*</Text>
                     </Text>
@@ -1879,6 +1871,14 @@ export default function Trangdangky({ route, navigation }) {
                   </View>
                   {/* Ngày sinh */}
                   <View style={styles.field}>
+                    {data.NgaySinh === "" && (
+                      <IconButton
+                        icon="menu-right"
+                        color={Colors.red500}
+                        size={30}
+                        style={{ position: "absolute", left: -42, top: -12 }}
+                      />
+                    )}
                     <Text>
                       Ngày sinh <Text style={{ color: "red" }}>*</Text>
                     </Text>
@@ -1919,6 +1919,14 @@ export default function Trangdangky({ route, navigation }) {
                   </View>
                   {/* Dân tộc */}
                   <View style={styles.field}>
+                    {data.DanToc === "Chọn dân tộc" && (
+                      <IconButton
+                        icon="menu-right"
+                        color={Colors.red500}
+                        size={30}
+                        style={{ position: "absolute", left: -42, top: -12 }}
+                      />
+                    )}
                     <Text>
                       Dân tộc <Text style={{ color: "red" }}>*</Text>
                     </Text>
@@ -1964,11 +1972,21 @@ export default function Trangdangky({ route, navigation }) {
                   </View>
 
                   {/*//? NƠI SINH ---------------------------------*/}
-                  <Text
-                    style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
-                  >
-                    NƠI SINH :
-                  </Text>
+                  <View>
+                    {(data.IDTinhNS || data.IDHuyenNS) === "" && (
+                      <IconButton
+                        icon="menu-right"
+                        color={Colors.red500}
+                        size={30}
+                        style={{ position: "absolute", left: -42, top: -10 }}
+                      />
+                    )}
+                    <Text
+                      style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
+                    >
+                      NƠI SINH :
+                    </Text>
+                  </View>
                   {/*// Tỉnh thành phố */}
                   <View style={styles.field}>
                     <Text>
@@ -2017,11 +2035,23 @@ export default function Trangdangky({ route, navigation }) {
                     </Picker>
                   </View>
                   {/*//? HỘ KHẨU TẠM TRÚ ---------------------------------*/}
-                  <Text
-                    style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
-                  >
-                    HỘ KHẨU TẠM TRÚ :
-                  </Text>
+                  <View>
+                    {(data.IDTinhTamTru ||
+                      data.IDHuyenTamTru ||
+                      data.IDXaTamTru) === "" && (
+                      <IconButton
+                        icon="menu-right"
+                        color={Colors.red500}
+                        size={30}
+                        style={{ position: "absolute", left: -42, top: -10 }}
+                      />
+                    )}
+                    <Text
+                      style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
+                    >
+                      HỘ KHẨU TẠM TRÚ :
+                    </Text>
+                  </View>
                   {/*// Tỉnh thành phố */}
                   <View style={styles.field}>
                     <Text>
@@ -2106,11 +2136,22 @@ export default function Trangdangky({ route, navigation }) {
                   </View>
 
                   {/*//? HỘ KHẨU THƯỜNG TRÚ ---------------------------------*/}
-                  <Text
-                    style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
-                  >
-                    HỘ KHẨU THƯỜNG TRÚ :
-                  </Text>
+                  <View>
+                    {(data.IDTinhTT || data.IDHuyenTT || data.IDXaTT) ===
+                      "" && (
+                      <IconButton
+                        icon="menu-right"
+                        color={Colors.red500}
+                        size={30}
+                        style={{ position: "absolute", left: -42, top: -10 }}
+                      />
+                    )}
+                    <Text
+                      style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
+                    >
+                      HỘ KHẨU THƯỜNG TRÚ :
+                    </Text>
+                  </View>
                   {/*// Tỉnh thành phố */}
                   <View style={styles.field}>
                     <Text>
@@ -2195,11 +2236,21 @@ export default function Trangdangky({ route, navigation }) {
                   </View>
 
                   {/*//? NƠI Ở HIỆN TẠI ---------------------------------*/}
-                  <Text
-                    style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
-                  >
-                    NƠI Ở HIỆN TẠI :
-                  </Text>
+                  <View>
+                    {(data.IDTinh || data.IDHuyen || data.IDXa) === "" && (
+                      <IconButton
+                        icon="menu-right"
+                        color={Colors.red500}
+                        size={30}
+                        style={{ position: "absolute", left: -42, top: -10 }}
+                      />
+                    )}
+                    <Text
+                      style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
+                    >
+                      NƠI Ở HIỆN TẠI :
+                    </Text>
+                  </View>
                   {/*// Tỉnh thành phố */}
                   <View style={styles.field}>
                     <Text>
@@ -2604,6 +2655,14 @@ export default function Trangdangky({ route, navigation }) {
                     </View>
                   </View>
                   <View style={styles.field}>
+                    {data.DanhSachFileDinhKem.length === 0 && (
+                      <IconButton
+                        icon="menu-right"
+                        color={Colors.red500}
+                        size={30}
+                        style={{ position: "absolute", left: -42, top: -12 }}
+                      />
+                    )}
                     <Text>
                       Bổ sung các giấy tờ liên quan
                       <Text style={{ color: "red" }}> *</Text>
@@ -2619,7 +2678,7 @@ export default function Trangdangky({ route, navigation }) {
                         icon="camera"
                         color={Colors.red500}
                         size={25}
-                        onPress={() => console.log(data.HocBa, table)}
+                        onPress={() => console.log(data)}
                         // onPress={() => {
                         //   navigation.navigate("Images");
                         // }}
@@ -2776,6 +2835,8 @@ export default function Trangdangky({ route, navigation }) {
                     <Text>Số điện thoại</Text>
                     <TextInput
                       style={styles.textInput}
+                      keyboardType={"number-pad"}
+                      multiline={false}
                       onChangeText={(value) =>
                         changeValuePicker({ SDTMe: value })
                       }
@@ -2870,6 +2931,8 @@ export default function Trangdangky({ route, navigation }) {
                     <Text>Số điện thoại</Text>
                     <TextInput
                       style={styles.textInput}
+                      keyboardType={"number-pad"}
+                      multiline={false}
                       onChangeText={(value) =>
                         changeValuePicker({ SDTCha: value })
                       }
@@ -2964,6 +3027,8 @@ export default function Trangdangky({ route, navigation }) {
                     <Text>Số điện thoại</Text>
                     <TextInput
                       style={styles.textInput}
+                      keyboardType={"number-pad"}
+                      multiline={false}
                       onChangeText={(value) =>
                         changeValuePicker({ SDTNGH: value })
                       }
@@ -3040,6 +3105,14 @@ export default function Trangdangky({ route, navigation }) {
 
                   {/* Email liên hệ */}
                   <View style={styles.field}>
+                    {data.MailLienHe === "" && (
+                      <IconButton
+                        icon="menu-right"
+                        color={Colors.red500}
+                        size={30}
+                        style={{ position: "absolute", left: -42, top: -12 }}
+                      />
+                    )}
                     <Text>
                       Email liên hệ <Text style={{ color: "red" }}>*</Text>
                     </Text>
