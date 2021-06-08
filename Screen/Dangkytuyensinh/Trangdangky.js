@@ -106,6 +106,7 @@ export default function Trangdangky({ route, navigation }) {
     DiaChi: "",
     HanhKiem: "",
     HocLuc: "",
+    HocBa: [],
     NguyenVong: [
       {
         ID: 1,
@@ -123,14 +124,20 @@ export default function Trangdangky({ route, navigation }) {
     HoTenMe: "",
     NgaySinhMe: "",
     CMNDMe: "",
+    NgheNghiepMe: "",
+    SDTMe: "",
 
     HoTenCha: "",
     NgaySinhCha: "",
     CMNDCha: "",
+    NgheNgiepCha: "",
+    SDTCha: "",
 
     HoTenNguoiGiamHo: "",
     NgaySinhNguoiGiamHo: "",
     CMNDNguoiGiamHo: "",
+    NgheNghiep: "",
+    SDTNGH: "",
 
     DienThoaiLienHe: "",
     MailLienHe: "",
@@ -153,20 +160,80 @@ export default function Trangdangky({ route, navigation }) {
     ],
   });
   //console.log(data.NguyenVong);
-  const inputTable = (item, index) => (
-    <TextInput style={{ paddingLeft: 5 }} placeholder="Nhập điểm ..." />
+
+  //#region Học bạ: Table - Call API
+  //* Tạo bảng
+  const inputTable = (indexRow, indexCell, value) => (
+    <TextInput
+      style={{ paddingLeft: 5 }}
+      placeholder="Nhập điểm ..."
+      onChangeText={(value) => NhapDiemHocBa(indexRow, indexCell, value)}
+    />
   );
   const [table, setTable] = useState({
-    header: ["Môn", "Toán", "Anh"],
-    body: [
-      ["Lớp 3", inputTable(), inputTable()],
-      ["Lớp 4", inputTable(), inputTable()],
-      ["Lớp 5", inputTable(), inputTable()],
-    ],
+    tableHead: [],
+    tableTitle: [],
+    //tableData: [],
   });
-  const dantocData = require("../Dangkytuyensinh/Dantoc.json");
+  const NhapDiemHocBa = (indexRow, indexCell, value) => {
+    const arr = [...data.HocBa];
+    arr[indexRow][indexCell].Diem = value;
+    setData((prev) => ({
+      ...prev,
+      HocBa: arr,
+    }));
+  };
+  //* Gọi API danh sách học bạ
+  DoiTuongTuyenSinh === 3 &&
+    useEffect(() => {
+      fetch(
+        `http://192.168.0.108:1995/api/TSAPIService/gethocba?idKyThi=${IDKyThi}`
+      )
+        .then((response) => response.json())
+        .then((responseJson) => {
+          const diemData = [];
+          const lstMon = [];
+          const lstLop = [];
+          //const lstDiem = [];
+          // Đổ dữ liệu lớp và tạo điểm
+          responseJson.data.lstLopHoc.map((item_Lop, index_Lop) => {
+            diemData.push([]);
+            //lstDiem.push([]);
+            lstLop.push(item_Lop);
+            responseJson.data.lstMonHoc.map((item_Mon, index_Mon) => {
+              //lstDiem[index_Lop].push(inputTable());
+              // Tạo đối tượng điểm data
+              const obj = {
+                IDMon: item_Mon.ID,
+                Lop: item_Lop,
+                Diem: null,
+              };
+              diemData[index_Lop].push(obj);
+            });
+          });
+          // Đổ dữ liệu môn
+          responseJson.data.lstMonHoc.map((item_Mon, index_Mon) => {
+            lstMon.push(item_Mon.Ten);
+          });
+
+          setData((prevState) => ({
+            ...prevState,
+            HocBa: diemData,
+          }));
+          setTable((prevState) => ({
+            ...prevState,
+            tableHead: lstMon,
+            tableTitle: lstLop,
+            //tableData: lstDiem,
+          }));
+        });
+    }, [0]);
+
+  //#endregion
+
   //#region DropPicker: Dữ liệu - Thay đổi value khi chọn
   //* Dữ liệu trong dropDown
+  const dantocData = require("../Dangkytuyensinh/Dantoc.json");
   const [picker, setPicker] = useState({
     DanToc: dantocData.dantoc,
     // Nơi sinh
@@ -1949,42 +2016,6 @@ export default function Trangdangky({ route, navigation }) {
                       })}
                     </Picker>
                   </View>
-                  {/*// Phường xã */}
-                  <View style={styles.field}>
-                    <Text>
-                      Chọn phường/xã <Text style={{ color: "red" }}>*</Text>
-                    </Text>
-                    <Picker
-                      selectedValue={data.IDXaNS}
-                      style={{ height: 50, width: "100%" }}
-                      onValueChange={(itemValue, itemIndex) =>
-                        changeValuePicker({ IDXaNS: itemValue })
-                      }
-                    >
-                      {picker.IDXaNS.map((item, index) => {
-                        return (
-                          <Picker.Item
-                            key={index.toString()}
-                            label={item.name}
-                            value={item.id}
-                          />
-                        );
-                      })}
-                    </Picker>
-                  </View>
-                  {/*// Số nhà đường */}
-                  <View style={styles.field}>
-                    <Text>Số nhà, đường</Text>
-                    <TextInput
-                      style={styles.textInput}
-                      onChangeText={(value) =>
-                        changeValuePicker({ DiaChiNS: value })
-                      }
-                    >
-                      {data.DiaChiNS}
-                    </TextInput>
-                  </View>
-
                   {/*//? HỘ KHẨU TẠM TRÚ ---------------------------------*/}
                   <Text
                     style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
@@ -2297,9 +2328,7 @@ export default function Trangdangky({ route, navigation }) {
                       <View>
                         {/* Học lực */}
                         <View style={styles.field}>
-                          <Text>
-                            Hạnh kiểm <Text style={{ color: "red" }}>*</Text>
-                          </Text>
+                          <Text>Hạnh kiểm</Text>
                           <Picker
                             selectedValue={data.HanhKiem}
                             style={{ height: 50, width: "100%" }}
@@ -2320,9 +2349,7 @@ export default function Trangdangky({ route, navigation }) {
                         </View>
                         {/* Hạnh kiểm */}
                         <View style={styles.field}>
-                          <Text>
-                            Học lực <Text style={{ color: "red" }}>*</Text>
-                          </Text>
+                          <Text>Học lực</Text>
                           <Picker
                             selectedValue={data.HocLuc}
                             style={{ height: 50, width: "100%" }}
@@ -2344,44 +2371,64 @@ export default function Trangdangky({ route, navigation }) {
                       </View>
                     )}
                     <View style={styles.field}>
-                      <Text>
-                        Điểm học bạ <Text style={{ color: "red" }}>*</Text>
-                      </Text>
+                      <Text style={{ marginBottom: 5 }}>Điểm học bạ</Text>
                       <Table
-                        borderStyle={{ borderColor: "transparent" }}
+                        style={{ flexDirection: "column" }}
                         borderStyle={{ borderWidth: 1 }}
                       >
-                        <Row
-                          data={table.header}
-                          style={{
-                            height: 40,
-                            backgroundColor: "#008577",
-                          }}
-                          textStyle={{ margin: 6, textAlign: "center" }}
-                        />
-                        {table.body.map((rowData, index) => (
-                          <TableWrapper
-                            key={index}
-                            style={{
-                              flexDirection: "row",
-                              backgroundColor: "#FFF1C1",
-                              borderColor: "black",
-                            }}
-                          >
-                            {rowData.map((cellData, cellIndex) => (
-                              <Cell
-                                key={cellIndex}
-                                data={cellData}
-                                style={
-                                  cellIndex == 0 && {
-                                    paddingHorizontal: 27.4,
-                                  }
-                                }
-                                textStyle={styles.text}
-                              />
-                            ))}
+                        {/*---------Trên--------*/}
+                        <TableWrapper style={{ flexDirection: "row" }}>
+                          {/*----Trái----*/}
+                          <TableWrapper style={{ flexGrow: 1 }}>
+                            <Cell
+                              data="#"
+                              textStyle={styles.tableText}
+                              style={styles.tableHead}
+                            />
                           </TableWrapper>
-                        ))}
+                          {/*----Phải----*/}
+                          <TableWrapper style={{ flexGrow: 4 }}>
+                            {
+                              <Row
+                                data={table.tableHead}
+                                textStyle={styles.tableText}
+                                style={styles.tableHead}
+                              />
+                            }
+                          </TableWrapper>
+                        </TableWrapper>
+                        {/*---------Dưới--------*/}
+                        <TableWrapper style={{ flexDirection: "row" }}>
+                          {/*----Trái----*/}
+                          <TableWrapper style={{ flexGrow: 1 }}>
+                            <Col
+                              data={table.tableTitle}
+                              textStyle={styles.tableText}
+                              //style={styles.tableData}
+                            />
+                          </TableWrapper>
+                          {/*----Phải----*/}
+                          <TableWrapper style={{ flexGrow: 4 }}>
+                            {
+                              // Các input được tạo theo thứ tự đối tượng lưu trữ ở data
+                              data.HocBa.map((itemRow, indexRow) => (
+                                <TableWrapper
+                                  key={indexRow.toString()}
+                                  style={{ flexDirection: "row" }}
+                                >
+                                  {itemRow.map((itemCell, indexCell) => (
+                                    <Cell
+                                      key={indexCell.toString()}
+                                      data={inputTable(indexRow, indexCell)}
+                                      textStyle={styles.tableText}
+                                      //style={styles.tableData}
+                                    />
+                                  ))}
+                                </TableWrapper>
+                              ))
+                            }
+                          </TableWrapper>
+                        </TableWrapper>
                       </Table>
                     </View>
                   </View>
@@ -2572,7 +2619,7 @@ export default function Trangdangky({ route, navigation }) {
                         icon="camera"
                         color={Colors.red500}
                         size={25}
-                        onPress={() => console.log(data)}
+                        onPress={() => console.log(data.HocBa, table)}
                         // onPress={() => {
                         //   navigation.navigate("Images");
                         // }}
@@ -2712,6 +2759,30 @@ export default function Trangdangky({ route, navigation }) {
                       )}
                     </View>
                   </View>
+                  {/* Nghề nghiệp */}
+                  <View style={styles.field}>
+                    <Text>Nghề nghiệp</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ NgheNghiepMe: value })
+                      }
+                    >
+                      {data.NgheNghiepMe}
+                    </TextInput>
+                  </View>
+                  {/* Số điện thoại */}
+                  <View style={styles.field}>
+                    <Text>Số điện thoại</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ SDTMe: value })
+                      }
+                    >
+                      {data.SDTMe}
+                    </TextInput>
+                  </View>
                   {/*//? THÔNG TIN CHA ---------------------------------*/}
                   <Text
                     style={{ fontSize: 18, fontWeight: "bold", margin: "2%" }}
@@ -2781,6 +2852,30 @@ export default function Trangdangky({ route, navigation }) {
                         />
                       )}
                     </View>
+                  </View>
+                  {/* Nghề nghiệp */}
+                  <View style={styles.field}>
+                    <Text>Nghề nghiệp</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ NgheNghiepCha: value })
+                      }
+                    >
+                      {data.NgheNghiepCha}
+                    </TextInput>
+                  </View>
+                  {/* Số điện thoại */}
+                  <View style={styles.field}>
+                    <Text>Số điện thoại</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ SDTCha: value })
+                      }
+                    >
+                      {data.SDTCha}
+                    </TextInput>
                   </View>
                   {/*//? THÔNG TIN NGƯỜI GIÁM HỘ ---------------------------------*/}
                   <Text
@@ -2852,6 +2947,30 @@ export default function Trangdangky({ route, navigation }) {
                       )}
                     </View>
                   </View>
+                  {/* Nghề nghiệp */}
+                  <View style={styles.field}>
+                    <Text>Nghề nghiệp</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ NgheNghiepNGH: value })
+                      }
+                    >
+                      {data.NgheNghiepNGH}
+                    </TextInput>
+                  </View>
+                  {/* Số điện thoại */}
+                  <View style={styles.field}>
+                    <Text>Số điện thoại</Text>
+                    <TextInput
+                      style={styles.textInput}
+                      onChangeText={(value) =>
+                        changeValuePicker({ SDTNGH: value })
+                      }
+                    >
+                      {data.SDTNGH}
+                    </TextInput>
+                  </View>
                 </View>
               </View>
             </View>
@@ -2906,9 +3025,7 @@ export default function Trangdangky({ route, navigation }) {
                   </Text>
                   {/* Điện thoại liên hệ */}
                   <View style={styles.field}>
-                    <Text>
-                      Điện thoại liên hệ <Text style={{ color: "red" }}>*</Text>
-                    </Text>
+                    <Text>Điện thoại liên hệ</Text>
                     <TextInput
                       style={styles.textInput}
                       keyboardType={"number-pad"}
@@ -3057,7 +3174,8 @@ export default function Trangdangky({ route, navigation }) {
 
               backgroundColor: "#fff5c0",
 
-              borderColor: "white",
+              borderWidth: 2,
+              borderColor: "#e6db9fc9",
 
               shadowColor: "#000",
               shadowOffset: {
@@ -3167,4 +3285,8 @@ const styles = StyleSheet.create({
     shadowRadius: 15,
     shadowOffset: { width: 1, height: 13 },
   },
+  tableHead: { height: 50, backgroundColor: "#cee5d0" },
+  tableText: { textAlign: "center", fontWeight: "100" },
+  tableTitle: { backgroundColor: "#f6f8fa" },
+  tableData: { backgroundColor: "#ffeedb" },
 });
