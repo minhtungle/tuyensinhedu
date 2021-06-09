@@ -533,7 +533,7 @@ export default function Trangdangky({ route, navigation }) {
     }));
     // Mỗi khi thay đổi nguyện vọng 1 thì sẽ xóa hết nguyện vọng còn lại tại data và picker
     XoaNV();
-    console.log(itemValue, IDKyThi);
+    //console.log(itemValue, IDKyThi);
     // Không phải mặc định thì mới gọi api
     if (itemValue !== null && itemValue !== "" && itemValue !== undefined) {
       // Gọi dữ liệu NV khác và trường chuyên
@@ -664,7 +664,8 @@ export default function Trangdangky({ route, navigation }) {
                 TenMonChuyen: "",
                 IDLopChuyen: item.ID,
                 IDMonChuyen: 0,
-                lstChild: item.lstChild === null ? [] : item.lstChild,
+                //lstChild: item.lstChild === null ? [] : item.lstChild,
+                lstChild: [],
               };
               arr_lstLopChuyen.push(_lstLopChuyen);
             });
@@ -1585,69 +1586,73 @@ export default function Trangdangky({ route, navigation }) {
   //#region API - Push: Đăng ký
   //* Đăng ký
   const DangKy = async () => {
+    const lstDiemHocBa = [];
+    data.HocBa.map((itemParent) => {
+      itemParent.map((item) => lstDiemHocBa.push(item));
+    });
     const DataPush = {
-      MaHocSinh: data.MaHocSinh || "MaHocSinh", //string
-      MatKhau: data.MatKhau || "matkhau", //string
-      HoTen: data.HoTen || "hoten", //string
+      MaHocSinh: data.MaHocSinh || "", //string
+      MatKhau: data.MatKhau || "", //string
+      HoTen: data.HoTen || "", //string
       NgaySinh: date("{dd}/{mm}/{yyyy}", inputCon.date), //string
-      DanToc: data.DanToc || "dantoc", //string
+      DanToc: data.DanToc || "", //string
       GioiTinh: data.GioiTinh, //bool
-      // Nơi sinh
-      IDTinhNS: parseInt(data.IDTinhNS, 10) || 1,
-      IDTinhTT: parseInt(data.IDTinhTT, 10) || 1,
-      IDTinhTamTru: parseInt(data.IDTinhTamTru, 10) || 1,
-      IDTinh: parseInt(data.IDTinh, 10) || 1,
-
-      IDHuyenNS: parseInt(data.IDHuyenNS, 10) || 1,
-      IDQuanTamTru: parseInt(data.IDHuyenTamTru, 10) || 1,
-      IDQuan: parseInt(data.IDHuyen, 10) || 1,
-      IDQuanTT: parseInt(data.IDHuyenTT, 10) || 1,
-
-      IDPhuongTT: parseInt(data.IDXaTT, 10) || 1,
-      IDPhuongTamTru: parseInt(data.IDXaTamTru, 10) || 1,
-      //IDXaNS: parseInt(data.IDXaNS, 10) || 1,
-      IDPhuong: parseInt(data.IDXa, 10) || 1,
-
-      DiaChiTT: data.DiaChiTT || "diachiTT", //string
-      DiaChi: data.DiaChi || "diachi", //string
+      // TỈnh
+      IDTinhNS: parseInt(data.IDTinhNS, 10) || 0,
+      IDTinhTT: parseInt(data.IDTinhTT, 10) || 0,
+      IDTinhTamTru: parseInt(data.IDTinhTamTru, 10) || 0,
+      IDTinh: parseInt(data.IDTinh, 10) || 0,
+      // Huyện
+      IDHuyenNS: parseInt(data.IDHuyenNS, 10) || 0,
+      IDQuanTamTru: parseInt(data.IDHuyenTamTru, 10) || 0,
+      IDQuan: parseInt(data.IDHuyen, 10) || 0,
+      IDQuanTT: parseInt(data.IDHuyenTT, 10) || 0,
+      // Phường
+      IDPhuongTT: parseInt(data.IDXaTT, 10) || 0,
+      IDPhuongTamTru: parseInt(data.IDXaTamTru, 10) || 0,
+      //IDXaNS: parseInt(data.IDXaNS, 10) || 0,
+      IDPhuong: parseInt(data.IDXa, 10) || 0,
+      // Địa chỉ
+      DiaChiTT: data.DiaChiTT || "", //string
+      DiaChi: data.DiaChi || "", //string
       //DiaChiNS: data.DiaChiNS || "diachiNS", //string
-      DiaChiTamTru: data.DiaChiTamTru || "diachiTamTru", //string
+      DiaChiTamTru: data.DiaChiTamTru || "", //string
       // Chương trình tiểu học
-      IDTinhCT: parseInt(data.IDTinhCT, 10) || 1,
-      IDQuanCT: parseInt(data.IDHuyenCT, 10) || 1,
-      IDPhuongCT: parseInt(data.IDXaCT, 10) || 1,
-      TenLopCT: data.TenLopCT || "TenlopCT", //string
+      IDTinhCT: parseInt(data.IDTinhCT, 10) || 0,
+      IDQuanCT: parseInt(data.IDHuyenCT, 10) || 0,
+      IDPhuongCT: parseInt(data.IDXaCT, 10) || 0,
+      TenLopCT: data.TenLopCT || "", //string
 
       CoGiaiThuongQuocGia: data.CoGiaiThuongQuocGia,
 
-      HocLuc: data.HocLuc || "hocluc", //string
-      HanhKiem: data.HanhKiem || "hanhkiem", //string
-      lstDiemHocBa: data.HocBa || [],
+      HocLuc: data.HocLuc || "", //string
+      HanhKiem: data.HanhKiem || "", //string
 
+      lstDiemHocBa: lstDiemHocBa || [],
       lstNguyenVong: data.NguyenVong,
       lstDoiTuongUuTien: data.DoiTuongUuTien,
       lstFileDinhKem: [],
 
-      HoTenMe: data.HoTenMe || "hotenme", //string
+      HoTenMe: data.HoTenMe || "", //string
       NamSinhMe: date("{dd}/{mm}/{yyyy}", inputMe.date), //string
-      CMNDMe: data.CMNDMe || "cmndme", //string
-      NgheNghiepMe: data.NgheNghiepMe || "nghenghiepme", //string
-      SDTMe: data.SDTMe || "sdtMe", //string
+      CMNDMe: data.CMNDMe || "", //string
+      NgheNghiepMe: data.NgheNghiepMe || "", //string
+      SDTMe: data.SDTMe || "", //string
 
-      HoTenCha: data.HoTenCha || "hotencha", //string
+      HoTenCha: data.HoTenCha || "", //string
       NamSinhCha: date("{dd}/{mm}/{yyyy}", inputCha.date), //string
-      CMNDCha: data.CMNDCha || "cmndcha", //string
-      NgheNghiepCha: data.NgheNghiepCha || "nghenghiepcha", //string
-      SDTCha: data.SDTCha || "sdtCha", //string
+      CMNDCha: data.CMNDCha || "", //string
+      NgheNghiepCha: data.NgheNghiepCha || "", //string
+      SDTCha: data.SDTCha || "", //string
 
-      HoTenNguoiGiamHo: data.HoTenNguoiGiamHo || "hotenNGH", //string
+      HoTenNguoiGiamHo: data.HoTenNguoiGiamHo || "", //string
       NamSinhNguoiGiamHo: date("{dd}/{mm}/{yyyy}", inputNGH.date), //string
-      CMNDNguoiGiamHo: data.CMNDNguoiGiamHo || "cmndNGH", //string
-      NgheNghiepNGH: data.NgheNghiepNGH || "nghenghiepNGH", //string
-      SDTNGH: data.SDTNGH || "sdtNGH", //string
+      CMNDNguoiGiamHo: data.CMNDNguoiGiamHo || "", //string
+      NgheNghiepNGH: data.NgheNghiepNGH || "", //string
+      SDTNGH: data.SDTNGH || "", //string
 
-      DienThoai: data.DienThoaiLienHe || "dienthoai", //string
-      Email: data.MailLienHe || "email", //string
+      DienThoai: data.DienThoaiLienHe || "", //string
+      Email: data.MailLienHe || "", //string
 
       IDKyThi: IDKyThi,
     };
