@@ -345,19 +345,19 @@ export default function Trangdangky({ route, navigation }) {
         name: "Chọn hạnh kiểm",
       },
       {
-        id: 1,
+        id: "Tốt",
         name: "Tốt",
       },
       {
-        id: 2,
+        id: "Khá",
         name: "Khá",
       },
       {
-        id: 3,
+        id: "Trung bình",
         name: "Trung bình",
       },
       {
-        id: 4,
+        id: "Yếu",
         name: "Yếu",
       },
     ],
@@ -367,23 +367,23 @@ export default function Trangdangky({ route, navigation }) {
         name: "Chọn học lực",
       },
       {
-        id: 1,
+        id: "Giỏi",
         name: "Giỏi",
       },
       {
-        id: 2,
+        id: "Khá",
         name: "Khá",
       },
       {
-        id: 3,
+        id: "Trung bình",
         name: "Trung bình",
       },
       {
-        id: 4,
+        id: "Yếu",
         name: "Yếu",
       },
       {
-        id: 5,
+        id: "Kém",
         name: "Kém",
       },
     ],
@@ -1629,8 +1629,8 @@ export default function Trangdangky({ route, navigation }) {
       HanhKiem: data.HanhKiem || "", //string
 
       lstDiemHocBa: lstDiemHocBa || [],
-      lstNguyenVong: data.NguyenVong,
-      lstDoiTuongUuTien: data.DoiTuongUuTien,
+      lstNguyenVong: data.NguyenVong || [],
+      lstDoiTuongUuTien: data.DoiTuongUuTien || [],
       lstFileDinhKem: [],
 
       HoTenMe: data.HoTenMe || "", //string
@@ -1656,33 +1656,36 @@ export default function Trangdangky({ route, navigation }) {
 
       IDKyThi: IDKyThi,
     };
-    console.log(DataPush);
+    //console.log(DataPush);
+    //console.log(JSON.stringify(DataPush));
     try {
       await fetch(
-        "http://192.168.0.108:1995/api/TSAPIService/dangkytuyensinh_",
+        "http://192.168.0.108:1995/api/TSAPIService/dangkytuyensinh",
         {
           method: "POST",
           mode: "no-cors",
           headers: {
             Accept: "application/json",
-            "Content-Type": "application/json",
+            "Content-Type": "application/json; charset=UTF-8",
           },
           body: JSON.stringify(DataPush),
         }
       )
         .then((response) => response.json())
         .then((responseJson) => {
-          console.log(responseJson.results);
-          responseJson.results.status
+          console.log(responseJson);
+          console.log(responseJson.status);
+          console.log(responseJson.message);
+          responseJson.status
             ? showMessage({
                 message: "Thành công",
-                description: `${responseJson.results.message}`,
+                description: `${responseJson.message}`,
                 duration: 3000,
                 type: "success",
               })
             : showMessage({
                 message: "Thất bại",
-                description: `${responseJson.results.message}`,
+                description: `${responseJson.message}`,
                 duration: 3000,
                 type: "warning",
               });
@@ -1691,7 +1694,7 @@ export default function Trangdangky({ route, navigation }) {
       //
       showMessage({
         message: "Thất bại",
-        description: `${responseJson.results.message}`,
+        description: `${responseJson.message}`,
         duration: 3000,
         type: "error",
       });
@@ -1701,25 +1704,44 @@ export default function Trangdangky({ route, navigation }) {
 
   //#region Kiểm tra tất cả thông tin
   const TrangThai = () => {
-    return (data.HoTen &&
-      data.IDTinhNS &&
-      data.IDTinhTT &&
-      data.IDTinhTamTru &&
-      data.IDTinh &&
-      data.IDHuyenNS &&
-      data.IDHuyenTT &&
-      data.IDHuyenTamTru &&
-      data.IDHuyen &&
-      data.IDXaTT &&
-      data.IDXaTamTru &&
-      data.IDXa &&
-      data.NguyenVong[0].IDTruong &&
-      data.DanToc) !== "" &&
-      data.Xacnhanthongtin &&
-      //data.DanhSachFileDinhKem.length !== 0 &&
-      data.DanToc !== "Chọn dân tộc"
-      ? true
-      : false;
+    if ((data.IDTinhTamTru || data.IDHuyenTamTru || data.IDXaTamTru) !== "") {
+      return (data.HoTen &&
+        data.IDTinhNS &&
+        data.IDTinhTT &&
+        data.IDTinhTamTru &&
+        data.IDTinh &&
+        data.IDHuyenNS &&
+        data.IDHuyenTT &&
+        data.IDHuyenTamTru &&
+        data.IDHuyen &&
+        data.IDXaTT &&
+        data.IDXaTamTru &&
+        data.IDXa &&
+        data.NguyenVong[0].IDTruong &&
+        data.DanToc) !== "" &&
+        data.Xacnhanthongtin &&
+        //data.DanhSachFileDinhKem.length !== 0 &&
+        data.DanToc !== "Chọn dân tộc"
+        ? true
+        : false;
+    } else {
+      return (data.HoTen &&
+        data.IDTinhNS &&
+        data.IDTinhTT &&
+        data.IDTinh &&
+        data.IDHuyenNS &&
+        data.IDHuyenTT &&
+        data.IDHuyen &&
+        data.IDXaTT &&
+        data.IDXa &&
+        data.NguyenVong[0].IDTruong &&
+        data.DanToc) !== "" &&
+        data.Xacnhanthongtin &&
+        //data.DanhSachFileDinhKem.length !== 0 &&
+        data.DanToc !== "Chọn dân tộc"
+        ? true
+        : false;
+    }
   };
   const ModalKiemTraThongTin = () => {
     return (
@@ -2284,9 +2306,8 @@ export default function Trangdangky({ route, navigation }) {
                   </View>
                   {/*//? HỘ KHẨU TẠM TRÚ ---------------------------------*/}
                   <View>
-                    {(data.IDTinhTamTru &&
-                      data.IDHuyenTamTru &&
-                      data.IDXaTamTru) === "" && (
+                    {data.IDTinhTamTru === "" ? null : (data.IDHuyenTamTru &&
+                        data.IDXaTamTru) !== "" ? null : (
                       <IconButton
                         icon="menu-right"
                         color={Colors.red500}
@@ -2640,7 +2661,7 @@ export default function Trangdangky({ route, navigation }) {
                                 <Picker.Item
                                   key={index.toString()}
                                   label={item.name}
-                                  value={item.name}
+                                  value={item.id}
                                 />
                               );
                             })}
@@ -2661,7 +2682,7 @@ export default function Trangdangky({ route, navigation }) {
                                 <Picker.Item
                                   key={index.toString()}
                                   label={item.name}
-                                  value={item.name}
+                                  value={item.id}
                                 />
                               );
                             })}
@@ -3584,9 +3605,11 @@ export default function Trangdangky({ route, navigation }) {
           autoHide={true}
           position="top"
           statusBarHeight={0}
-          style={{
-            borderWidth: 1,
-          }}
+          style={
+            {
+              //borderWidth: 1,
+            }
+          }
           titleStyle={{
             marginTop: -10,
             padding: 10,

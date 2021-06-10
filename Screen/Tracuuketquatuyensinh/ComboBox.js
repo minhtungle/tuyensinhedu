@@ -67,6 +67,7 @@ export default function ComboBox() {
   //* Lấy API
   const getApi = async (type, value1, value2) => {
     setLoading(true);
+    let namhoc = "";
     let mahoso = "",
       mahocsinh = "",
       matkhau = "",
@@ -86,12 +87,13 @@ export default function ComboBox() {
         break;
     }
     await fetch(
-      `http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/tracuuketqua?type=${type}&mahoso=${mahoso}&mahocsinh=${mahocsinh}&matkhau=${matkhau}&sbd=${sbd}`
+      `http://192.168.0.108:1995/api/TSAPIService/tracuuketqua?type=${type}&mahoso=${mahoso}&mahocsinh=${mahocsinh}&matkhau=${matkhau}&sobaodanh=${sbd}&namhoc=${namhoc}`
     )
       .then((response) => response.json())
       .then((responseJson) => {
-        let result = responseJson.Result.data;
-        result === null || undefined || ""
+        let result = responseJson.data;
+        console.log(result);
+        result.ThongTinHoSo == null
           ? (Alert.alert(
               "Không tồn tại kết quả tra cứu ! Vui lòng kiểm tra lại thông tin đã nhập "
             ),
@@ -162,6 +164,7 @@ export default function ComboBox() {
 
   //* Tra cứu
   const Tracuu = () => {
+    setData(null);
     for (var i = 0; i < checkboxValue.length; i++) {
       if (checkboxValue[i].checked) {
         if (EmptyOrNot(i)) {
