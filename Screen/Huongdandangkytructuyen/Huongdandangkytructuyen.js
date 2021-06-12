@@ -9,9 +9,8 @@ import {
   Dimensions,
   Image,
 } from "react-native";
-import Carousel, { Pagination } from "react-native-snap-carousel";
+import Carousel from "pinar";
 
-const { width: screenWidth } = Dimensions.get("window");
 function Huongdandangkytructuyen({ navigation }) {
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -55,7 +54,8 @@ function Huongdandangkytructuyen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View style={styles.main}>
+        {/*Bước 1*/}
+        <View style={[styles.main, { height: 600 }]}>
           <View style={styles.block}>
             <View>
               <View style={styles.title}>
@@ -63,49 +63,191 @@ function Huongdandangkytructuyen({ navigation }) {
               </View>
               <View style={styles.box}>
                 <Text style={styles.boxText}>
-                  Tại màn hình trang chủ, chọn{" "}
+                  &emsp;Tại màn hình trang chủ, chọn{" "}
                   <Text style={{ fontWeight: "bold" }}>Đăng ký tuyển sinh</Text>
                 </Text>
-                <Carousel
-                  sliderWidth={(screenWidth * 70) / 100}
-                  sliderHeight={200}
-                  itemWidth={screenWidth - 60}
-                  data={images.b4.uri}
-                  renderItem={({ item, index }) => (
-                    <Image source={item} style={styles.image} />
-                  )}
-                  style={styles.imageContainer}
-                  startAutoplay={true}
-                  layout={"stack"}
-                  onSnapToItem={(index) =>
-                    setImages((prev) => ({
-                      ...prev,
-                      b4: {
-                        uri: prev.b4.uri,
-                        activeImg: index,
-                      },
-                    }))
-                  }
-                />
-                <Pagination
-                  dotsLength={images.b4.uri.length}
-                  activeDotIndex={images.b4.activeImg}
-                  containerStyle={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
-                  dotStyle={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: 5,
-                    marginHorizontal: 8,
-                    backgroundColor: "rgba(255, 255, 255, 0.92)",
-                  }}
-                  inactiveDotStyle={
-                    {
-                      // Define styles for inactive dots here
-                    }
-                  }
-                  inactiveDotOpacity={0.4}
-                  inactiveDotScale={0.6}
-                />
+                <Carousel index={0} height={400} style={styles.carousel}>
+                  {images.b1.uri.map((item, index) => (
+                    <View key={index.toString()} style={styles.imageContainer}>
+                      <Image source={item} style={styles.image} />
+                    </View>
+                  ))}
+                </Carousel>
+              </View>
+            </View>
+          </View>
+        </View>
+        {/*Bước 2*/}
+        <View style={[styles.main, { height: 600 }]}>
+          <View style={styles.block}>
+            <View>
+              <View style={styles.title}>
+                <Text style={styles.titleText}>Bước 2</Text>
+              </View>
+              <View style={styles.box}>
+                <Text style={styles.boxText}>
+                  &emsp;Trang tuyển sinh hiển thị danh sách các kỳ thi tuyển
+                  sinh hiện có, phụ huynh click chọn kỳ tuyển sinh muốn đăng ký
+                </Text>
+                <Carousel index={0} height={400} style={styles.carousel}>
+                  {images.b2.uri.map((item, index) => (
+                    <View key={index.toString()} style={styles.imageContainer}>
+                      <Image source={item} style={styles.image} />
+                    </View>
+                  ))}
+                </Carousel>
+              </View>
+            </View>
+          </View>
+        </View>
+        {/*Bước 3*/}
+        <View style={[styles.main, { height: 600 }]}>
+          <View style={styles.block}>
+            <View>
+              <View style={styles.title}>
+                <Text style={styles.titleText}>Bước 3</Text>
+              </View>
+              <View style={styles.box}>
+                <Text style={styles.boxText}>
+                  &emsp;Phụ huynh/học sinh nhấn vào ô "
+                  <Text style={{ fontWeight: "bold" }}>Chọn trường</Text>"
+                </Text>
+                <Carousel index={0} height={400} style={styles.carousel}>
+                  {images.b3.uri.map((item, index) => (
+                    <View key={index.toString()} style={styles.imageContainer}>
+                      <Image source={item} style={styles.image} />
+                    </View>
+                  ))}
+                </Carousel>
+              </View>
+            </View>
+          </View>
+        </View>
+        {/*Bước 4*/}
+        <View style={[styles.main, { height: 780 }]}>
+          <View style={styles.block}>
+            <View>
+              <View style={styles.title}>
+                <Text style={styles.titleText}>Bước 4</Text>
+              </View>
+              <View style={styles.box}>
+                <Text style={styles.boxText}>
+                  &emsp;Chọn trường muốn đăng ký trong danh sách trường tuyển
+                  sinh
+                </Text>
+                <Carousel index={0} height={400} style={styles.carousel}>
+                  {images.b4.uri.map((item, index) => (
+                    <View key={index.toString()} style={styles.imageContainer}>
+                      <Image source={item} style={styles.image} />
+                    </View>
+                  ))}
+                </Carousel>
+                <Text style={styles.boxText}>
+                  &emsp;<Text style={{ fontWeight: "bold" }}>Lưu ý </Text>
+                  (Đối với Trường chuyên/chất lượng cao) :
+                </Text>
+                <Text style={[styles.boxText, { fontSize: 15 }]}>
+                  ► Phụ huynh/học sinh muốn đăng ký học lớp chuyên/chất lượng
+                  cao nhấn <Text style={{ color: "red" }}>"Chọn lớp học" </Text>
+                  và chọn{" "}
+                  <Text style={{ color: "red" }}>
+                    "Lớp chuyên/chất lượng cao"
+                  </Text>
+                  .
+                </Text>
+                <Text style={[styles.boxText, { fontSize: 15 }]}>
+                  ► Phụ huynh/học sinh muốn đăng ký học lớp đại trà không cần
+                  thực hiện chọn lớp. Trong trường hợp có lớp đại trà thì thực
+                  hiện chọn lớp đại trà.
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        {/*Bước 5*/}
+        <View style={[styles.main, { height: 820 }]}>
+          <View style={styles.block}>
+            <View>
+              <View style={styles.title}>
+                <Text style={styles.titleText}>Bước 5</Text>
+              </View>
+              <View style={styles.box}>
+                <Text style={styles.boxText}>
+                  &emsp;Phụ huynh nhập đầy đủ các trường thông tin vào form đăng
+                  ký
+                </Text>
+                <Carousel index={0} height={400} style={styles.carousel}>
+                  {images.b5.uri.map((item, index) => (
+                    <View key={index.toString()} style={styles.imageContainer}>
+                      <Image source={item} style={styles.image} />
+                    </View>
+                  ))}
+                </Carousel>
+                <Text style={styles.boxText}>
+                  &emsp;<Text style={{ fontWeight: "bold" }}>Lưu ý :</Text>
+                </Text>
+                <Text style={[styles.boxText, { fontSize: 15 }]}>
+                  ► Mã học sinh, mật khẩu hệ thống sẽ tự động cập nhật, phụ
+                  huynh vui lòng kiểm tra e-mail thông báo để nhận mã học sinh
+                  và mật khẩu.
+                </Text>
+                <Text style={[styles.boxText, { fontSize: 15 }]}>
+                  ► Các thông tin chứa dấu
+                  <Text style={{ color: "red" }}> *</Text> đỏ là các thông tin
+                  bắt buộc nhập.
+                </Text>
+                <Text style={[styles.boxText, { fontSize: 15 }]}>
+                  ► Nếu thông tin về hộ khẩu thường trú và nơi ở hiện tại không
+                  chính xác, phụ huynh vui lòng liên hệ cơ sở giáo dục cũ để
+                  chỉnh sửa hoặc đợi đến thời gian mở tuyển sinh trực tiếp mang
+                  hồ sơ tới trường để đăng ký tuyển sinh.
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        {/*Bước 6*/}
+        <View style={[styles.main, { height: 900 }]}>
+          <View style={styles.block}>
+            <View>
+              <View style={styles.title}>
+                <Text style={styles.titleText}>Bước 6</Text>
+              </View>
+              <View style={styles.box}>
+                <Text style={styles.boxText}>
+                  &emsp;Phụ huynh kiểm tra lại thông tin sau đó tích chọn cam
+                  kết, nhấn <Text style={{ fontWeight: "bold" }}>Đăng ký</Text>
+                </Text>
+                <Carousel index={0} height={400} style={styles.carousel}>
+                  {images.b6.uri.map((item, index) => (
+                    <View key={index.toString()} style={styles.imageContainer}>
+                      <Image source={item} style={styles.image} />
+                    </View>
+                  ))}
+                </Carousel>
+                <Text style={styles.boxText}>
+                  &emsp;<Text style={{ fontWeight: "bold" }}>Lưu ý :</Text>
+                </Text>
+                <Text style={[styles.boxText, { fontSize: 15 }]}>
+                  ► Trường hợp học sinh có nơi sinh ở nước ngoài thì nộp hồ sơ
+                  trực tiếp tại trường.
+                </Text>
+                <Text style={[styles.boxText, { fontSize: 15 }]}>
+                  ► Phụ huynh vui lòng không cung cấp mã học sinh, mật khẩu, mã
+                  hồ sơ cho bên thứ 3 dưới bất kỳ hình thức nào nhằm bảo mật
+                  thông tin hồ sơ.
+                </Text>
+                <Text style={[styles.boxText, { fontSize: 15 }]}>
+                  ► Phụ huynh/học sinh đăng ký không thành công, vui lòng kiểm
+                  tra lại phân tuyến trường đăng ký và hộ khẩu.
+                </Text>
+                <Text style={[styles.boxText, { fontSize: 15 }]}>
+                  Khi nhận được e-mail trả lại hồ sơ kèm theo lý cần chỉnh sửa
+                  hồ sơ, phụ huynh/học sinh thực hiện sửa đổi trực tiếp trên
+                  cổng thông tin tại mục "
+                  <Text style={{ fontWeight: "bold" }}>Đăng ký hồ sơ</Text>" dựa
+                  vào mã học sinh và mật khẩu đã được cấp
+                </Text>
               </View>
             </View>
           </View>
@@ -121,11 +263,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#DEEBFE",
   },
   main: {
-    width: "100%",
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#DEEBFE",
-    height: 500,
   },
   block: {
     width: "95%",
@@ -163,10 +304,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   box: {
-    alignItems: "center",
+    //alignItems: "center",
+    padding: 10,
   },
   boxText: {
     paddingHorizontal: 10,
+    textAlign: "justify",
+    fontSize: 16,
   },
   field: {
     borderColor: "white",
@@ -178,15 +322,15 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 1,
-    //marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
-    //backgroundColor: "green",
-    borderRadius: 8,
   },
   image: {
-    //...StyleSheet.absoluteFillObject,
-    resizeMode: "cover",
-    height: 450,
-    width: 250,
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
+  },
+  carousel: {
+    flex: 1,
+    marginVertical: 10,
   },
 });
 export default Huongdandangkytructuyen;

@@ -194,7 +194,7 @@ export default function Trangdangky({ route, navigation }) {
   //* Gọi API danh sách học bạ
   useEffect(() => {
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/gethocba?idKyThi=${IDKyThi}`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/gethocba?idKyThi=${IDKyThi}`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -203,11 +203,11 @@ export default function Trangdangky({ route, navigation }) {
         const lstLop = [];
         //const lstDiem = [];
         // Đổ dữ liệu lớp và tạo điểm
-        responseJson.data.lstLopHoc.map((item_Lop, index_Lop) => {
+        responseJson.Result.data.lstLopHoc.map((item_Lop, index_Lop) => {
           diemData.push([]);
           //lstDiem.push([]);
           lstLop.push(item_Lop);
-          responseJson.data.lstMonHoc.map((item_Mon, index_Mon) => {
+          responseJson.Result.data.lstMonHoc.map((item_Mon, index_Mon) => {
             //lstDiem[index_Lop].push(inputTable());
             // Tạo đối tượng điểm data
             const obj = {
@@ -219,7 +219,7 @@ export default function Trangdangky({ route, navigation }) {
           });
         });
         // Đổ dữ liệu môn
-        responseJson.data.lstMonHoc.map((item_Mon, index_Mon) => {
+        responseJson.Result.data.lstMonHoc.map((item_Mon, index_Mon) => {
           lstMon.push(item_Mon.Ten);
         });
 
@@ -425,7 +425,7 @@ export default function Trangdangky({ route, navigation }) {
   //* Nguyện vọng 1
   useEffect(() => {
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getschoolall?cap=${DoiTuongTuyenSinh}`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getschoolall?cap=${DoiTuongTuyenSinh}`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -443,7 +443,7 @@ export default function Trangdangky({ route, navigation }) {
           },
         ];
         // console.log(DoiTuongTuyenSinh, responseJson);
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             ID: 1,
             IDTruong: item.ID,
@@ -538,11 +538,11 @@ export default function Trangdangky({ route, navigation }) {
     if (itemValue !== null && itemValue !== "" && itemValue !== undefined) {
       // Gọi dữ liệu NV khác và trường chuyên
       fetch(
-        `http://192.168.0.108:1995/api/TSAPIService/getschools?idTruong=${itemValue}&idKyThi=${IDKyThi}`
+        `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getschools?idTruong=${itemValue}&idKyThi=${IDKyThi}`
       )
         .then((response) => response.json())
         .then((responseJson) => {
-          if (responseJson.data.lstLopChuyen.length !== 0) {
+          if (responseJson.Result.data.lstLopChuyen.length !== 0) {
             // Đổ dữ liệu lớp chuyên hoặc chất lượng cao tương ứng vào trường
             var arr_lstLopChuyen = [
               {
@@ -554,7 +554,7 @@ export default function Trangdangky({ route, navigation }) {
                 lstChild: [],
               },
             ];
-            responseJson.data.lstLopChuyen.map((item, index) => {
+            responseJson.Result.data.lstLopChuyen.map((item, index) => {
               const _lstLopChuyen = {
                 ID: index,
                 TenLopChuyen: item.TenLopChuyen,
@@ -579,9 +579,9 @@ export default function Trangdangky({ route, navigation }) {
               ),
             }));
           }
-          if (responseJson.data.lstNguyenVong_Group.length !== 0) {
+          if (responseJson.Result.data.lstNguyenVong_Group.length !== 0) {
             // Tạo nv phụ
-            responseJson.data.lstNguyenVong_Group.map(
+            responseJson.Result.data.lstNguyenVong_Group.map(
               (item_lstNV, index_lstNV) => {
                 // Tạo list NV phụ
                 const arrData = [
@@ -641,11 +641,11 @@ export default function Trangdangky({ route, navigation }) {
     if (itemValue !== null && itemValue !== "" && itemValue !== undefined) {
       // Gọi dữ liệu NV khác và trường chuyên
       fetch(
-        `http://192.168.0.108:1995/api/TSAPIService/gettruongchuyen?idTruong=${itemValue}`
+        `http://tuyensinh.huongvietedm.vn/api/TSAPIService/gettruongchuyen?idTruong=${itemValue}`
       )
         .then((response) => response.json())
         .then((responseJson) => {
-          if (responseJson.data.lstLopChuyen.length !== 0) {
+          if (responseJson.Result.data.lstLopChuyen.length !== 0) {
             // Đổ dữ liệu lớp chuyên hoặc chất lượng cao tương ứng vào trường
             var arr_lstLopChuyen = [
               {
@@ -657,7 +657,7 @@ export default function Trangdangky({ route, navigation }) {
                 lstChild: [],
               },
             ];
-            responseJson.data.lstLopChuyen.map((item, index) => {
+            responseJson.Result.data.lstLopChuyen.map((item, index) => {
               const _lstLopChuyen = {
                 ID: index,
                 TenLopChuyen: item.TenLopChuyen,
@@ -886,7 +886,7 @@ export default function Trangdangky({ route, navigation }) {
   //* Tỉnh:
   useEffect(() => {
     fetch(
-      "http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=1&level=1"
+      "http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=1&level=1"
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -896,7 +896,7 @@ export default function Trangdangky({ route, navigation }) {
             name: "Chọn Tỉnh/Thành phố",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -951,7 +951,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDTinhNS}&level=2`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDTinhNS}&level=2`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -961,7 +961,7 @@ export default function Trangdangky({ route, navigation }) {
             name: "Chọn Quận/Huyện",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -1005,7 +1005,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDTinhTT}&level=2`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDTinhTT}&level=2`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1015,7 +1015,7 @@ export default function Trangdangky({ route, navigation }) {
             name: "Chọn Quận/Huyện",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -1059,7 +1059,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDTinhTamTru}&level=2`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDTinhTamTru}&level=2`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1069,7 +1069,7 @@ export default function Trangdangky({ route, navigation }) {
             name: "Chọn Quận/Huyện",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -1113,7 +1113,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDTinh}&level=2`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDTinh}&level=2`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1123,7 +1123,7 @@ export default function Trangdangky({ route, navigation }) {
             name: "Chọn Quận/Huyện",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -1167,7 +1167,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDTinhCT}&level=2`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDTinhCT}&level=2`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1177,7 +1177,7 @@ export default function Trangdangky({ route, navigation }) {
             name: "Chọn Quận/Huyện",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -1217,7 +1217,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDHuyenNS}&level=3`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyenNS}&level=3`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1227,7 +1227,7 @@ export default function Trangdangky({ route, navigation }) {
             name: "Chọn Phường/Xã",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -1265,7 +1265,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDHuyenTT}&level=3`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyenTT}&level=3`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1275,7 +1275,7 @@ export default function Trangdangky({ route, navigation }) {
             name: "Chọn Phường/Xã",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -1313,7 +1313,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDHuyenTamTru}&level=3`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyenTamTru}&level=3`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1323,7 +1323,7 @@ export default function Trangdangky({ route, navigation }) {
             name: "Chọn Phường/Xã",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -1361,7 +1361,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDHuyen}&level=3`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyen}&level=3`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1371,7 +1371,7 @@ export default function Trangdangky({ route, navigation }) {
             name: "Chọn Phường/Xã",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -1409,7 +1409,7 @@ export default function Trangdangky({ route, navigation }) {
       ],
     }));
     fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=${data.IDHuyenCT}&level=3`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=${data.IDHuyenCT}&level=3`
     )
       .then((response) => response.json())
       .then((responseJson) => {
@@ -1419,7 +1419,7 @@ export default function Trangdangky({ route, navigation }) {
             name: "Chọn Phường/Xã",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,
@@ -1446,11 +1446,11 @@ export default function Trangdangky({ route, navigation }) {
   //#endregion
   //#region Đối tượng ưu tiên
   useEffect(() => {
-    fetch("http://192.168.0.108:1995/api/TSAPIService/getdoituonguutien")
+    fetch("http://tuyensinh.huongvietedm.vn/api/TSAPIService/getdoituonguutien")
       .then((response) => response.json())
       .then((responseJson) => {
         const arrData = [];
-        responseJson.results.map((itemParent, indexParent) => {
+        responseJson.Result.results.map((itemParent, indexParent) => {
           const obj = {
             TenLoai: itemParent.TenLoai,
             lstDanhSach: itemParent.lstDanhSach.map(
@@ -1660,7 +1660,7 @@ export default function Trangdangky({ route, navigation }) {
     //console.log(JSON.stringify(DataPush));
     try {
       await fetch(
-        "http://192.168.0.108:1995/api/TSAPIService/dangkytuyensinh",
+        "http://tuyensinh.huongvietedm.vn/api/TSAPIService/dangkytuyensinh",
         {
           method: "POST",
           mode: "no-cors",
@@ -1673,19 +1673,19 @@ export default function Trangdangky({ route, navigation }) {
       )
         .then((response) => response.json())
         .then((responseJson) => {
-          console.log(responseJson);
-          console.log(responseJson.status);
-          console.log(responseJson.message);
+          console.log(responseJson.Result);
+          console.log(responseJson.Result.status);
+          console.log(responseJson.Result.message);
           responseJson.status
             ? showMessage({
                 message: "Thành công",
-                description: `${responseJson.message}`,
+                description: `${responseJson.Result.message}`,
                 duration: 3000,
                 type: "success",
               })
             : showMessage({
                 message: "Thất bại",
-                description: `${responseJson.message}`,
+                description: `${responseJson.Result.message}`,
                 duration: 3000,
                 type: "warning",
               });
@@ -1694,7 +1694,7 @@ export default function Trangdangky({ route, navigation }) {
       //
       showMessage({
         message: "Thất bại",
-        description: `${responseJson.message}`,
+        description: `${responseJson.Result.message}`,
         duration: 3000,
         type: "error",
       });
@@ -2325,7 +2325,10 @@ export default function Trangdangky({ route, navigation }) {
                   <View style={styles.field}>
                     <Text>
                       Chọn tỉnh/thành phố{" "}
-                      <Text style={{ color: "red" }}>*</Text>
+                      {data.IDTinhTamTru === "" ? null : (data.IDHuyenTamTru &&
+                          data.IDXaTamTru) !== "" ? null : (
+                        <Text style={{ color: "red" }}>*</Text>
+                      )}
                     </Text>
                     <Picker
                       selectedValue={data.IDTinhTamTru}
@@ -2348,7 +2351,11 @@ export default function Trangdangky({ route, navigation }) {
                   {/*// Quận huyện */}
                   <View style={styles.field}>
                     <Text>
-                      Chọn quận/huyện <Text style={{ color: "red" }}>*</Text>
+                      Chọn quận/huyện{" "}
+                      {data.IDTinhTamTru === "" ? null : (data.IDHuyenTamTru &&
+                          data.IDXaTamTru) !== "" ? null : (
+                        <Text style={{ color: "red" }}>*</Text>
+                      )}
                     </Text>
                     <Picker
                       selectedValue={data.IDHuyenTamTru}
@@ -2371,7 +2378,11 @@ export default function Trangdangky({ route, navigation }) {
                   {/*// Phường xã */}
                   <View style={styles.field}>
                     <Text>
-                      Chọn phường/xã <Text style={{ color: "red" }}>*</Text>
+                      Chọn phường/xã{" "}
+                      {data.IDTinhTamTru === "" ? null : (data.IDHuyenTamTru &&
+                          data.IDXaTamTru) !== "" ? null : (
+                        <Text style={{ color: "red" }}>*</Text>
+                      )}
                     </Text>
                     <Picker
                       selectedValue={data.IDXaTamTru}

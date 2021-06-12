@@ -87,12 +87,12 @@ export default function ComboBox() {
         break;
     }
     await fetch(
-      `http://192.168.0.108:1995/api/TSAPIService/tracuuketqua?type=${type}&mahoso=${mahoso}&mahocsinh=${mahocsinh}&matkhau=${matkhau}&sobaodanh=${sbd}&namhoc=${namhoc}`
+      `http://tuyensinh.huongvietedm.vn/api/TSAPIService/tracuuketqua?type=${type}&mahoso=${mahoso}&mahocsinh=${mahocsinh}&matkhau=${matkhau}&sobaodanh=${sbd}&namhoc=${namhoc}`
     )
       .then((response) => response.json())
       .then((responseJson) => {
-        let result = responseJson.data;
-        console.log(result);
+        let result = responseJson.Result.data;
+        //console.log(result);
         result.ThongTinHoSo == null
           ? (Alert.alert(
               "Không tồn tại kết quả tra cứu ! Vui lòng kiểm tra lại thông tin đã nhập "

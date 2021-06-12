@@ -144,6 +144,7 @@ export default function Ketqua(props) {
                   {/*---------Dưới--------*/}
                   {data.lst_NguyenVong_HopLe.map((item, index) => (
                     <TableWrapper
+                      key={index.toString()}
                       style={{
                         flexDirection: "row",
                         backgroundColor: "#ffeedb",

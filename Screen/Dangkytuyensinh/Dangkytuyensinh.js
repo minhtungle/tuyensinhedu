@@ -25,11 +25,11 @@ export default function Dangkytuyensinh({ navigation }) {
   ];
   const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("http://192.168.0.108:1995/api/TSAPIService/getkythi")
+    fetch("http://tuyensinh.huongvietedm.vn/api/TSAPIService/getkythi")
       .then((response) => response.json())
       .then((responseJson) => {
         const arrData = [];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             ID: index + 1,
             TenKyThi: item.TenKyThi,

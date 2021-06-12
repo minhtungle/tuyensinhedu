@@ -71,7 +71,7 @@ export default function Dangnhap({ navigation }) {
   //* Tỉnh:
   useEffect(() => {
     fetch(
-      "http://192.168.0.108:1995/api/TSAPIService/getaddress?idParent=1&level=1",
+      "http://tuyensinh.huongvietedm.vn/api/TSAPIService/getaddress?idParent=1&level=1",
       // "http://tuyensinhvinhphuc.eduvi.vn/api/TSAPIService/getaddress?idParent=1&level=1",
       {
         method: "get",
@@ -80,14 +80,14 @@ export default function Dangnhap({ navigation }) {
     )
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log(responseJson);
+        //console.log(responseJson);
         const arrData = [
           {
             id: "",
             name: "Chọn Tỉnh/Thành phố",
           },
         ];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: item.ID,
             name: item.TenDiaChi,

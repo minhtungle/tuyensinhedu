@@ -20,11 +20,13 @@ const DataWithSearchBar = () => {
 
   //* Lấy API
   useEffect(() => {
-    fetch("http://192.168.0.108:1995/api/TSAPIService/getquyetdinhtuyensinh")
+    fetch(
+      "http://tuyensinh.huongvietedm.vn/api/TSAPIService/getquyetdinhtuyensinh"
+    )
       .then((response) => response.json())
       .then((responseJson) => {
         const arrData = [];
-        responseJson.results.map((item, index) => {
+        responseJson.Result.results.map((item, index) => {
           const obj = {
             id: index + 1,
             title: item.TieuDe,
@@ -72,7 +74,7 @@ const DataWithSearchBar = () => {
         <View
           style={{
             flexDirection: "row",
-            marginLeft: 5,
+            marginHorizontal: 15,
             marginVertical: 5,
           }}
         >
